@@ -3,6 +3,7 @@ package it.unipi.dsmt.app.utils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+// To handle and show errors
 public class ErrorHandler {
     public static void safeDispatchToErrorPage(HttpServletRequest request, HttpServletResponse response, Exception e) {
         try {

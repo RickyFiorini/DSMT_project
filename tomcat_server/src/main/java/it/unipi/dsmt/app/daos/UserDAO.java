@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import it.unipi.dsmt.app.dtos.UserProfileDTO;
 import it.unipi.dsmt.app.entities.User;
 
+// To access the user info in the database
 public class UserDAO {
     private Connection userConnection = null;
 
@@ -77,66 +78,47 @@ public class UserDAO {
         return changedCount == 1 ? true : false;
     }
 
-
-    public ArrayList<UserProfileDTO> getUsersFromDepartment(String department) throws SQLException {
-        ArrayList<UserProfileDTO> result = new ArrayList<>();
-        String sqlString = "SELECT username, name, surname, onlineFlag, department FROM user WHERE department=?";
-        PreparedStatement statement = userConnection.prepareStatement(sqlString);
-        String dep_name;
-        if (department.equals("Information Technologies"))
-            dep_name = "IT";
-        else if (department.equals("Human Resources"))
-            dep_name = "HR";
-        else
-            dep_name = department;
-        statement.setString(1, dep_name);
-        ResultSet set = statement.executeQuery();
-        while (set.next()) {
-            UserProfileDTO user = new UserProfileDTO(set.getString("username"), set.getString("name"),
-                    set.getString("surname"), set.getBoolean("onlineFlag"), dep_name);
-            result.add(user);
-        }
-        return result;
-    }
-
+    // Return user profile
     public UserProfileDTO getUserFromUsername(String username) throws SQLException {
-        String sqlString = "SELECT name, surname, onlineFlag, department FROM user WHERE username=?";
+        String sqlString = "SELECT name, surname, onlineFlag FROM user WHERE username=?";
         PreparedStatement statement = userConnection.prepareStatement(sqlString);
         statement.setString(1, username);
         ResultSet set = statement.executeQuery();
         set.next();
         UserProfileDTO user = new UserProfileDTO(username, set.getString("name"), set.getString("surname"),
-                set.getBoolean("onlineFlag"), set.getString("department"));
+                set.getBoolean("onlineFlag"));
         return user;
     }
 
     /**
      * @deprecated
      */
+    // Return user profile
     public ArrayList<UserProfileDTO> getUsersFromNameAndSurname(String name, String surname) throws SQLException {
         ArrayList<UserProfileDTO> result = new ArrayList<>();
-        String sqlString = "SELECT username, onlineFlag, department FROM user WHERE name=? and surname=?";
+        String sqlString = "SELECT username, onlineFlag FROM user WHERE name=? and surname=?";
         PreparedStatement statement = userConnection.prepareStatement(sqlString);
         statement.setString(1, name);
         statement.setString(2, surname);
         ResultSet set = statement.executeQuery();
         while (set.next()) {
             UserProfileDTO user = new UserProfileDTO(set.getString("username"), name, surname,
-                    set.getBoolean("onlineFlag"), set.getString("department"));
+                    set.getBoolean("onlineFlag"));
             result.add(user);
         }
         return result;
     }
 
+    // Return list of users profile
     public ArrayList<UserProfileDTO> getUsers() throws SQLException {
         ArrayList<UserProfileDTO> result = new ArrayList<>();
-        String sqlString = "SELECT username, name, surname, onlineFlag, department FROM user ORDER BY onlineFlag DESC ";
+        String sqlString = "SELECT username, name, surname, onlineFlag FROM user ORDER BY onlineFlag DESC ";
         PreparedStatement statement = userConnection.prepareStatement(sqlString);
         ResultSet set = statement.executeQuery();
         while (set.next()) {
             UserProfileDTO user = new UserProfileDTO(set.getString("username"), set.getString("name"),
                     set.getString("surname"),
-                    set.getBoolean("onlineFlag"), set.getString("department"));
+                    set.getBoolean("onlineFlag"));
             result.add(user);
         }
         return result;
