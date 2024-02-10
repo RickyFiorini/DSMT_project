@@ -20,7 +20,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet(name = "HomeServlet", value = "/home")
 public class HomeServlet extends HttpServlet {
 
-    // To handle "get" request forward it to the home jsp
+    // To handle "get" request and forward it to the home jsp
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
         try {
