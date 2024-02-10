@@ -1,12 +1,13 @@
 package it.unipi.dsmt.app.dtos;
 
+// To represent user profile info that are transfered in the web app
 public class UserProfileDTO {
     private String username;
     private String name;
     private String surname;
     private Boolean online_flag;
 
-    public UserProfileDTO(String username, String name, String surname, Boolean online_flag, String department) {
+    public UserProfileDTO(String username, String name, String surname, Boolean online_flag) {
         this.username = username;
         this.name = name;
         this.surname = surname;

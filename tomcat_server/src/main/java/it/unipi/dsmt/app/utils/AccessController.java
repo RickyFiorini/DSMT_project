@@ -12,6 +12,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.servlet.http.HttpServletRequest;
 
+// Class that handles the authentication token and the password
 public class AccessController {
     private static final int EXPIRATION_TIME = 86400000; // Tempo di scadenza del JWT (1 giorno)
     private static final String SECRET_KEY = System.getenv("JWT_SECRET"); // Chiave segreta per firmare il JWT
@@ -20,6 +21,7 @@ public class AccessController {
      * TOKEN CONTROLLER
      */
 
+    // Set a new authentication token for the specified user
     public static void setToken(HttpServletRequest request, String username) {
 
         Map<String, Object> claims = new HashMap<>();
@@ -35,6 +37,7 @@ public class AccessController {
 
     }
 
+    // Check the authentication token for the specified user
     public static String getToken(HttpServletRequest request) {
         String token = (String) request.getSession().getAttribute("TOKEN");
         if (token == null)
@@ -58,6 +61,8 @@ public class AccessController {
      *
      * @throws NoSuchAlgorithmException
      */
+
+    // Encrypt and return the password
     public static String encryptPassword(String plaintext) throws NoSuchAlgorithmException {
         byte[] byteString = MessageDigest.getInstance("SHA-256").digest(plaintext.getBytes(StandardCharsets.UTF_8));
         StringBuilder hexString = new StringBuilder(2 * byteString.length);
@@ -73,6 +78,7 @@ public class AccessController {
 
     /** END PASSWORD CONTROLLER */
 
+    // Authenticate the specified user
     public static String getUsername(HttpServletRequest request) {
         String token = (String) request.getSession().getAttribute("TOKEN");
         if (token == null)

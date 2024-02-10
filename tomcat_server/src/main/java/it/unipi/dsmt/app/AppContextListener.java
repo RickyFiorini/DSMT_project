@@ -9,9 +9,11 @@ import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 
+// To initialize database connection and web app context
 public class AppContextListener implements ServletContextListener {
     private Connection db = null;
 
+    // Initialize the connection with the database
     private Connection initDB(String host, int port, String dbname) {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -32,6 +34,7 @@ public class AppContextListener implements ServletContextListener {
         }
     }
 
+    // Initialize the web app context
     public void contextInitialized(ServletContextEvent event) {
         Connection sqldao = initDB(
                 System.getenv("DB_HOST"),
@@ -44,6 +47,7 @@ public class AppContextListener implements ServletContextListener {
         TimeZone.setDefault(TimeZone.getTimeZone("Europe/Rome"));
     }
 
+    // Destroy the web app context
     public void contextDestroyed(ServletContextEvent event) {
         // Cleanup code if needed when the web application is destroyed
         ServletContext context = event.getServletContext();

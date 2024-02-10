@@ -17,6 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public class AccessFilter implements Filter {
 
+    // Check if the user session is still valid
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
@@ -27,6 +28,7 @@ public class AccessFilter implements Filter {
             UserDAO userDAO = new UserDAO((Connection) req.getServletContext().getAttribute("databaseConnection"));
             String claimingUsername = AccessController.getUsername(req);
             String token = AccessController.getToken(req);
+            // if the session is expired, redirect user to login
             if (token == null) {
                 if (claimingUsername != null)
                     userDAO.setOnlineFlag(false, claimingUsername);
@@ -34,6 +36,7 @@ public class AccessFilter implements Filter {
                 resp.sendRedirect(req.getContextPath() + "/login");
                 return;
             }
+            // if the session is still valid, forward the request
             chain.doFilter(request, response);
         } catch (Exception e) {
             ErrorHandler.safeDispatchToErrorPage((HttpServletRequest) request, (HttpServletResponse) response, e);
