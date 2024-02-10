@@ -5,9 +5,11 @@
  http://xmlns.jcp.org/xml/ns/javaee/web-app_6_0.xsd">
 
     <display-name>Archetype Created Web Application</display-name>
-    <listener>
+
+    <!--listener>
         <listener-class>it.unipi.dsmt.app.AppContextListener</listener-class>
-    </listener>
+    </listener-->
+
     <filter>
         <filter-name>AccessFilter</filter-name>
         <filter-class>it.unipi.dsmt.app.filters.AccessFilter</filter-class>

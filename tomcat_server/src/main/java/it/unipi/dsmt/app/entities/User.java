@@ -2,6 +2,7 @@ package it.unipi.dsmt.app.entities;
 
 import java.sql.Date;
 
+// Class for user info
 public class User {
 
     private String username;
@@ -11,7 +12,6 @@ public class User {
     private Boolean online_flag;
     private Date creationTime;
 
-    // User class
     public User(String username, String password, String name, String surname, Boolean online_flag,
                 Date creationTime) {
         this.username = username;

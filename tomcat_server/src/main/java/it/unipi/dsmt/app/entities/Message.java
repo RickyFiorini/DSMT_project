@@ -4,10 +4,10 @@ import java.sql.Timestamp;
 
 // Class for the message info
 public class Message {
-    private String content;
     private String sender;
-    private Timestamp creationTime;
+    private String content;
     private int chatID;
+    private Timestamp creationTime;
 
     public Message(String content, String sender, Timestamp creationTime, int chatID) {
         this.content = content;
