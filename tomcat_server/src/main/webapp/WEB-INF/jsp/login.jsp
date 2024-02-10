@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-  <%@ page import="com.unipi.dsmt.app.utils.ErrorHandler" %>
+  <%@ page import="it.unipi.dsmt.app.utils.ErrorHandler" %>
     <!DOCTYPE html>
     <html lang="en">
 
