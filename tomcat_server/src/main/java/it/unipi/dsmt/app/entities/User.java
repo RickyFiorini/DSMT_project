@@ -10,16 +10,16 @@ public class User {
     private String name;
     private String surname;
     private Boolean online_flag;
-    private Date creationTime;
+    private Date timestamp;
 
     public User(String username, String password, String name, String surname, Boolean online_flag,
-                Date creationTime) {
+                Date timestamp) {
         this.username = username;
         this.password = password;
         this.name = name;
         this.surname = surname;
         this.online_flag = online_flag;
-        this.creationTime = creationTime;
+        this.timestamp = timestamp;
     }
 
     public String getUsername() {
@@ -66,12 +66,12 @@ public class User {
         this.online_flag = online_flag;
     }
 
-    public Date getCreationTime() {
-        return this.creationTime;
+    public Date getTimestamp() {
+        return this.timestamp;
     }
 
-    public void setCreationTime(Date creationTime) {
-        this.creationTime = creationTime;
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
     }
 
     @Override
@@ -82,7 +82,7 @@ public class User {
                 ", name='" + getName() + "'" +
                 ", surname='" + getSurname() + "'" +
                 ", online_flag='" + isOnline_flag() + "'" +
-                ", creationTime='" + getCreationTime() + "'" +
+                ", creationTime='" + getTimestamp() + "'" +
                 "}";
     }
 

@@ -60,12 +60,15 @@ public class ChatServlet extends HttpServlet {
 
             String currentUsername = AccessController.getUsername(request);
             String username = (String) request.getParameter("username");
+            // TODO AGGIUNGERE IL LISTING ID DELLA CHAT
+            String listing = "";
 
             // check if there is already a chat between these two users
             int retrievedChatID = chatDAO.getChatIDFromUser1User2(username, currentUsername);
             // if it doesn't exist, create and insert it in the db
             if (retrievedChatID == -1) {
-                Chat chat = new Chat(currentUsername, username, new Date(System.currentTimeMillis()));
+                // TODO MANCA IL LISTING ID
+                Chat chat = new Chat(currentUsername, username, listing, new Date(System.currentTimeMillis()));
                 retrievedChatID = chatDAO.save(chat);
                 response.sendRedirect(request.getContextPath() + "/chat?chatID=" + retrievedChatID);
                 return;
