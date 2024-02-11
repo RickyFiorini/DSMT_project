@@ -27,6 +27,7 @@ public class HomeServlet extends HttpServlet {
             // Get the current user
             final String currentUsername = AccessController.getUsername(request);
             UserDAO userDAO = new UserDAO((Connection) getServletContext().getAttribute("databaseConnection"));
+
             // Retrieve the list of users from the db
             List<UserProfileDTO> usersList = userDAO.getUsers();
 

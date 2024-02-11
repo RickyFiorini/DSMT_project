@@ -4,24 +4,36 @@ import java.sql.Timestamp;
 
 // Class for listing info
 public class Listing {
-    private String pokemonID;
+    private String pokemonName;
+    private String pokemonType;
     private String username;
     private boolean status;
-    private Timestamp creationTime;
+    private Timestamp timestamp;
+    private String imageURL;
 
-    public Listing(String pokemonID, String username, boolean status, Timestamp creationTime) {
-        this.pokemonID = pokemonID;
+    public Listing(String pokemonName, String pokemonType, String username, boolean status, Timestamp timestamp, String imageURL) {
+        this.pokemonName = pokemonName;
+        this.pokemonType = pokemonType;
         this.username = username;
         this.status = status;
-        this.creationTime = creationTime;
+        this.timestamp = timestamp;
+        this.imageURL = imageURL;
     }
 
-    public String getPokemonID() {
-        return pokemonID;
+    public String getPokemonName() {
+        return pokemonName;
     }
 
-    public void setPokemonID(String pokemonID) {
-        this.pokemonID = pokemonID;
+    public void setPokemonName(String pokemonName) {
+        this.pokemonName = pokemonName;
+    }
+
+    public String getPokemonType() {
+        return pokemonType;
+    }
+
+    public void setPokemonType(String pokemonType) {
+        this.pokemonType = pokemonType;
     }
 
     public String getUsername() {
@@ -40,21 +52,31 @@ public class Listing {
         this.status = status;
     }
 
-    public Timestamp getCreationTime() {
-        return creationTime;
+    public Timestamp getTimestamp() {
+        return timestamp;
     }
 
-    public void setCreationTime(Timestamp creationTime) {
-        this.creationTime = creationTime;
+    public void setTimestamp(Timestamp timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 
     @Override
     public String toString() {
         return "Listing{" +
-                "pokemonID='" + pokemonID + '\'' +
+                "pokemonName='" + pokemonName + '\'' +
+                ", pokemonType='" + pokemonType + '\'' +
                 ", username='" + username + '\'' +
                 ", status=" + status +
-                ", creationTime=" + creationTime +
+                ", timestamp=" + timestamp +
+                ", imageURL='" + imageURL + '\'' +
                 '}';
     }
 }

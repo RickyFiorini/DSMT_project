@@ -7,12 +7,12 @@ public class Message {
     private String sender;
     private String content;
     private int chatID;
-    private Timestamp creationTime;
+    private Timestamp timestamp;
 
-    public Message(String content, String sender, Timestamp creationTime, int chatID) {
+    public Message(String content, String sender, Timestamp timestamp, int chatID) {
         this.content = content;
         this.sender = sender;
-        this.creationTime = creationTime;
+        this.timestamp = timestamp;
         this.chatID = chatID;
     }
 
@@ -32,12 +32,12 @@ public class Message {
         this.sender = sender;
     }
 
-    public Timestamp getCreationTime() {
-        return this.creationTime;
+    public Timestamp getTimestamp() {
+        return this.timestamp;
     }
 
-    public void setCreationTime(Timestamp creationTime) {
-        this.creationTime = creationTime;
+    public void setTimestamp(Timestamp timestamp) {
+        this.timestamp = timestamp;
     }
 
     public int getChatID() {

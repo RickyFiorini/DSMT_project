@@ -24,7 +24,7 @@ public class ChatDAO {
         PreparedStatement statement = chatConnection.prepareStatement(sqlString, Statement.RETURN_GENERATED_KEYS);
         statement.setString(1, chat.getUser1());
         statement.setString(2, chat.getUser2());
-        statement.setDate(3, chat.getCreationTime());
+        statement.setDate(3, chat.getTimestamp());
         int rowInserted = statement.executeUpdate();
 
         if (rowInserted == 1) {
