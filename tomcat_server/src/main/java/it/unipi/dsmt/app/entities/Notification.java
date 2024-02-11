@@ -7,13 +7,13 @@ public class Notification {
     private String user;
     private String sender;
     private int chatID;
-    private Timestamp creationTime;
+    private Timestamp timestamp;
 
-    public Notification(String user, String sender, int chatID, Timestamp creationTime) {
+    public Notification(String user, String sender, int chatID, Timestamp timestamp) {
         this.user = user;
         this.sender = sender;
         this.chatID = chatID;
-        this.creationTime = creationTime;
+        this.timestamp = timestamp;
     }
 
     public String getUser() {
@@ -40,12 +40,12 @@ public class Notification {
         this.chatID = chatID;
     }
 
-    public Timestamp getCreationTime() {
-        return this.creationTime;
+    public Timestamp getTimestamp() {
+        return this.timestamp;
     }
 
-    public void setCreationTime(Timestamp creationTime) {
-        this.creationTime = creationTime;
+    public void setTimestamp(Timestamp timestamp) {
+        this.timestamp = timestamp;
     }
 
     @Override
@@ -54,7 +54,7 @@ public class Notification {
                 " user='" + getUser() + "'" +
                 ", sender='" + getSender() + "'" +
                 ", chatID='" + getChatID() + "'" +
-                ", creationTime='" + getCreationTime() + "'" +
+                ", creationTime='" + getTimestamp() + "'" +
                 "}";
     }
 

@@ -6,12 +6,14 @@ import java.sql.Date;
 public class Chat {
     private String user1;
     private String user2;
-    private Date creationTime;
+    private String listingID;
+    private Date timestamp;
 
-    public Chat(String user1, String user2, Date creationTime) {
+    public Chat(String user1, String user2, String listingID, Date timestamp) {
         this.user1 = user1;
         this.user2 = user2;
-        this.creationTime = creationTime;
+        this.listingID = listingID;
+        this.timestamp = timestamp;
     }
 
     public String getUser1() {
@@ -30,21 +32,29 @@ public class Chat {
         this.user2 = user2;
     }
 
-    public Date getCreationTime() {
-        return this.creationTime;
+    public String getListingID() {
+        return listingID;
     }
 
-    public void setCreationTime(Date creationTime) {
-        this.creationTime = creationTime;
+    public void setListingID(String listingID) {
+        this.listingID = listingID;
+    }
+
+    public Date getTimestamp() {
+        return this.timestamp;
+    }
+
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
     }
 
     @Override
     public String toString() {
-        return "{" +
-                " user1='" + getUser1() + "'" +
-                ", user2='" + getUser2() + "'" +
-                ", creationTime='" + getCreationTime() + "'" +
-                "}";
+        return "Chat{" +
+                "user1='" + user1 + '\'' +
+                ", user2='" + user2 + '\'' +
+                ", listingID='" + listingID + '\'' +
+                ", creationTime=" + timestamp +
+                '}';
     }
-
 }

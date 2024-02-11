@@ -49,7 +49,7 @@ public class UserDAO {
             statement.setString(3, userInfo.getName());
             statement.setString(4, userInfo.getSurname());
             statement.setBoolean(5, userInfo.getOnline_flag());
-            statement.setDate(6, userInfo.getCreationTime());
+            statement.setDate(6, userInfo.getTimestamp());
             int changedCount = statement.executeUpdate();
             return changedCount == 0 ? "User already exists" : "";
         } catch (SQLIntegrityConstraintViolationException e) {
