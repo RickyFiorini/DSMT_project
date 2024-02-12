@@ -37,6 +37,7 @@ public class ChatDAO {
         throw new SQLException("Chat not correctly inserted");
     }
 
+    // TODO RITORNARE ANCHE IL LISTING ID DAL DB
     // Retrieve all che the chats of the specified user
     public ArrayList<ChatDTO> getChatsFromUsername(String currentUsername) throws SQLException {
         ArrayList<ChatDTO> result = new ArrayList<>();
@@ -59,6 +60,7 @@ public class ChatDAO {
                     ? set.getString("user2")
                     : set.getString("user1");
             boolean isOnlineState = set.getBoolean("user.onlineFlag");
+            // TODO MANCA IL LISTING ID
             ChatDTO chat = new ChatDTO(set.getInt("chat.id"), user, set.getDate("latest_message.max_time"),
                     isOnlineState);
             result.add(chat);

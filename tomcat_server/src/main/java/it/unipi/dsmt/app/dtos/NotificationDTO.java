@@ -2,46 +2,57 @@ package it.unipi.dsmt.app.dtos;
 
 // To represent notification info that are transfered in the web app
 public class NotificationDTO {
-    private String sender;
     private int chatID;
-    private int count;
+    private int listingID;
+    private String sender;
+    private String pokemon;
 
-    public NotificationDTO(String sender, int chatID, int count) {
-        this.sender = sender;
+    public NotificationDTO(int chatID, int listingID, String sender, String pokemon) {
         this.chatID = chatID;
-        this.count = count;
-    }
-
-    public int getCount() {
-        return this.count;
-    }
-
-    public void setCount(int newCount) {
-        this.count = newCount;
-    }
-
-    public String getSender() {
-        return this.sender;
-    }
-
-    public void setSender(String sender) {
+        this.listingID = listingID;
         this.sender = sender;
+        this.pokemon = pokemon;
     }
 
     public int getChatID() {
-        return this.chatID;
+        return chatID;
     }
 
     public void setChatID(int chatID) {
         this.chatID = chatID;
     }
 
-    @Override
-    public String toString() {
-        return "{" +
-                " sender='" + getSender() + "'" +
-                ", chatID='" + getChatID() + "'" +
-                "}";
+    public int getListingID() {
+        return listingID;
     }
 
+    public void setListingID(int listingID) {
+        this.listingID = listingID;
+    }
+
+    public String getSender() {
+        return sender;
+    }
+
+    public void setSender(String sender) {
+        this.sender = sender;
+    }
+
+    public String getPokemon() {
+        return pokemon;
+    }
+
+    public void setPokemon(String pokemon) {
+        this.pokemon = pokemon;
+    }
+
+    @Override
+    public String toString() {
+        return "NotificationDTO{" +
+                "chatID=" + chatID +
+                ", listingID=" + listingID +
+                ", sender='" + sender + '\'' +
+                ", pokemon='" + pokemon + '\'' +
+                '}';
+    }
 }

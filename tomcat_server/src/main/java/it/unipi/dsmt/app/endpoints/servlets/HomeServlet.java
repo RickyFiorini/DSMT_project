@@ -5,8 +5,10 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import it.unipi.dsmt.app.daos.ListingDAO;
 import it.unipi.dsmt.app.daos.UserDAO;
 import it.unipi.dsmt.app.dtos.UserProfileDTO;
+import it.unipi.dsmt.app.dtos.ListingDTO;
 import it.unipi.dsmt.app.utils.AccessController;
 import it.unipi.dsmt.app.utils.ErrorHandler;
 
@@ -27,7 +29,6 @@ public class HomeServlet extends HttpServlet {
             // Get the current user
             final String currentUsername = AccessController.getUsername(request);
             UserDAO userDAO = new UserDAO((Connection) getServletContext().getAttribute("databaseConnection"));
-
             // Retrieve the list of users from the db
             List<UserProfileDTO> usersList = userDAO.getUsers();
 
@@ -49,6 +50,22 @@ public class HomeServlet extends HttpServlet {
 
             request.setAttribute("usersList", usersList);
             request.setAttribute("onlineUsers", onlineList);
+
+            // TODO PRENDERE TUTTE LE LISTING TRANNE QUELLE DELL'ATTUALE UTENTE
+            // Retrieve the list of listings
+            ListingDAO listingDAO = new ListingDAO((Connection) getServletContext().getAttribute("databaseConnection"));
+            List<ListingDTO> listingList = listingDAO.getListings();
+
+            // Filter out the current user listings
+            listingList = listingList.stream().filter(new Predicate<ListingDTO>() {
+                @Override
+                public boolean test(ListingDTO listing) {
+                    return !listing.getUsername().equals(currentUsername);
+                }
+            }).collect(Collectors.toList());
+
+            request.setAttribute("listingList", listingList);
+
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/jsp/home.jsp");
             requestDispatcher.forward(request, response);
         } catch (Exception e) {

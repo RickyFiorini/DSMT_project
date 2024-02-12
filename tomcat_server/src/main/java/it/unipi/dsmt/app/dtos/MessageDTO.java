@@ -6,12 +6,12 @@ import java.sql.Timestamp;
 public class MessageDTO {
     String content;
     String sender;
-    Timestamp creationTime;
+    Timestamp timestamp;
 
-    public MessageDTO(String content, String sender, Timestamp creationTime) {
+    public MessageDTO(String content, String sender, Timestamp timestamp) {
         this.content = content;
         this.sender = sender;
-        this.creationTime = creationTime;
+        this.timestamp = timestamp;
     }
 
     public String getContent() {
@@ -30,12 +30,12 @@ public class MessageDTO {
         this.sender = sender;
     }
 
-    public Timestamp getCreationTime() {
-        return this.creationTime;
+    public Timestamp getTimestamp() {
+        return this.timestamp;
     }
 
-    public void setCreationTime(Timestamp creationTime) {
-        this.creationTime = creationTime;
+    public void setTimestamp(Timestamp timestamp) {
+        this.timestamp = timestamp;
     }
 
     @Override
@@ -43,7 +43,7 @@ public class MessageDTO {
         return "{" +
                 " content='" + getContent() + "'" +
                 ", sender='" + getSender() + "'" +
-                ", creationTime='" + getCreationTime() + "'" +
+                ", creationTime='" + getTimestamp() + "'" +
                 "}";
     }
 

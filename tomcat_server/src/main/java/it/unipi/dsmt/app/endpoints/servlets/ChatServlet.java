@@ -36,6 +36,7 @@ public class ChatServlet extends HttpServlet {
 
             int chatID = Integer.parseInt(request.getParameter("chatID"));
             chatDAO.validateChatIDWithUsername(chatID, currentUsername);
+            // TODO NON DEVO ELIMINARE LA NOTIFICATION DA QUI, DEVO SOLO MOSTRARLA
             notificationDAO.deleteNotificationFromChatID(chatID);
             String username = chatDAO.getDestinationOfChatID(chatID, currentUsername);
             request.setAttribute("username", username);
@@ -61,7 +62,7 @@ public class ChatServlet extends HttpServlet {
             String currentUsername = AccessController.getUsername(request);
             String username = (String) request.getParameter("username");
             // TODO AGGIUNGERE IL LISTING ID DELLA CHAT
-            String listing = "";
+            int listing = 0;
 
             // check if there is already a chat between these two users
             int retrievedChatID = chatDAO.getChatIDFromUser1User2(username, currentUsername);

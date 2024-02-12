@@ -16,6 +16,11 @@ public class NotificationDAO {
         notificationConnection = db;
     }
 
+    /** TODO HO BISOGNO DI UNA FUNZIONE CHE MI PERMETTA DI MODIFICARE UNA NOTIFICATION/
+     * PER PROPORRE UN POKEMON DIVERSO PER LO SCAMBIO
+    */
+
+    // TODO RITORNARE ANCHE IL LISTING ID E NON HO BISOGNO DEL COUNT, PERCHÈ PER OGNI CHAT HO UNA PROPOSTA ALLA VOLTA
     // Retrieve the list of notification of the specified user
     public ArrayList<NotificationDTO> getNotificationFromUser(String user) throws SQLException {
         ArrayList<NotificationDTO> result = new ArrayList<>();
@@ -24,6 +29,7 @@ public class NotificationDAO {
         statement.setString(1, user);
         ResultSet set = statement.executeQuery();
         while (set.next()) {
+            // TODO MANCA IL LISTING ID E NON VOGLIO IL COUNT
             NotificationDTO notification = new NotificationDTO(set.getString("sender"), set.getInt("chatID"),
                     set.getInt("nMessages"));
             result.add(notification);
@@ -39,6 +45,7 @@ public class NotificationDAO {
         statement.executeUpdate();
     }
 
+    // TODO NON SERVE
     // Retrieve the number of notification of the specified user
     public int getNotificationCountForUser(String user) throws SQLException {
         String sqlString = "SELECT COUNT(*) AS notification_number FROM notification WHERE user=?";
