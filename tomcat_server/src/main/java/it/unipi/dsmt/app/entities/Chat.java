@@ -6,10 +6,10 @@ import java.sql.Date;
 public class Chat {
     private String user1;
     private String user2;
-    private String listingID;
+    private int listingID;
     private Date timestamp;
 
-    public Chat(String user1, String user2, String listingID, Date timestamp) {
+    public Chat(String user1, String user2, int listingID, Date timestamp) {
         this.user1 = user1;
         this.user2 = user2;
         this.listingID = listingID;
@@ -32,11 +32,11 @@ public class Chat {
         this.user2 = user2;
     }
 
-    public String getListingID() {
+    public int getListingID() {
         return listingID;
     }
 
-    public void setListingID(String listingID) {
+    public void setListingID(int listingID) {
         this.listingID = listingID;
     }
 

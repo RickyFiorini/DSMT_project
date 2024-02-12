@@ -4,16 +4,18 @@ import java.sql.Date;
 
 // To represent chat info that are transfered in the web app
 public class ChatDTO {
-    int id_chat;
-    String username;
-    Date lastMessageTime;
-    boolean onlineState;
+    private int id_chat;
+    private String listingID;
+    private String username;
+    private Date lastMessageTime;
+    private boolean onlineState;
 
-    public ChatDTO(int id_chat, String username, Date lastMessageTime, boolean isOnline) {
+    public ChatDTO(int id_chat, String listingID, String username, Date lastMessageTime, boolean onlineState) {
         this.id_chat = id_chat;
+        this.listingID = listingID;
         this.username = username;
         this.lastMessageTime = lastMessageTime;
-        this.onlineState = isOnline;
+        this.onlineState = onlineState;
     }
 
     public int getId_chat() {
@@ -22,6 +24,14 @@ public class ChatDTO {
 
     public void setId_chat(int id_chat) {
         this.id_chat = id_chat;
+    }
+
+    public String getListingID() {
+        return listingID;
+    }
+
+    public void setListingID(String listingID) {
+        this.listingID = listingID;
     }
 
     public String getUsername() {
