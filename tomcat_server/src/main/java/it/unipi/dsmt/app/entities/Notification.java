@@ -4,44 +4,54 @@ import java.sql.Timestamp;
 
 // Class for the notification info
 public class Notification {
-    private String user;
-    private String sender;
     private int chatID;
+    private int listingID;
+    private String sender;
+    private String pokemon;
     private Timestamp timestamp;
 
-    public Notification(String user, String sender, int chatID, Timestamp timestamp) {
-        this.user = user;
-        this.sender = sender;
+    public Notification(int chatID, int listingID, String sender, String pokemon, Timestamp timestamp) {
         this.chatID = chatID;
+        this.listingID = listingID;
+        this.sender = sender;
+        this.pokemon = pokemon;
         this.timestamp = timestamp;
     }
 
-    public String getUser() {
-        return this.user;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
-    }
-
-    public String getSender() {
-        return this.sender;
-    }
-
-    public void setSender(String sender) {
-        this.sender = sender;
-    }
-
     public int getChatID() {
-        return this.chatID;
+        return chatID;
     }
 
     public void setChatID(int chatID) {
         this.chatID = chatID;
     }
 
+    public int getListingID() {
+        return listingID;
+    }
+
+    public void setListingID(int listingID) {
+        this.listingID = listingID;
+    }
+
+    public String getSender() {
+        return sender;
+    }
+
+    public void setSender(String sender) {
+        this.sender = sender;
+    }
+
+    public String getPokemon() {
+        return pokemon;
+    }
+
+    public void setPokemon(String pokemon) {
+        this.pokemon = pokemon;
+    }
+
     public Timestamp getTimestamp() {
-        return this.timestamp;
+        return timestamp;
     }
 
     public void setTimestamp(Timestamp timestamp) {
@@ -50,12 +60,12 @@ public class Notification {
 
     @Override
     public String toString() {
-        return "{" +
-                " user='" + getUser() + "'" +
-                ", sender='" + getSender() + "'" +
-                ", chatID='" + getChatID() + "'" +
-                ", creationTime='" + getTimestamp() + "'" +
-                "}";
+        return "Notification{" +
+                "chatID=" + chatID +
+                ", listingID=" + listingID +
+                ", sender='" + sender + '\'' +
+                ", pokemon='" + pokemon + '\'' +
+                ", timestamp=" + timestamp +
+                '}';
     }
-
 }
