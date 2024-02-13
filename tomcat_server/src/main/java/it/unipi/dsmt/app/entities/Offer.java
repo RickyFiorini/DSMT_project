@@ -2,28 +2,19 @@ package it.unipi.dsmt.app.entities;
 
 import java.sql.Timestamp;
 
-// Class for the notification info
-public class Notification {
-    private int chatID;
+public class Offer {
     private int listingID;
-    private String sender;
+    private String trader;
     private String pokemon;
+    private boolean checked;
     private Timestamp timestamp;
 
-    public Notification(int chatID, int listingID, String sender, String pokemon, Timestamp timestamp) {
-        this.chatID = chatID;
+    public Offer(int listingID, String trader, String pokemon, boolean checked, Timestamp timestamp) {
         this.listingID = listingID;
-        this.sender = sender;
+        this.trader = trader;
         this.pokemon = pokemon;
+        this.checked = checked;
         this.timestamp = timestamp;
-    }
-
-    public int getChatID() {
-        return chatID;
-    }
-
-    public void setChatID(int chatID) {
-        this.chatID = chatID;
     }
 
     public int getListingID() {
@@ -34,12 +25,12 @@ public class Notification {
         this.listingID = listingID;
     }
 
-    public String getSender() {
-        return sender;
+    public String getTrader() {
+        return trader;
     }
 
-    public void setSender(String sender) {
-        this.sender = sender;
+    public void setTrader(String trader) {
+        this.trader = trader;
     }
 
     public String getPokemon() {
@@ -48,6 +39,14 @@ public class Notification {
 
     public void setPokemon(String pokemon) {
         this.pokemon = pokemon;
+    }
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
     }
 
     public Timestamp getTimestamp() {
@@ -60,11 +59,11 @@ public class Notification {
 
     @Override
     public String toString() {
-        return "Notification{" +
-                "chatID=" + chatID +
-                ", listingID=" + listingID +
-                ", sender='" + sender + '\'' +
+        return "Offer{" +
+                "listingID=" + listingID +
+                ", trader='" + trader + '\'' +
                 ", pokemon='" + pokemon + '\'' +
+                ", checked=" + checked +
                 ", timestamp=" + timestamp +
                 '}';
     }

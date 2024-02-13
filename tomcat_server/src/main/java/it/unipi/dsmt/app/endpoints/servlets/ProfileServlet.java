@@ -3,14 +3,12 @@ package it.unipi.dsmt.app.endpoints.servlets;
 import java.sql.Connection;
 import java.util.List;
 
-import it.unipi.dsmt.app.daos.ChatDAO;
 import it.unipi.dsmt.app.daos.ListingDAO;
 import it.unipi.dsmt.app.daos.UserDAO;
 import it.unipi.dsmt.app.daos.BoxDAO;
 import it.unipi.dsmt.app.dtos.UserProfileDTO;
 import it.unipi.dsmt.app.utils.AccessController;
 import it.unipi.dsmt.app.utils.ErrorHandler;
-import it.unipi.dsmt.app.dtos.ChatDTO;
 import it.unipi.dsmt.app.dtos.PokemonDTO;
 import it.unipi.dsmt.app.dtos.ListingDTO;
 
@@ -33,12 +31,6 @@ public class ProfileServlet extends HttpServlet {
             String username = AccessController.getUsername(request);
             UserProfileDTO userInfo = userDAO.getUserFromUsername(username);
             request.setAttribute("user_info", userInfo);
-
-            // TODO PRENDERE LO STORICO DELLE CHAT DELL'ATTUALE UTENTE
-            // Retrieve the current user chats
-            ChatDAO chatDAO = new ChatDAO((Connection) getServletContext().getAttribute("databaseConnection"));
-            List<ChatDTO> chatList = chatDAO.getChatsFromUsername(username);
-            request.setAttribute("chatList", chatList);
 
             // TODO PRENDERE IL BOX DELL'ATTUALE UTENTE
             // Retrieve the pokemon box of the current user

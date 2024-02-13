@@ -8,14 +8,16 @@ public class Listing {
     private String pokemonType;
     private String username;
     private boolean status;
+    private String winner;
     private Timestamp timestamp;
     private String imageURL;
 
-    public Listing(String pokemonName, String pokemonType, String username, boolean status, Timestamp timestamp, String imageURL) {
+    public Listing(String pokemonName, String pokemonType, String username, boolean status, String winner, Timestamp timestamp, String imageURL) {
         this.pokemonName = pokemonName;
         this.pokemonType = pokemonType;
         this.username = username;
         this.status = status;
+        this.winner = winner;
         this.timestamp = timestamp;
         this.imageURL = imageURL;
     }
@@ -52,6 +54,14 @@ public class Listing {
         this.status = status;
     }
 
+    public String getWinner() {
+        return winner;
+    }
+
+    public void setWinner(String winner) {
+        this.winner = winner;
+    }
+
     public Timestamp getTimestamp() {
         return timestamp;
     }
@@ -75,6 +85,7 @@ public class Listing {
                 ", pokemonType='" + pokemonType + '\'' +
                 ", username='" + username + '\'' +
                 ", status=" + status +
+                ", winner='" + winner + '\'' +
                 ", timestamp=" + timestamp +
                 ", imageURL='" + imageURL + '\'' +
                 '}';
