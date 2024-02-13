@@ -6,8 +6,6 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import it.unipi.dsmt.app.daos.ListingDAO;
-import it.unipi.dsmt.app.daos.UserDAO;
-import it.unipi.dsmt.app.dtos.UserProfileDTO;
 import it.unipi.dsmt.app.dtos.ListingDTO;
 import it.unipi.dsmt.app.utils.AccessController;
 import it.unipi.dsmt.app.utils.ErrorHandler;
@@ -28,28 +26,6 @@ public class HomeServlet extends HttpServlet {
         try {
             // Get the current user
             final String currentUsername = AccessController.getUsername(request);
-            UserDAO userDAO = new UserDAO((Connection) getServletContext().getAttribute("databaseConnection"));
-            // Retrieve the list of users from the db
-            List<UserProfileDTO> usersList = userDAO.getUsers();
-
-            // Filter out the current user
-            usersList = usersList.stream().filter(new Predicate<UserProfileDTO>() {
-                @Override
-                public boolean test(UserProfileDTO user) {
-                    return !user.getUsername().equals(currentUsername);
-                }
-            }).collect(Collectors.toList());
-
-            // Filter out the offline users
-            List<UserProfileDTO> onlineList = usersList.stream().filter(new Predicate<UserProfileDTO>() {
-                @Override
-                public boolean test(UserProfileDTO user) {
-                    return user.isOnline_flag();
-                }
-            }).collect(Collectors.toList());
-
-            request.setAttribute("usersList", usersList);
-            request.setAttribute("onlineUsers", onlineList);
 
             // TODO PRENDERE TUTTE LE LISTING TRANNE QUELLE DELL'ATTUALE UTENTE
             // Retrieve the list of listings
