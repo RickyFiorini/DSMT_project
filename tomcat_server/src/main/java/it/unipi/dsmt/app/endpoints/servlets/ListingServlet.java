@@ -30,19 +30,27 @@ public class ListingServlet extends HttpServlet {
             String currentUsername = AccessController.getUsername(request);
             int listingID = Integer.parseInt(request.getParameter("listingID"));
 
-            // TODO USO L'ID DELLA LISTING SELEZIONATA E NE PRENDO LE INFO DAL DB, OFFER COMPRESE
+            // Retrieve selected listing info
             ListingDAO listingDAO = new ListingDAO((Connection) getServletContext().getAttribute("databaseConnection"));
             ListingDTO listing = listingDAO.getListingInfo(listingID);
             request.setAttribute("listing", listing);
 
+            // Retrieve offers list for the selected listing
             OfferDAO offerDAO = new OfferDAO((Connection) getServletContext().getAttribute("databaseConnection"));
             List<OfferDTO> offerList = offerDAO.getOfferByListing(listingID);
             request.setAttribute("offerList", offerList);
 
-            // TODO PRENDO ANCHE IL BOX DELL'ATTUALE USER PER FARE UNA POSSIBILE OFFER
-            BoxDAO boxDAO = new BoxDAO((Connection) getServletContext().getAttribute("databaseConnection"));
-            List<PokemonDTO> pokemonList = boxDAO.getBoxByUser(currentUsername);
-            request.setAttribute("pokemonList", pokemonList);
+            // TODO POTREI DISCRIMINARE QUI SE LA LISTING È DELL'UTENTE CORRENTE O MENO
+            //  SE LA LISTING È DELL'ATTUALE UTENTE, ALLORA NON SERVE PRENDERE IL SUO BOX
+            //  PERCHÈ NON PUÒ FARE UN'OFFERTA
+
+            // If the current user is not the owner of the selected listing
+            if (!listing.getUsername().equals(currentUsername)) {
+                // Retrieve the pokemon box of the current user
+                BoxDAO boxDAO = new BoxDAO((Connection) getServletContext().getAttribute("databaseConnection"));
+                List<PokemonDTO> pokemonList = boxDAO.getBoxByUser(currentUsername);
+                request.setAttribute("pokemonList", pokemonList);
+            }
 
             request.getRequestDispatcher("/WEB-INF/jsp/listing.jsp").forward(request, response);
         } catch (Exception e) {
@@ -58,6 +66,7 @@ public class ListingServlet extends HttpServlet {
             // TODO GESTIRE NUOVA OFFER (O MODIFICARE OFFER GIA' ESISTENTE)
             String currentUsername = AccessController.getUsername(request);
             int listingID = Integer.parseInt(request.getParameter("listingID"));
+            int boxID = Integer.parseInt(request.getParameter("boxID"));
             String pokemonOffered = (String) request.getParameter("pokemonOffered");
 
             ListingDAO listingDAO = new ListingDAO((Connection) getServletContext().getAttribute("databaseConnection"));
@@ -65,16 +74,15 @@ public class ListingServlet extends HttpServlet {
 
             // Check if the current user already made an offer
             int offerID = offerDAO.getUserOfferByListing(currentUsername, listingID);
+            Offer offer = new Offer(listingID, boxID, currentUsername, pokemonOffered, false, new Timestamp(System.currentTimeMillis()));
             // if it is a new offer, insert it in the database
             if (offerID == -1) {
-                Offer offer = new Offer(listingID, currentUsername, pokemonOffered, false, new Timestamp(System.currentTimeMillis()));
                 offerID = offerDAO.save(offer);
                 response.sendRedirect(request.getContextPath() + "/listing?offerID=" + offerID);
                 // return;
             }
             // else, update the past offer of the current user for this listing
             else {
-                Offer offer = new Offer(listingID, currentUsername, pokemonOffered, false, new Timestamp(System.currentTimeMillis()));
                 offerDAO.updateOffer(offerID, offer);
                 response.sendRedirect(request.getContextPath() + "/listing?offerID=" + offerID);
             }

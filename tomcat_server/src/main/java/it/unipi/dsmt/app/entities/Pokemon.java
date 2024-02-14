@@ -1,5 +1,6 @@
 package it.unipi.dsmt.app.entities;
 
+// Class to represent the pokemon info
 public class Pokemon {
     private String pokemonName;
     private String pokemonType;

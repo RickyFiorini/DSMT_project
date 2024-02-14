@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 
 public class ListingDTO {
     private int listingID;
+    private int boxID;
     private String pokemonName;
     private String pokemonType;
     private String username;
@@ -12,8 +13,9 @@ public class ListingDTO {
     private Timestamp timestamp;
     private String imageURL;
 
-    public ListingDTO(int listingID, String pokemonName, String pokemonType, String username, boolean status, String winner, Timestamp timestamp, String imageURL) {
+    public ListingDTO(int listingID, int boxID, String pokemonName, String pokemonType, String username, boolean status, String winner, Timestamp timestamp, String imageURL) {
         this.listingID = listingID;
+        this.boxID = boxID;
         this.pokemonName = pokemonName;
         this.pokemonType = pokemonType;
         this.username = username;
@@ -21,6 +23,14 @@ public class ListingDTO {
         this.winner = winner;
         this.timestamp = timestamp;
         this.imageURL = imageURL;
+    }
+
+    public int getBoxID() {
+        return boxID;
+    }
+
+    public void setBoxID(int boxID) {
+        this.boxID = boxID;
     }
 
     public int getListingID() {
@@ -86,4 +96,21 @@ public class ListingDTO {
     public void setImageURL(String imageURL) {
         this.imageURL = imageURL;
     }
+
+    @Override
+    public String toString() {
+        return "ListingDTO{" +
+                "listingID=" + listingID +
+                ", boxID=" + boxID +
+                ", pokemonName='" + pokemonName + '\'' +
+                ", pokemonType='" + pokemonType + '\'' +
+                ", username='" + username + '\'' +
+                ", status=" + status +
+                ", winner='" + winner + '\'' +
+                ", timestamp=" + timestamp +
+                ", imageURL='" + imageURL + '\'' +
+                '}';
+    }
 }
+
+
