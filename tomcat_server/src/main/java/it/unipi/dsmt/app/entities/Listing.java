@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 
 // Class for listing info
 public class Listing {
+    private int boxID;
     private String pokemonName;
     private String pokemonType;
     private String username;
@@ -12,7 +13,8 @@ public class Listing {
     private Timestamp timestamp;
     private String imageURL;
 
-    public Listing(String pokemonName, String pokemonType, String username, boolean status, String winner, Timestamp timestamp, String imageURL) {
+    public Listing(int boxID, String pokemonName, String pokemonType, String username, boolean status, String winner, Timestamp timestamp, String imageURL) {
+        this.boxID = boxID;
         this.pokemonName = pokemonName;
         this.pokemonType = pokemonType;
         this.username = username;
@@ -20,6 +22,14 @@ public class Listing {
         this.winner = winner;
         this.timestamp = timestamp;
         this.imageURL = imageURL;
+    }
+
+    public int getBoxID() {
+        return boxID;
+    }
+
+    public void setBoxID(int boxID) {
+        this.boxID = boxID;
     }
 
     public String getPokemonName() {
@@ -81,7 +91,8 @@ public class Listing {
     @Override
     public String toString() {
         return "Listing{" +
-                "pokemonName='" + pokemonName + '\'' +
+                "boxID=" + boxID +
+                ", pokemonName='" + pokemonName + '\'' +
                 ", pokemonType='" + pokemonType + '\'' +
                 ", username='" + username + '\'' +
                 ", status=" + status +

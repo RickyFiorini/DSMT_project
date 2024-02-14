@@ -3,18 +3,28 @@ package it.unipi.dsmt.app.dtos;
 import java.sql.Timestamp;
 
 public class OfferDTO {
+    private int offerID;
     private int listingID;
     private String trader;
     private String pokemon;
     private boolean checked;
     private Timestamp timestamp;
 
-    public OfferDTO(int listingID, String trader, String pokemon, boolean checked, Timestamp timestamp) {
+    public OfferDTO(int offerID, int listingID, String trader, String pokemon, boolean checked, Timestamp timestamp) {
+        this.offerID = offerID;
         this.listingID = listingID;
         this.trader = trader;
         this.pokemon = pokemon;
         this.checked = checked;
         this.timestamp = timestamp;
+    }
+
+    public int getOfferID() {
+        return offerID;
+    }
+
+    public void setOfferID(int offerID) {
+        this.offerID = offerID;
     }
 
     public int getListingID() {
@@ -59,8 +69,9 @@ public class OfferDTO {
 
     @Override
     public String toString() {
-        return "Offer{" +
-                "listingID=" + listingID +
+        return "OfferDTO{" +
+                "offerID=" + offerID +
+                ", listingID=" + listingID +
                 ", trader='" + trader + '\'' +
                 ", pokemon='" + pokemon + '\'' +
                 ", checked=" + checked +
