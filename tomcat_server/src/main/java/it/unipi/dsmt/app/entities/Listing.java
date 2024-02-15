@@ -3,6 +3,7 @@ package it.unipi.dsmt.app.entities;
 import java.sql.Timestamp;
 
 // Class for listing info
+// TODO NELLA NUOVA VERSIONE, HO SOLO IL BOX ID, CHE USO PER PRENDERE LE ALTRE INFO DEL POKEMON
 public class Listing {
     private int boxID;
     private String pokemonName;

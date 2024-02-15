@@ -67,41 +67,4 @@ public class HomeServlet extends HttpServlet {
         }
     }
 
-    // TODO FUNZIONE SPOSTATA NEL PROFILE SERVLET CON METODO POST
-    // To handle "post" request when I want to create a new listing
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
-        try {
-
-            // TODO AGGIUNGERE UNA NUOVA LISTING PER L'UTENTE
-            String currentUsername = AccessController.getUsername(request);
-            int listingID = Integer.parseInt(request.getParameter("listingID"));
-            String pokemonOffered = (String) request.getParameter("pokemonOffered");
-
-            ListingDAO listingDAO = new ListingDAO((Connection) getServletContext().getAttribute("databaseConnection"));
-            OfferDAO offerDAO = new OfferDAO((Connection) getServletContext().getAttribute("databaseConnection"));
-
-            // Check if the current user already made an offer
-            int offerID = offerDAO.getUserOfferByListing(currentUsername, listingID);
-            // if it is a new offer, insert it in the database
-            if (offerID == -1) {
-                Offer offer = new Offer(listingID, currentUsername, pokemonOffered, false, new Timestamp(System.currentTimeMillis()));
-                offerID = offerDAO.save(offer);
-                response.sendRedirect(request.getContextPath() + "/listing?offerID=" + offerID);
-                // return;
-            }
-            // else, update the past offer of the current user for this listing
-            else {
-                Offer offer = new Offer(listingID, currentUsername, pokemonOffered, false, new Timestamp(System.currentTimeMillis()));
-                offerDAO.updateOffer(offerID, offer);
-                response.sendRedirect(request.getContextPath() + "/listing?offerID=" + offerID);
-            }
-
-            // TODO COSA FARE DOPO UNA OFFER? CON JS E WEBSOCKET VORREI MOSTRARLA DINAMICAMENTE Boeh?
-
-
-        } catch (Exception e) {
-            ErrorHandler.safeDispatchToErrorPage(request, response, e);
-        }
-    }
-
 }
