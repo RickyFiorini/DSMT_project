@@ -2,6 +2,8 @@ package it.unipi.dsmt.app.dtos;
 
 import java.sql.Timestamp;
 
+// TODO NELLA NUOVA VERSIONE, HO SOLO IL BOX ID, CHE USO PER PRENDERE LE ALTRE INFO DEL POKEMON
+// To represent listing info that are transferred in the web app
 public class ListingDTO {
     private int listingID;
     private int boxID;

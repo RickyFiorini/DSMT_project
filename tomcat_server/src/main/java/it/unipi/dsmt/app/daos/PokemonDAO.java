@@ -9,4 +9,5 @@ public class PokemonDAO {
     public PokemonDAO(Connection db) {
         offerConnection = db;
     }
+
 }

@@ -40,7 +40,7 @@ public class SignUpServlet extends HttpServlet {
         try {
             UserDAO userDAO = new UserDAO((Connection) getServletContext().getAttribute("databaseConnection"));
             User userInfo = AuthenticationHandler.unpackPostSignup(request);
-            String resultMessage = userDAO.save(userInfo);
+            String resultMessage = userDAO.register(userInfo);
 
             // if user signup goes wrong, return to signup page
             if (resultMessage != "") {

@@ -53,7 +53,6 @@ public class ProfileServlet extends HttpServlet {
                 request.setAttribute("listingList", listingList);
             }
 
-            // TODO DISCRIMINARE CON DUE FLAG SE VISUALIZZO IL BOX O I LISTINGS DELL'UTENTE
             // Set the target page to BOX
             // request.setAttribute("profilePage", profilePage);
 
@@ -64,11 +63,11 @@ public class ProfileServlet extends HttpServlet {
         }
     }
 
-    // TODO QUANDO INSERISCO UNA NUOVA LISTING VOGLIO TORNARE NEL PROFILE NELLA SEZIONE LISTING
     // To handle "post" request when I create a new listing
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         try {
+
             // Here profilePage == listings
             String profilePage = (String) request.getParameter("profilePage");
             String currentUsername = AccessController.getUsername(request);
@@ -85,7 +84,7 @@ public class ProfileServlet extends HttpServlet {
             listingDAO.insertListing(listing);
 
             // Retrieve current user listings
-            List<ListingDTO> listingList = listingDAO.getListingsByUsername(username);
+            List<ListingDTO> listingList = listingDAO.getListingsByUsername(currentUsername);
             request.setAttribute("listingList", listingList);
 
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/jsp/profile.jsp");

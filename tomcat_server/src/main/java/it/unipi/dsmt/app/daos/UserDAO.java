@@ -18,6 +18,8 @@ public class UserDAO {
         userConnection = db;
     }
 
+    // TODO CHECK METHODS AND DELETE THE UNUSED ONES
+
     // Check if the user exists in the db
     public boolean exists(String username) throws SQLException {
         String sqlString = "SELECT username FROM user WHERE username=?";
@@ -40,7 +42,7 @@ public class UserDAO {
     }
 
     // Register a new user
-    public String save(User userInfo) throws SQLException {
+    public String register(User userInfo) throws SQLException {
         try {
             String sqlString = "INSERT INTO user(username, password, name, surname, onlineFlag, creationTime) VALUES (?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = userConnection.prepareStatement(sqlString);
