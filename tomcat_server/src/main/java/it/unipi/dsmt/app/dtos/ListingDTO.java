@@ -2,21 +2,45 @@ package it.unipi.dsmt.app.dtos;
 
 import java.sql.Timestamp;
 
+// TODO NELLA NUOVA VERSIONE, HO SOLO IL BOX ID, CHE USO PER PRENDERE LE ALTRE INFO DEL POKEMON
+// To represent listing info that are transferred in the web app
 public class ListingDTO {
+    private int listingID;
+    private int boxID;
     private String pokemonName;
     private String pokemonType;
     private String username;
     private boolean status;
+    private String winner;
     private Timestamp timestamp;
     private String imageURL;
 
-    public ListingDTO(String pokemonName, String pokemonType, String username, boolean status, Timestamp timestamp, String imageURL) {
+    public ListingDTO(int listingID, int boxID, String pokemonName, String pokemonType, String username, boolean status, String winner, Timestamp timestamp, String imageURL) {
+        this.listingID = listingID;
+        this.boxID = boxID;
         this.pokemonName = pokemonName;
         this.pokemonType = pokemonType;
         this.username = username;
         this.status = status;
+        this.winner = winner;
         this.timestamp = timestamp;
         this.imageURL = imageURL;
+    }
+
+    public int getBoxID() {
+        return boxID;
+    }
+
+    public void setBoxID(int boxID) {
+        this.boxID = boxID;
+    }
+
+    public int getListingID() {
+        return listingID;
+    }
+
+    public void setListingID(int listingID) {
+        this.listingID = listingID;
     }
 
     public String getPokemonName() {
@@ -47,6 +71,14 @@ public class ListingDTO {
         return status;
     }
 
+    public String getWinner() {
+        return winner;
+    }
+
+    public void setWinner(String winner) {
+        this.winner = winner;
+    }
+
     public void setStatus(boolean status) {
         this.status = status;
     }
@@ -66,4 +98,21 @@ public class ListingDTO {
     public void setImageURL(String imageURL) {
         this.imageURL = imageURL;
     }
+
+    @Override
+    public String toString() {
+        return "ListingDTO{" +
+                "listingID=" + listingID +
+                ", boxID=" + boxID +
+                ", pokemonName='" + pokemonName + '\'' +
+                ", pokemonType='" + pokemonType + '\'' +
+                ", username='" + username + '\'' +
+                ", status=" + status +
+                ", winner='" + winner + '\'' +
+                ", timestamp=" + timestamp +
+                ", imageURL='" + imageURL + '\'' +
+                '}';
+    }
 }
+
+

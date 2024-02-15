@@ -1,14 +1,15 @@
 package it.unipi.dsmt.app.endpoints.servlets;
 
 import java.sql.Connection;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import it.unipi.dsmt.app.daos.ListingDAO;
-import it.unipi.dsmt.app.daos.UserDAO;
-import it.unipi.dsmt.app.dtos.UserProfileDTO;
+import it.unipi.dsmt.app.daos.OfferDAO;
 import it.unipi.dsmt.app.dtos.ListingDTO;
+import it.unipi.dsmt.app.entities.Offer;
 import it.unipi.dsmt.app.utils.AccessController;
 import it.unipi.dsmt.app.utils.ErrorHandler;
 
@@ -28,30 +29,7 @@ public class HomeServlet extends HttpServlet {
         try {
             // Get the current user
             final String currentUsername = AccessController.getUsername(request);
-            UserDAO userDAO = new UserDAO((Connection) getServletContext().getAttribute("databaseConnection"));
-            // Retrieve the list of users from the db
-            List<UserProfileDTO> usersList = userDAO.getUsers();
 
-            // Filter out the current user
-            usersList = usersList.stream().filter(new Predicate<UserProfileDTO>() {
-                @Override
-                public boolean test(UserProfileDTO user) {
-                    return !user.getUsername().equals(currentUsername);
-                }
-            }).collect(Collectors.toList());
-
-            // Filter out the offline users
-            List<UserProfileDTO> onlineList = usersList.stream().filter(new Predicate<UserProfileDTO>() {
-                @Override
-                public boolean test(UserProfileDTO user) {
-                    return user.isOnline_flag();
-                }
-            }).collect(Collectors.toList());
-
-            request.setAttribute("usersList", usersList);
-            request.setAttribute("onlineUsers", onlineList);
-
-            // TODO PRENDERE TUTTE LE LISTING TRANNE QUELLE DELL'ATTUALE UTENTE
             // Retrieve the list of listings
             ListingDAO listingDAO = new ListingDAO((Connection) getServletContext().getAttribute("databaseConnection"));
             List<ListingDTO> listingList = listingDAO.getListings();
@@ -64,7 +42,23 @@ public class HomeServlet extends HttpServlet {
                 }
             }).collect(Collectors.toList());
 
-            request.setAttribute("listingList", listingList);
+            // Filter out the open listings
+            List<ListingDTO> closedListingList = listingList.stream().filter(new Predicate<ListingDTO>() {
+                @Override
+                public boolean test(ListingDTO listing) {
+                    return listing.getWinner() != null;
+                }
+            }).collect(Collectors.toList());
+            request.setAttribute("closedListingList", closedListingList);
+
+            // Filter out the closed listings
+            List<ListingDTO> openListingList = listingList.stream().filter(new Predicate<ListingDTO>() {
+                @Override
+                public boolean test(ListingDTO listing) {
+                    return listing.getWinner() == null;
+                }
+            }).collect(Collectors.toList());
+            request.setAttribute("openListingList", openListingList);
 
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/jsp/home.jsp");
             requestDispatcher.forward(request, response);

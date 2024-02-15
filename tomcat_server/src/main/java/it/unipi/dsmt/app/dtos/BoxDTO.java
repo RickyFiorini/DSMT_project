@@ -1,29 +1,28 @@
-package it.unipi.dsmt.app.entities;
+package it.unipi.dsmt.app.dtos;
 
-// Class for user box info
-// TODO AGGIORNARE LE ENTITIES/DTO CON LE NUOVE MODIFICHE FATTE NEL DISEGNO DELLE TABELLE
+// To represent box slot info that are transferred in the web app
 // TODO NELLA NUOVA VERSIONE, HO SOLO IL POKEMON ID, CHE USO PER PRENDERE LE ALTRE INFO DI UN POKEMON
-public class Box {
-    private String username;
+public class BoxDTO {
+    private int boxID;
     private String pokemonName;
     private String pokemonType;
     private boolean listed;
     private String imageUrl;
 
-    public Box(String username, String pokemonName, String pokemonType, boolean listed, String imageUrl) {
-        this.username = username;
+    public BoxDTO(int boxID, String pokemonName, String pokemonType, boolean listed, String imageUrl) {
+        this.boxID = boxID;
         this.pokemonName = pokemonName;
         this.pokemonType = pokemonType;
         this.listed = listed;
         this.imageUrl = imageUrl;
     }
 
-    public String getUsername() {
-        return username;
+    public int getBoxID() {
+        return boxID;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setBoxID(int boxID) {
+        this.boxID = boxID;
     }
 
     public String getPokemonName() {
@@ -60,8 +59,8 @@ public class Box {
 
     @Override
     public String toString() {
-        return "Box{" +
-                "username='" + username + '\'' +
+        return "BoxDTO{" +
+                "boxID=" + boxID +
                 ", pokemonName='" + pokemonName + '\'' +
                 ", pokemonType='" + pokemonType + '\'' +
                 ", listed=" + listed +
