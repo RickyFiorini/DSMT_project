@@ -27,7 +27,7 @@ public class HomeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
         try {
-            // Get the current user
+            // Get the current user, check session
             final String currentUsername = AccessController.getUsername(request);
 
             // Retrieve the list of listings

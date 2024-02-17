@@ -44,16 +44,6 @@
                 <label>Password</label>
                 <input type="password" name="password" placeholder="password" required />
               </div>
-              <div class="input">
-                <label>Choose your department:</label>
-                <select class="departments" id="departments" name="department">
-                  <option value="IT">Information Technologies</option>
-                  <option value="HR">Human Resources</option>
-                  <option value="Administration">Administration</option>
-                  <option value="Buying">Buying</option>
-                  <option value="Selling">Selling</option>
-                </select>
-              </div>
               <button type="submit">Sign Up</button>
               <p>You have an account? <a href="${pageContext.request.contextPath}/login">Sign in</a></p>
             </form>

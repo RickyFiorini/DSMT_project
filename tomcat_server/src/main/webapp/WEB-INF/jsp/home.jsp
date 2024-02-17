@@ -1,65 +1,62 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
-  <%@ page import="it.unipi.dsmt.app.dtos.UserProfileDTO" %>
-    <%@ page import="java.util.List" %>
-      <%@ page import="it.unipi.dsmt.app.utils.AccessController" %>
-        <!DOCTYPE html>
-        <html lang="en">
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="it.unipi.dsmt.app.dtos.ListingDTO" %>
+<%@ page import="java.util.List" %>
+<%@ page import="it.unipi.dsmt.app.utils.AccessController" %>
 
-        <head>
-          <meta charset="UTF-8" />
-          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-          <link rel="stylesheet" href="css/home.css?v=1.10" />
-          <script src="js/searchbar.js?v=1.9" defer></script>
-          <title>Home Page</title>
-        </head>
+<!DOCTYPE html>
+<html lang="en">
 
-        <body style="margin: 0px">
-          <jsp:include page="/WEB-INF/jsp/components/nav_bar.jsp">
-            <jsp:param name="loggedUser" value="<%=AccessController.getUsername(request)%>" />
-          </jsp:include>
-          <div class="page">
-            <div class="centerize">
-              <div class="search">
-                <input type="text" list="online-users" placeholder="Search" id="searchinput"
-                  oninput="handleChange(event)" />
-                <img src="icons/search.png">
-                <datalist id="online-users">
-                  <% for(UserProfileDTO user : (List<UserProfileDTO>)request.getAttribute("onlineUsers")){ %>
-                    <option>
-                      <%= user.getUsername() %>
-                    </option>
-                    <%}%>
-                </datalist>
-              </div>
+<head>
+    <title>PokeTrade - Home</title>
+</head>
+
+<body>
+<div class="site-wrap">
+    <jsp:include page="/WEB-INF/jsp/components/nav_bar.jsp"/>
+
+    <%-- TODO PER LA SEARCH-BAR, AGGIUNGERE LE LISTINGS COME DATALIST
+          E PASSARLE ALLA SEARCH BAR (REFERENCE home_old.jsp) --%>
+    <div class="top-bar-home">
+        <form action="search" method="get" class="site-block-top-search">
+            <input name="keyword" type="text" class="form-listing" placeholder="Search">
+        </form>
+        <%-- Toggle past listings --%>
+        <label class="switch">
+            <input type="checkbox">
+            <span class="switch-past-listings"></span>
+        </label>
+        <div class="dropdown-preference">
+            <button type="button" class="dropdown"
+                    id="dropdownMenuTypes" data-toggle="dropdown">Types
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuTypes">
+                <a class="dropdown-item" href="#">Grass</a>
+                <a class="dropdown-item" href="#">Fire</a>
+                <a class="dropdown-item" href="#">Water</a>
             </div>
-            <div class="centerize-board">
-              <div class="users-board">
-                <% for(UserProfileDTO user : (List<UserProfileDTO>)request.getAttribute("usersList")){ %>
-                  <% String className="flag" ; %>
-                    <% if(user.isOnline_flag()){ className +=" connected" ; } %>
-                      <div class="user-card" id="<%=user.getUsername()%>">
-                        <!-- href="${pageContext.request.contextPath}/view?username=<%=user.getUsername()%>" -->
-                        <h1>
-                          <%= user.getUsername() %>
-                        </h1>
-                        <h2>
-                          <%= user.getDepartment() %>
-                        </h2>
-                        <h3>
-                          <%= user.getName() %>
-                            <%= user.getSurname() %>
-                        </h3>
-                        <div class="<%= className %>"></div>
-                        <form method="post"
-                          action="${pageContext.request.contextPath}/chat?username=<%=user.getUsername()%>">
-                          <button type="submit"> Start chat</button>
-                        </form>
-                      </div>
-                      <%}%>
-              </div>
-            </div>
-            <jsp:include page="/WEB-INF/jsp/components/sidebar.jsp" />
-          </div>
-        </body>
 
-        </html>
+        </div>
+    </div>
+    <div class="listings-wrapper">
+        <% for(ListingDTO listing : (List<ListingDTO>)request.getAttribute("openListingList")){ %>
+        <div class="card listing-card" id="<%=listing.getListingID()%>">
+            <a href="${pageContext.request.contextPath}/listing?listingID=<%=listing.getListingID()%>>">
+                <img src="<%=listing.getImageURL()%>" class="img-listing" alt="Image placeholder">
+                <h1>
+                    <%=listing.getPokemonName()%>
+                </h1>
+                <h2>
+                    <%=listing.getPokemonType()%>
+                </h2>
+                <h3>
+                    <%=listing.getUsername()%>
+                </h3>
+            </a>
+        </div>
+        <% } %>
+    </div>
+
+</div>
+
+</body>
+</html>
