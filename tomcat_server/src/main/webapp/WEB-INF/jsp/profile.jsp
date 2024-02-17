@@ -1,76 +1,123 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
-  <%@ page import="com.unipi.dsmt.app.dtos.UserProfileDTO" %>
-    <%@ page import="com.unipi.dsmt.app.dtos.ChatStorageDTO" %>
-      <%@ page import="java.util.List" %>
-        <%@ page import="com.unipi.dsmt.app.utils.AccessController" %>
-          <!DOCTYPE html>
-          <html lang="en">
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="it.unipi.dsmt.app.dtos.ListingDTO" %>
+<%@ page import="java.util.List" %>
+<%@ page import="it.unipi.dsmt.app.utils.AccessController" %>
+<%@ page import="it.unipi.dsmt.app.dtos.OfferDTO" %>
+<%@ page import="it.unipi.dsmt.app.dtos.UserProfileDTO" %>
+<%@ page import="it.unipi.dsmt.app.dtos.BoxDTO" %>
 
-          <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <link rel="stylesheet" href="css/profile.css?v=1.15">
-            <script src="js/profile.js?v=1.3"></script>
-            <title>Profile page</title>
-            <% UserProfileDTO requestingUser=(UserProfileDTO) request.getAttribute("user_info"); %>
-              <% List<ChatStorageDTO> chatList =(List<ChatStorageDTO>) request.getAttribute("chatList"); %>
-          </head>
+<!DOCTYPE html>
+<html lang="en">
 
-          <body style="margin: 0px;">
-            <jsp:include page="/WEB-INF/jsp/components/nav_bar.jsp">
-              <jsp:param name="loggedUser" value="<%=AccessController.getUsername(request)%>" />
-            </jsp:include>
-            <div class="page">
-              <div class="fields-container">
-                <div class="field">
-                  <h1>Username</h1>
-                  <label>
-                    <%= requestingUser.getUsername() %>
-                  </label>
-                </div>
-                <div class="field">
-                  <h1>Name</h1>
-                  <label>
-                    <%= requestingUser.getName() %>
-                  </label>
-                </div>
-                <div class="field">
-                  <h1>Surname</h1>
-                  <label>
-                    <%= requestingUser.getSurname() %>
-                  </label>
-                </div>
-                <div class="field">
-                  <h1>Department</h1>
-                  <label>
-                    <%= requestingUser.getDepartment() %>
-                  </label>
-                </div>
-              </div>
-              <div class="chat-history-container">
-                <h1>Open Chats</h1>
-                <div class="grid">
-                  <% for(ChatStorageDTO chat : chatList){ %>
-                    <div class="chat-box">
-                      <a href="${pageContext.request.contextPath}/chat?chatID=<%=chat.getId_chat()%>">
-                        <div class="chat-card" id="<%=chat.getUsername()%>">
-                          <h1>
-                            <%= chat.getUsername() %>
-                          </h1>
-                          <label>
-                            <%= chat.getLastMessageTime() %>
-                          </label>
-                          <% String className="flag" + (chat.getOnlineState() ? " connected" : "" ) ; %>
-                            <div class="<%= className %>"></div>
-                        </div>
-                      </a>
-                      <button
-                        onclick='deleteChat("<%=chat.getId_chat()%>","${pageContext.request.contextPath}/chat", "<%=chat.getUsername()%>")'>🗑</button>
-                    </div>
-                    <%}%>
-                </div>
-              </div>
+<head>
+    <title>PokeTrade - Profile</title>
+</head>
+
+<body>
+<div class="site-wrap">
+    <jsp:include page="/WEB-INF/jsp/components/nav_bar.jsp"/>
+
+    <%-- Get current username --%>
+    <% String currentUser = AccessController.getUsername(request); %>
+
+    <%-- Get user info from request and show them aside --%>
+    <% UserProfileDTO user = (UserProfileDTO) request.getAttribute("userInfo"); %>
+    <div class="left profile-info">
+        <div class="user-info">
+            <div class="info">
+                <h1>Username</h1>
+                <label>
+                    <%= user.getUsername() %>
+                </label>
             </div>
-          </body>
+            <div class="info">
+                <h1>Name</h1>
+                <label>
+                    <%= user.getName() %>
+                </label>
+            </div>
+            <div class="info">
+                <h1>Surname</h1>
+                <label>
+                    <%= user.getSurname() %>
+                </label>
+            </div>
+        </div>
+        <div class="user-sections">
+            <div class="section">
+                <form id="box-section" method="post"
+                      action="${pageContext.request.contextPath}/profile?profileSection=box">
+                    <button type="submit"> Box </button>
+                </form>
+            </div>
+            <div class="section">
+                <form id="listings-section" method="post"
+                      action="${pageContext.request.contextPath}/profile?profileSection=listings">
+                    <button type="submit"> Listings </button>
+                </form>
+            </div>
+        </div>
+    </div>
 
-          </html>
+    <%-- Check the selected profile section --%>
+    <% String profileSection = request.getParameter("profileSection"); %>
+
+    <%-- Get the box from request and show it at the center --%>
+    <div class="center section-wrapper">
+        <%-- If the user selected the box section, show his box --%>
+        <% if (profileSection.equals("box")) { %>
+            <% for(BoxDTO box : (List<BoxDTO>)request.getAttribute("boxList")) { %>
+            <div class="card listing-card" id="<%=box.getBoxID()%>">
+                <%-- TODO IMPLEMENTARE showBoxPokemon(boxID) CON JS --%>
+                <img src="<%=box.getImageUrl()%>" class="img-box" alt="Image placeholder"
+                     onclick="showBoxPokemon('<%=box.getBoxID()%>')">
+                <h1>
+                    <%=box.getPokemonName()%>
+                </h1>
+                <h2>
+                    <%=box.getPokemonType()%>
+                </h2>
+            </div>
+            <% } %>
+        <% } %>
+
+        <%-- If the user selected the listings section, show his listings --%>
+        <% if (profileSection.equals("listings")) { %>
+            <% for(ListingDTO listing : (List<ListingDTO>)request.getAttribute("listingList")) { %>
+            <div class="card listing-card" id="<%=listing.getListingID()%>">
+                <a href="${pageContext.request.contextPath}/listing?listingID=<%=listing.getListingID()%>>">
+                    <img src="<%=listing.getImageURL()%>" class="img-listing" alt="Image placeholder">
+                    <h1>
+                        <%=listing.getPokemonName()%>
+                    </h1>
+                    <h2>
+                        <%=listing.getPokemonType()%>
+                    </h2>
+                    <h3>
+                        <%=listing.getUsername()%>
+                    </h3>
+                </a>
+            </div>
+            <% } %>
+        <% } %>
+    </div>
+
+    <!-- Show the details of the selected pokemon on the right side -->
+    <!-- TODO IMPLEMENTARE SECTION CON I DETAILS DEL POKEMON:
+          QUANDO FACCIO CLICK SUL POKEMON, MOSTRO A DESTRA I DETAILS E IL BUTTON "NEW LISTING" -->
+    <div class="right pokemon-wrapper">
+        <img src="" id="pokemon-details-img" class="img-box-big" alt="Image placeholder">
+        <h1 id="pokemon-details-name"></h1>
+        <h2 id="pokemon-details-type"></h2>
+
+        <!-- TODO GESTIONE NEW LISTING (E SE IL POKEMON HA LISTED=TRUE, DEVO MOSTRARE IL BUTTON) -->
+        <form id="new-listing" method="post"
+              action="${pageContext.request.contextPath}/profile?profileSection=listing">
+            <button type="submit" hidden="hidden"> New Listing </button>
+        </form>
+    </div>
+
+</div>
+
+</body>
+</html>

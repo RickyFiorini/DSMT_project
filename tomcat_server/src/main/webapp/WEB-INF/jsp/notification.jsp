@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-  <%@ page import="com.unipi.dsmt.app.dtos.NotificationDTO" %>
+  <%@ page import="it.unipi.dsmt.app.dtos.NotificationDTO" %>
     <%@ page import="java.util.List" %>
-      <%@ page import="com.unipi.dsmt.app.utils.AccessController" %>
+      <%@ page import="it.unipi.dsmt.app.utils.AccessController" %>
         <!DOCTYPE html>
         <html lang="en">
 
