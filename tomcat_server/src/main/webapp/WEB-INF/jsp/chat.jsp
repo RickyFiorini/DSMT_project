@@ -1,8 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-  <%@ page import="com.unipi.dsmt.app.dtos.MessageChatDTO" %>
+  <%@ page import="it.unipi.dsmt.app.dtos.MessageChatDTO" %>
     <%@ page import="java.util.List" %>
       <%@ page import="java.text.SimpleDateFormat" %>
-        <%@ page import="com.unipi.dsmt.app.utils.AccessController" %>
+        <%@ page import="it.unipi.dsmt.app.utils.AccessController" %>
           <!DOCTYPE html>
           <html lang="en">
 

@@ -35,26 +35,26 @@ public class ProfileServlet extends HttpServlet {
             UserDAO userDAO = new UserDAO((Connection) getServletContext().getAttribute("databaseConnection"));
             String username = AccessController.getUsername(request);
             UserProfileDTO userInfo = userDAO.getUserFromUsername(username);
-            request.setAttribute("user_info", userInfo);
+            request.setAttribute("userInfo", userInfo);
 
-            String profilePage = (String) request.getParameter("profilePage");
-            // If I am in box page
-            if (profilePage.equals("box")) {
+            String profileSection = request.getParameter("profileSection");
+            // If I am in box section
+            if (profileSection.equals("box")) {
                 // Retrieve the pokemon box of the current user
                 BoxDAO boxDAO = new BoxDAO((Connection) getServletContext().getAttribute("databaseConnection"));
                 List<BoxDTO> boxList = boxDAO.getBox(username);
                 request.setAttribute("boxList", boxList);
             }
-            // else, if I am in the listings page
-            else if (profilePage.equals("listings")){
+            // else, if I am in the listings section
+            else if (profileSection.equals("listings")){
                 // Retrieve current user listings
                 ListingDAO listingDAO = new ListingDAO((Connection) getServletContext().getAttribute("databaseConnection"));
                 List<ListingDTO> listingList = listingDAO.getListingsByUsername(username);
                 request.setAttribute("listingList", listingList);
             }
 
-            // Set the target page to BOX
-            // request.setAttribute("profilePage", profilePage);
+            // Set the target profile section to BOX
+            // request.setAttribute("profileSection", profileSection);
 
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/jsp/profile.jsp");
             requestDispatcher.forward(request, response);
@@ -68,15 +68,15 @@ public class ProfileServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         try {
 
-            // Here profilePage == listings
-            String profilePage = (String) request.getParameter("profilePage");
+            // Here profileSection == listings
+            String profileSection = request.getParameter("profileSection");
             String currentUsername = AccessController.getUsername(request);
             int boxID = Integer.parseInt(request.getParameter("boxID"));
             // TODO NELLA NUOVA VERSIONE, DEVO PRENDERE SOLO POKEMON ID
             //  int pokemonID = Integer.parseInt(request.getParameter("pokemonID"));
-            String pokemonName = (String) request.getParameter("pokemonName");
-            String pokemonType = (String) request.getParameter("pokemonType");
-            String imageURL = (String) request.getParameter("imageURL");
+            String pokemonName = request.getParameter("pokemonName");
+            String pokemonType = request.getParameter("pokemonType");
+            String imageURL = request.getParameter("imageURL");
 
             // Insert a new listing in the database
             ListingDAO listingDAO = new ListingDAO((Connection) getServletContext().getAttribute("databaseConnection"));
