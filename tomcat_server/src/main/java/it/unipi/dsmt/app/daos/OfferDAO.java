@@ -32,6 +32,11 @@ public class OfferDAO {
 
     }
 
+    // Retrieve the user of the selected offer
+    public String getUserByOfferID(int offerID) {
+
+    }
+
     // Insert a new offer in the database
     public int insertOffer(Offer offer) {
 
@@ -47,4 +52,5 @@ public class OfferDAO {
     public void deleteUserOfferByID(int offerID) {
 
     }
+
 }

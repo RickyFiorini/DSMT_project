@@ -33,8 +33,8 @@ public class ProfileServlet extends HttpServlet {
 
             // Retrieve the current user info
             UserDAO userDAO = new UserDAO((Connection) getServletContext().getAttribute("databaseConnection"));
-            String username = AccessController.getUsername(request);
-            UserProfileDTO userInfo = userDAO.getUserFromUsername(username);
+            String currentUsername = AccessController.getUsername(request);
+            UserProfileDTO userInfo = userDAO.getUserFromUsername(currentUsername);
             request.setAttribute("userInfo", userInfo);
 
             String profileSection = request.getParameter("profileSection");
@@ -42,14 +42,14 @@ public class ProfileServlet extends HttpServlet {
             if (profileSection.equals("box")) {
                 // Retrieve the pokemon box of the current user
                 BoxDAO boxDAO = new BoxDAO((Connection) getServletContext().getAttribute("databaseConnection"));
-                List<BoxDTO> boxList = boxDAO.getBox(username);
+                List<BoxDTO> boxList = boxDAO.getBox(currentUsername);
                 request.setAttribute("boxList", boxList);
             }
             // else, if I am in the listings section
             else if (profileSection.equals("listings")){
                 // Retrieve current user listings
                 ListingDAO listingDAO = new ListingDAO((Connection) getServletContext().getAttribute("databaseConnection"));
-                List<ListingDTO> listingList = listingDAO.getListingsByUsername(username);
+                List<ListingDTO> listingList = listingDAO.getListingsByUsername(currentUsername);
                 request.setAttribute("listingList", listingList);
             }
 
@@ -63,6 +63,19 @@ public class ProfileServlet extends HttpServlet {
         }
     }
 
+    /**
+     TODO TUTTA QUESTA PARTE DI INSERT/DELETE DI UNA LISTING DEVE ESSERE
+        GESTITA DA ERLANG E WEBSOCKET (NON QUI NEL SERVLET), E VANNO FATTE LE SEGUENTI COSE:
+        - NEW LISTING --> UNA FUNZIONE JS CREA UNA "POST" REQUEST PER PORTARMI NELLA MIA SEZIONE LISTING
+                E MANDA LA NUOVA LISTING IN FORMATO JSON ALL'ERLANG NODE DELLE LISTING (TRAMITE WS);
+                QUESTO LA AGGIUNGE AL DB E LA INOLTRA AGLI ALTRI UTENTI DELLA HOME, DOVE UNA FUNZIONE JS
+                LA AGGIUNGERÀ DINAMICAMENTE ALLA PAGINA
+        - DELETE LISTING --> UNA FUNZIONE JS ELIMINA LA LISTING DALLA MIA PAGINA E MANDA IN JSON
+                IL LISTING_ID ALL'ERLANG NODE DELLE LISTING (TRAMITE WS); QUESTO LA ELIMINA DAL DB E
+                LA INOLTRA AGLI ALTRI UTENTI CON WEBSOCKET: QUELLI NELLA HOME VEDONO SPARIRE LA LISTING,
+                MENTRE QUELLI NELLA PAGINA DELLA LISTING VENGONO AVVISATI CON UN POPUP CHE POI LI RIPORTA
+                NELLA HOME (ENTRAMBI QUESTI COMPORTAMENTI SI OTTENGONO CON FUNZIONI JS)
+     */
     // To handle "post" request when I create a new listing
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
@@ -72,7 +85,7 @@ public class ProfileServlet extends HttpServlet {
             String profileSection = request.getParameter("profileSection");
             String currentUsername = AccessController.getUsername(request);
             int boxID = Integer.parseInt(request.getParameter("boxID"));
-            // TODO NELLA NUOVA VERSIONE, DEVO PRENDERE SOLO POKEMON ID
+            // TODO NELLA NUOVA VERSIONE, DEVO PRENDERE SOLO BOX ID
             //  int pokemonID = Integer.parseInt(request.getParameter("pokemonID"));
             String pokemonName = request.getParameter("pokemonName");
             String pokemonType = request.getParameter("pokemonType");

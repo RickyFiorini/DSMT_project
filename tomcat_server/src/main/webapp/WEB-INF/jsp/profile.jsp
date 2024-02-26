@@ -45,13 +45,13 @@
         </div>
         <div class="user-sections">
             <div class="section">
-                <form id="box-section" method="post"
+                <form id="box-section"
                       action="${pageContext.request.contextPath}/profile?profileSection=box">
                     <button type="submit"> Box </button>
                 </form>
             </div>
             <div class="section">
-                <form id="listings-section" method="post"
+                <form id="listings-section"
                       action="${pageContext.request.contextPath}/profile?profileSection=listings">
                     <button type="submit"> Listings </button>
                 </form>
@@ -67,10 +67,10 @@
         <%-- If the user selected the box section, show his box --%>
         <% if (profileSection.equals("box")) { %>
             <% for(BoxDTO box : (List<BoxDTO>)request.getAttribute("boxList")) { %>
-            <div class="card listing-card" id="<%=box.getBoxID()%>">
-                <%-- TODO IMPLEMENTARE showBoxPokemon(boxID) CON JS --%>
+            <div class="card box-card" id="<%=box.getBoxID()%>">
+                <%-- TODO IMPLEMENTARE showPokemonDetails(boxID) CON JS --%>
                 <img src="<%=box.getImageUrl()%>" class="img-box" alt="Image placeholder"
-                     onclick="showBoxPokemon('<%=box.getBoxID()%>')">
+                     onclick="showPokemonDetails('<%=box.getBoxID()%>')">
                 <h1>
                     <%=box.getPokemonName()%>
                 </h1>
@@ -97,6 +97,7 @@
                         <%=listing.getUsername()%>
                     </h3>
                 </a>
+                <button onclick='deleteListing("<%=listing.getListingID()%>","${pageContext.request.contextPath}/listing", "<%=user.getUsername()%>")'>DELETE</button>
             </div>
             <% } %>
         <% } %>
@@ -105,15 +106,16 @@
     <!-- Show the details of the selected pokemon on the right side -->
     <!-- TODO IMPLEMENTARE SECTION CON I DETAILS DEL POKEMON:
           QUANDO FACCIO CLICK SUL POKEMON, MOSTRO A DESTRA I DETAILS E IL BUTTON "NEW LISTING" -->
-    <div class="right pokemon-wrapper">
+    <div class="right pokemon-wrapper" id="">
         <img src="" id="pokemon-details-img" class="img-box-big" alt="Image placeholder">
         <h1 id="pokemon-details-name"></h1>
         <h2 id="pokemon-details-type"></h2>
 
-        <!-- TODO GESTIONE NEW LISTING (E SE IL POKEMON HA LISTED=TRUE, DEVO MOSTRARE IL BUTTON) -->
+        <!-- TODO GESTIONE NEW LISTING (E SE IL POKEMON HA LISTED=TRUE, DEVO MOSTRARE IL BUTTON)
+                SETTARE DINAMICAMENTE L'ID DEL BUTTON CON IL BOXID -->
         <form id="new-listing" method="post"
               action="${pageContext.request.contextPath}/profile?profileSection=listing">
-            <button type="submit" hidden="hidden"> New Listing </button>
+            <button id="new-listing-button" type="submit" name="boxID" value="" hidden="hidden"> New Listing </button>
         </form>
     </div>
 

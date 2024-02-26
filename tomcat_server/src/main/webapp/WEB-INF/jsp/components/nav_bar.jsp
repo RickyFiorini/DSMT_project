@@ -2,7 +2,7 @@
 <script src="js/navbar.js?v=1.34" defer></script>
 
 <script>
-  var currentUsername = '<%=request.getParameter("loggedUser")%>';
+  var currentUsername = '<%=request.getParameter("currentUsername")%>';
 </script>
 <nav class="navbar">
   <a href="${pageContext.request.contextPath}/home">Home</a>
