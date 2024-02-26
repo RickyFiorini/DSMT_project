@@ -12,7 +12,9 @@
 
 <body>
 <div class="site-wrap">
-    <jsp:include page="/WEB-INF/jsp/components/nav_bar.jsp"/>
+    <jsp:include page="/WEB-INF/jsp/components/nav_bar.jsp">
+    <jsp:param name="currentUsername" value="<%=AccessController.getUsername(request)%>" />
+    </jsp:include>
 
     <%-- TODO PER LA SEARCH-BAR, AGGIUNGERE LE LISTINGS COME DATALIST
           E PASSARLE ALLA SEARCH BAR (REFERENCE home_old.jsp) --%>

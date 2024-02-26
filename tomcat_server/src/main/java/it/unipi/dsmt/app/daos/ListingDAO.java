@@ -36,6 +36,11 @@ public class ListingDAO {
 
     }
 
+    // Set the winner of the selected listing
+    public void setWinner(int listingID, String winner) {
+
+    }
+
     // Insert a new listing into the database
     public void insertListing(Listing listing) {
 
