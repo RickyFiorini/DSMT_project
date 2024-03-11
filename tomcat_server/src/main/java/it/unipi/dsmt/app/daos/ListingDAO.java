@@ -18,7 +18,7 @@ public class ListingDAO {
 
     // Retrieve all the listings of the database
     public List<ListingDTO> getListings() {
-
+        return null;
     }
 
     // Retrieve the listings of the current user
