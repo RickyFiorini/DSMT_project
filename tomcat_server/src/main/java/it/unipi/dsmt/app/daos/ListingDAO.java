@@ -23,12 +23,12 @@ public class ListingDAO {
 
     // Retrieve the listings of the current user
     public List<ListingDTO> getListingsByUsername(String currentUsername) {
-
+        return null;
     }
 
     // Retrieve the selected listing info
     public ListingDTO getListingInfo(int listingID) {
-
+        return null;
     }
 
     // Check if the current user is the owner of the selected listing

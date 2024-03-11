@@ -18,13 +18,13 @@ public class OfferDAO {
 
     // Retrieve all the offers of the selected listing
     public List<OfferDTO> getOfferByListing(int listingID) {
-
+        return null;
     }
 
     // Retrieve the offer ID of the current user for the selected listing
     // If no offer is found, return -1
     public int getUserOfferByListing(String currentUsername, int listingID) {
-
+        return 0;
     }
 
     // Check if the selected offer is the current user offer
@@ -34,12 +34,12 @@ public class OfferDAO {
 
     // Retrieve the user of the selected offer
     public String getUserByOfferID(int offerID) {
-
+        return null;
     }
 
     // Insert a new offer in the database
     public int insertOffer(Offer offer) {
-
+        return 0;
     }
 
     // Update the selected offer:

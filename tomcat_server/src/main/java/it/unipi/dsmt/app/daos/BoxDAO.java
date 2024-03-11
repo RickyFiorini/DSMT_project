@@ -18,7 +18,7 @@ public class BoxDAO {
 
     // Retrieve the box of the current user
     public List<BoxDTO> getBox(String username) {
-
+        return null;
     }
 
 }
