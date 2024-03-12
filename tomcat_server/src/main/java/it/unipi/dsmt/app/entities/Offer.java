@@ -1,22 +1,31 @@
 package it.unipi.dsmt.app.entities;
 
+import it.unipi.dsmt.app.dtos.OfferDTO;
+
 import java.sql.Timestamp;
 
 public class Offer {
+    private int offerID;
     private int listingID;
     private int boxID;
-    private String trader;
-    private String pokemonName;
+    private String trader;  //TODO CHECK se serve
     private boolean checked;
     private Timestamp timestamp;
 
-    public Offer(int listingID, int boxID, String trader, String pokemonName, boolean checked, Timestamp timestamp) {
+    public Offer(int listingID, int boxID, String trader, boolean checked, Timestamp timestamp) {
         this.listingID = listingID;
         this.boxID = boxID;
         this.trader = trader;
-        this.pokemonName = pokemonName;
         this.checked = checked;
         this.timestamp = timestamp;
+    }
+
+    public int getOfferID() {
+        return offerID;
+    }
+
+    public void setOfferID(int offerID) {
+        this.offerID = offerID;
     }
 
     public int getListingID() {
@@ -43,14 +52,6 @@ public class Offer {
         this.trader = trader;
     }
 
-    public String getPokemonName() {
-        return pokemonName;
-    }
-
-    public void setPokemonName(String pokemonName) {
-        this.pokemonName = pokemonName;
-    }
-
     public boolean isChecked() {
         return checked;
     }
@@ -73,7 +74,6 @@ public class Offer {
                 "listingID=" + listingID +
                 ", boxID=" + boxID +
                 ", trader='" + trader + '\'' +
-                ", pokemonName='" + pokemonName + '\'' +
                 ", checked=" + checked +
                 ", timestamp=" + timestamp +
                 '}';

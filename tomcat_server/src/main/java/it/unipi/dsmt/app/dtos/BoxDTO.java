@@ -1,20 +1,16 @@
 package it.unipi.dsmt.app.dtos;
 
 // To represent box slot info that are transferred in the web app
-// TODO NELLA NUOVA VERSIONE, HO SOLO IL POKEMON ID, CHE USO PER PRENDERE LE ALTRE INFO DI UN POKEMON
 public class BoxDTO {
     private int boxID;
-    private String pokemonName;
-    private String pokemonType;
+    private int pokemonID;
     private boolean listed;
-    private String imageUrl;
+    private String username;
 
-    public BoxDTO(int boxID, String pokemonName, String pokemonType, boolean listed, String imageUrl) {
-        this.boxID = boxID;
-        this.pokemonName = pokemonName;
-        this.pokemonType = pokemonType;
+    public BoxDTO(String username, int pokemonID, boolean listed) {
+        this.pokemonID = pokemonID;
         this.listed = listed;
-        this.imageUrl = imageUrl;
+        this.username = username;
     }
 
     public int getBoxID() {
@@ -25,21 +21,14 @@ public class BoxDTO {
         this.boxID = boxID;
     }
 
-    public String getPokemonName() {
-        return pokemonName;
+    public int getPokemonID() {
+        return pokemonID;
     }
 
-    public void setPokemonName(String pokemonName) {
-        this.pokemonName = pokemonName;
+    public void setPokemonID(int pokemonID) {
+        this.pokemonID = pokemonID;
     }
 
-    public String getPokemonType() {
-        return pokemonType;
-    }
-
-    public void setPokemonType(String pokemonType) {
-        this.pokemonType = pokemonType;
-    }
 
     public boolean isListed() {
         return listed;
@@ -49,22 +38,21 @@ public class BoxDTO {
         this.listed = listed;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String username() {
+        return username;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     @Override
     public String toString() {
         return "BoxDTO{" +
                 "boxID=" + boxID +
-                ", pokemonName='" + pokemonName + '\'' +
-                ", pokemonType='" + pokemonType + '\'' +
+                ", pokemonID='" + pokemonID + '\'' +
                 ", listed=" + listed +
-                ", imageUrl='" + imageUrl + '\'' +
+                ", username='" + username + '\'' +
                 '}';
     }
 }

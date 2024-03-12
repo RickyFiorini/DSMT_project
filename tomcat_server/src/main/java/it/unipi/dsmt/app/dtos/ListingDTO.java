@@ -2,61 +2,39 @@ package it.unipi.dsmt.app.dtos;
 
 import java.sql.Timestamp;
 
-// TODO NELLA NUOVA VERSIONE, HO SOLO IL BOX ID, CHE USO PER PRENDERE LE ALTRE INFO DEL POKEMON
 // To represent listing info that are transferred in the web app
 public class ListingDTO {
-    private int listingID;
-    private int boxID;
-    private String pokemonName;
-    private String pokemonType;
+    private int ID;
+    private int pokemonID;
     private String username;
     private boolean status;
     private String winner;
     private Timestamp timestamp;
-    private String imageURL;
 
-    public ListingDTO(int listingID, int boxID, String pokemonName, String pokemonType, String username, boolean status, String winner, Timestamp timestamp, String imageURL) {
-        this.listingID = listingID;
-        this.boxID = boxID;
-        this.pokemonName = pokemonName;
-        this.pokemonType = pokemonType;
+    public ListingDTO(int pokemonID, String username, boolean status, String winner, Timestamp timestamp) {
+        this.pokemonID=pokemonID;
         this.username = username;
         this.status = status;
         this.winner = winner;
         this.timestamp = timestamp;
-        this.imageURL = imageURL;
+
     }
 
-    public int getBoxID() {
-        return boxID;
+
+    public int getPokemonID() {
+        return pokemonID;
     }
 
-    public void setBoxID(int boxID) {
-        this.boxID = boxID;
+    public void setPokemonID(String pokemonType) {
+        this.pokemonID = pokemonID;
     }
 
-    public int getListingID() {
-        return listingID;
+    public int getID() {
+        return ID;
     }
 
-    public void setListingID(int listingID) {
-        this.listingID = listingID;
-    }
-
-    public String getPokemonName() {
-        return pokemonName;
-    }
-
-    public void setPokemonName(String pokemonName) {
-        this.pokemonName = pokemonName;
-    }
-
-    public String getPokemonType() {
-        return pokemonType;
-    }
-
-    public void setPokemonType(String pokemonType) {
-        this.pokemonType = pokemonType;
+    public void setID(int id) {
+        this.ID = id;
     }
 
     public String getUsername() {
@@ -91,26 +69,15 @@ public class ListingDTO {
         this.timestamp = timestamp;
     }
 
-    public String getImageURL() {
-        return imageURL;
-    }
-
-    public void setImageURL(String imageURL) {
-        this.imageURL = imageURL;
-    }
 
     @Override
     public String toString() {
         return "ListingDTO{" +
-                "listingID=" + listingID +
-                ", boxID=" + boxID +
-                ", pokemonName='" + pokemonName + '\'' +
-                ", pokemonType='" + pokemonType + '\'' +
+                ", pokemonID='" + pokemonID + '\'' +
                 ", username='" + username + '\'' +
                 ", status=" + status +
                 ", winner='" + winner + '\'' +
                 ", timestamp=" + timestamp +
-                ", imageURL='" + imageURL + '\'' +
                 '}';
     }
 }

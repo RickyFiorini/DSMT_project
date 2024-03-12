@@ -14,13 +14,14 @@ public class AppContextListener implements ServletContextListener {
     private Connection db = null;
 
     // Initialize the connection with the database
-    private Connection initDB(String host, int port, String dbname) {
+    private Connection initDB() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
+            System.out.println("ciao");
             db = DriverManager.getConnection(
-                    String.format("jdbc:mysql://%s:%d/%s", host, port, dbname),
-                    System.getenv("DB_ROOT"), System.getenv("DB_PASS"));
-            System.out.println(String.format("[MYSQL] -> Connected to database %s", dbname));
+                    String.format("jdbc:mysql://%s:%d/%s", "localhost", 3306,"pokemondb"),
+                   "root","root");
+            System.out.println(String.format("[MYSQL] -> Connected to database %s","pokemondb"));
             return db;
         } catch (SQLException sqle) {
             System.out.println("SQLException: " + sqle.getMessage());
@@ -36,11 +37,7 @@ public class AppContextListener implements ServletContextListener {
 
     // Initialize the web app context
     public void contextInitialized(ServletContextEvent event) {
-        Connection sqldao = initDB(
-                System.getenv("DB_HOST"),
-                Integer.parseInt(System.getenv("DB_PORT")),
-                System.getenv("DB_NAME"));
-
+        Connection sqldao = initDB();
         // Get the servlet context and store the database connection
         ServletContext context = event.getServletContext();
         context.setAttribute("databaseConnection", sqldao);

@@ -1,5 +1,7 @@
 package it.unipi.dsmt.app.daos;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,6 +11,7 @@ import java.util.ArrayList;
 
 import it.unipi.dsmt.app.dtos.UserProfileDTO;
 import it.unipi.dsmt.app.entities.User;
+import it.unipi.dsmt.app.utils.AccessController;
 
 // To access the user info in the database
 public class UserDAO {
@@ -30,21 +33,21 @@ public class UserDAO {
     }
 
     // Check the user password and return it
-    public boolean valid(String username, String password) throws SQLException {
+    public boolean valid(String username, String password) throws SQLException, NoSuchAlgorithmException {
         String sqlString = "SELECT password FROM user WHERE username=?";
         PreparedStatement statement = userConnection.prepareStatement(sqlString);
         statement.setString(1, username);
         ResultSet set = statement.executeQuery();
         set.next();
         String storedPassword = set.getString(1);
-        // encrypt password and return storedPassword.equals(encryptedPassword)
+        System.out.println(storedPassword + "database");
         return storedPassword.equals(password);
     }
 
     // Register a new user
     public String register(User userInfo) throws SQLException {
         try {
-            String sqlString = "INSERT INTO user(username, password, name, surname, onlineFlag, creationTime) VALUES (?, ?, ?, ?, ?, ?)";
+            String sqlString = "INSERT INTO user(username, password, name, surname, online_flag, creationTime) VALUES (?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = userConnection.prepareStatement(sqlString);
             statement.setString(1, userInfo.getUsername());
             statement.setString(2, userInfo.getPassword());
@@ -61,18 +64,18 @@ public class UserDAO {
 
     // Return the state of the user
     public boolean getOnlineStateOfUsername(String username) throws SQLException {
-        String sqlString = "SELECT onlineFlag FROM user WHERE username=?";
+        String sqlString = "SELECT online_flag FROM user WHERE username=?";
         PreparedStatement statement = userConnection.prepareStatement(sqlString);
         statement.setString(1, username);
         ResultSet set = statement.executeQuery();
         if (set.next())
-            return set.getBoolean("onlineFlag");
+            return set.getBoolean("online_flag");
         throw new SQLException("No Such Username");
     }
 
     // Set the user state on online
     public Boolean setOnlineFlag(Boolean flag, String username) throws SQLException {
-        String sqlString = "UPDATE user SET onlineFlag = ? WHERE username = ?";
+        String sqlString = "UPDATE user SET online_flag = ? WHERE username = ?";
         PreparedStatement statement = userConnection.prepareStatement(sqlString);
         statement.setBoolean(1, flag);
         statement.setString(2, username);
@@ -82,13 +85,13 @@ public class UserDAO {
 
     // Return user profile
     public UserProfileDTO getUserFromUsername(String username) throws SQLException {
-        String sqlString = "SELECT name, surname, onlineFlag FROM user WHERE username=?";
+        String sqlString = "SELECT name, surname, online_flag FROM user WHERE username=?";
         PreparedStatement statement = userConnection.prepareStatement(sqlString);
         statement.setString(1, username);
         ResultSet set = statement.executeQuery();
         set.next();
         UserProfileDTO user = new UserProfileDTO(username, set.getString("name"), set.getString("surname"),
-                set.getBoolean("onlineFlag"));
+                set.getBoolean("online_flag"));
         return user;
     }
 
@@ -98,14 +101,14 @@ public class UserDAO {
     // Return user profile
     public ArrayList<UserProfileDTO> getUsersFromNameAndSurname(String name, String surname) throws SQLException {
         ArrayList<UserProfileDTO> result = new ArrayList<>();
-        String sqlString = "SELECT username, onlineFlag FROM user WHERE name=? and surname=?";
+        String sqlString = "SELECT username, online_flag FROM user WHERE name=? and surname=?";
         PreparedStatement statement = userConnection.prepareStatement(sqlString);
         statement.setString(1, name);
         statement.setString(2, surname);
         ResultSet set = statement.executeQuery();
         while (set.next()) {
             UserProfileDTO user = new UserProfileDTO(set.getString("username"), name, surname,
-                    set.getBoolean("onlineFlag"));
+                    set.getBoolean("online_flag"));
             result.add(user);
         }
         return result;
@@ -114,16 +117,17 @@ public class UserDAO {
     // Return list of users profile
     public ArrayList<UserProfileDTO> getUsers() throws SQLException {
         ArrayList<UserProfileDTO> result = new ArrayList<>();
-        String sqlString = "SELECT username, name, surname, onlineFlag FROM user ORDER BY onlineFlag DESC ";
+        String sqlString = "SELECT username, name, surname, online_flag FROM user ORDER BY online_flag DESC ";
         PreparedStatement statement = userConnection.prepareStatement(sqlString);
         ResultSet set = statement.executeQuery();
         while (set.next()) {
             UserProfileDTO user = new UserProfileDTO(set.getString("username"), set.getString("name"),
                     set.getString("surname"),
-                    set.getBoolean("onlineFlag"));
+                    set.getBoolean("online_flag"));
             result.add(user);
         }
         return result;
     }
+
 
 }

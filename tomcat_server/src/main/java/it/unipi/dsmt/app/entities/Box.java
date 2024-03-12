@@ -1,21 +1,17 @@
 package it.unipi.dsmt.app.entities;
 
 // Class for user box info
-// TODO AGGIORNARE LE ENTITIES/DTO CON LE NUOVE MODIFICHE FATTE NEL DISEGNO DELLE TABELLE
-//  NELLA NUOVA VERSIONE, HO SOLO IL POKEMON ID, CHE USO PER PRENDERE LE ALTRE INFO DI UN POKEMON
+
 public class Box {
     private String username;
-    private String pokemonName;
-    private String pokemonType;
+    private int pokemonID;
     private boolean listed;
-    private String imageUrl;
 
-    public Box(String username, String pokemonName, String pokemonType, boolean listed, String imageUrl) {
+    public Box(String username, int pokemonID, boolean listed) {
         this.username = username;
-        this.pokemonName = pokemonName;
-        this.pokemonType = pokemonType;
+        this.pokemonID=pokemonID;
         this.listed = listed;
-        this.imageUrl = imageUrl;
+
     }
 
     public String getUsername() {
@@ -26,22 +22,6 @@ public class Box {
         this.username = username;
     }
 
-    public String getPokemonName() {
-        return pokemonName;
-    }
-
-    public void setPokemonName(String pokemonName) {
-        this.pokemonName = pokemonName;
-    }
-
-    public String getPokemonType() {
-        return pokemonType;
-    }
-
-    public void setPokemonType(String pokemonType) {
-        this.pokemonType = pokemonType;
-    }
-
     public boolean isListed() {
         return listed;
     }
@@ -50,22 +30,18 @@ public class Box {
         this.listed = listed;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
-    }
+    public int getPokemonID() {return pokemonID;}
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setPokemonID(int id) {
+        this.pokemonID = id;
     }
 
     @Override
     public String toString() {
         return "Box{" +
                 "username='" + username + '\'' +
-                ", pokemonName='" + pokemonName + '\'' +
-                ", pokemonType='" + pokemonType + '\'' +
-                ", listed=" + listed +
-                ", imageUrl='" + imageUrl + '\'' +
+                ", pokemonID='" + pokemonID + '\'' +
+                ", listed='" + listed + '\'' +
                 '}';
     }
 }

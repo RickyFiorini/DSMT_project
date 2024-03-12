@@ -33,7 +33,9 @@ public class HomeServlet extends HttpServlet {
             // Retrieve the list of listings
             ListingDAO listingDAO = new ListingDAO((Connection) getServletContext().getAttribute("databaseConnection"));
             List<ListingDTO> listingList = listingDAO.getListings();
+            System.out.println(listingList);
 
+            /*
             // Filter out the current user listings
             listingList = listingList.stream().filter(new Predicate<ListingDTO>() {
                 @Override
@@ -58,8 +60,8 @@ public class HomeServlet extends HttpServlet {
                     return listing.getWinner() == null;
                 }
             }).collect(Collectors.toList());
-            request.setAttribute("openListingList", openListingList);
-
+            */
+            request.setAttribute("openListingList", listingList);
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/jsp/home.jsp");
             requestDispatcher.forward(request, response);
         } catch (Exception e) {

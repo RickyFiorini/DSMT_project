@@ -16,8 +16,7 @@
     <jsp:param name="currentUsername" value="<%=AccessController.getUsername(request)%>" />
     </jsp:include>
 
-    <%-- TODO PER LA SEARCH-BAR, AGGIUNGERE LE LISTINGS COME DATALIST
-          E PASSARLE ALLA SEARCH BAR (REFERENCE home_old.jsp) --%>
+    <%-- TODO MODIFICARE FRONT-END SULLA BASE DELLE INFO CHE SI VOGLIONO RAGGIUNGERE (href verso altre pagine)>
     <div class="top-bar-home">
         <form action="search" method="get" class="site-block-top-search">
             <input name="keyword" type="text" class="form-listing" placeholder="Search">
@@ -41,18 +40,23 @@
     </div>
     <div class="listings-wrapper">
         <% for(ListingDTO listing : (List<ListingDTO>)request.getAttribute("openListingList")){ %>
-        <div class="card listing-card" id="<%=listing.getListingID()%>">
-            <a href="${pageContext.request.contextPath}/listing?listingID=<%=listing.getListingID()%>>">
-                <img src="<%=listing.getImageURL()%>" class="img-listing" alt="Image placeholder">
+        <div class="card listing-card" id="<%=listing.getID()%>">
+            <a href="${pageContext.request.contextPath}/listing?listingID=<%=listing.getID()%>">
                 <h1>
-                    <%=listing.getPokemonName()%>
+                    <%=listing.getUsername()%>
                 </h1>
                 <h2>
-                    <%=listing.getPokemonType()%>
+                    <%=listing.getWinner()%>
                 </h2>
                 <h3>
-                    <%=listing.getUsername()%>
+                    <%=listing.getTimestamp()%>
                 </h3>
+                <h4>
+                    <%=listing.getPokemonID()%>
+                </h4>
+                <h5>
+                    <%=listing.isStatus()%>
+                </h5>
             </a>
         </div>
         <% } %>
