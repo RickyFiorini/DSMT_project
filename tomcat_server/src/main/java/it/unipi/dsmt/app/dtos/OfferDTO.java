@@ -2,26 +2,20 @@ package it.unipi.dsmt.app.dtos;
 
 import java.sql.Timestamp;
 
-// TODO MANCANO LE STATS DEL POKEMON
 public class OfferDTO {
     private int offerID;
-    private int listingID;
-    private String trader;
-    private String pokemonName;
-    private String pokemonType;
+    private int pokemonID;
+    private String username;
     private boolean checked;
     private Timestamp timestamp;
-    private String imageURL;
+    private String trader;
 
-    public OfferDTO(int offerID, int listingID, String trader, String pokemonName, String pokemonType, boolean checked, Timestamp timestamp, String imageURL) {
-        this.offerID = offerID;
-        this.listingID = listingID;
+    public OfferDTO(int pokemonID, String trader, String username, boolean checked, Timestamp timestamp) {
+        this.pokemonID = pokemonID;
         this.trader = trader;
-        this.pokemonName = pokemonName;
-        this.pokemonType = pokemonType;
+        this.username = username;
         this.checked = checked;
         this.timestamp = timestamp;
-        this.imageURL = imageURL;
     }
 
     public int getOfferID() {
@@ -32,12 +26,12 @@ public class OfferDTO {
         this.offerID = offerID;
     }
 
-    public int getListingID() {
-        return listingID;
+    public int getPokemonID() {
+        return pokemonID;
     }
 
-    public void setListingID(int listingID) {
-        this.listingID = listingID;
+    public void setPokemonID(int pokemonID) {
+        this.pokemonID = pokemonID;
     }
 
     public String getTrader() {
@@ -48,20 +42,12 @@ public class OfferDTO {
         this.trader = trader;
     }
 
-    public String getPokemonName() {
-        return pokemonName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setPokemonName(String pokemonName) {
-        this.pokemonName = pokemonName;
-    }
-
-    public String getPokemonType() {
-        return pokemonType;
-    }
-
-    public void setPokemonType(String pokemonType) {
-        this.pokemonType = pokemonType;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public boolean isChecked() {
@@ -80,25 +66,16 @@ public class OfferDTO {
         this.timestamp = timestamp;
     }
 
-    public String getImageURL() {
-        return imageURL;
-    }
-
-    public void setImageURL(String imageURL) {
-        this.imageURL = imageURL;
-    }
 
     @Override
     public String toString() {
         return "OfferDTO{" +
                 "offerID=" + offerID +
-                ", listingID=" + listingID +
+                ", pokemonID=" + pokemonID +
                 ", trader='" + trader + '\'' +
-                ", pokemonName='" + pokemonName + '\'' +
-                ", pokemonType='" + pokemonType + '\'' +
+                ", username='" + username + '\'' +
                 ", checked=" + checked +
-                ", timestamp=" + timestamp +
-                ", imageURL='" + imageURL + '\'' +
+                ", timestamp='" + timestamp + '\'' +
                 '}';
     }
 }
