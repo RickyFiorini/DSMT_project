@@ -1,6 +1,5 @@
 package it.unipi.dsmt.app.entities;
 
-import it.unipi.dsmt.app.dtos.OfferDTO;
 
 import java.sql.Timestamp;
 

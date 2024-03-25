@@ -47,7 +47,7 @@ public class UserDAO {
     // Register a new user
     public String register(User userInfo) throws SQLException {
         try {
-            String sqlString = "INSERT INTO user(username, password, name, surname, online_flag, creationTime) VALUES (?, ?, ?, ?, ?, ?)";
+            String sqlString = "INSERT INTO user(username, password, name, surname, online_flag, timestamp) VALUES (?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = userConnection.prepareStatement(sqlString);
             statement.setString(1, userInfo.getUsername());
             statement.setString(2, userInfo.getPassword());
