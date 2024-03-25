@@ -19,9 +19,9 @@ public class AppContextListener implements ServletContextListener {
             Class.forName("com.mysql.cj.jdbc.Driver");
             System.out.println("ciao");
             db = DriverManager.getConnection(
-                    String.format("jdbc:mysql://%s:%d/%s", "localhost", 3306,"pokemondb"),
+                    String.format("jdbc:mysql://%s:%d/%s", "localhost", 3306,"PokemonDB"),
                    "root","root");
-            System.out.println(String.format("[MYSQL] -> Connected to database %s","pokemondb"));
+            System.out.println(String.format("[MYSQL] -> Connected to database %s","PokemonDB"));
             return db;
         } catch (SQLException sqle) {
             System.out.println("SQLException: " + sqle.getMessage());
