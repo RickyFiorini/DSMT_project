@@ -32,15 +32,16 @@ public class ListingServlet extends HttpServlet {
 
             String currentUsername = AccessController.getUsername(request);
             int listingID = Integer.parseInt(request.getParameter("listingID"));
+            System.out.print("LISTINGID"+ listingID);
 
             // Retrieve selected listing info
             ListingDAO listingDAO = new ListingDAO((Connection) getServletContext().getAttribute("databaseConnection"));
-            ListingDTO listing = listingDAO.getListingInfo(listingID);
+            ListingDTO listing = listingDAO.getListingInfo(/*listingID*/7);
             request.setAttribute("listing", listing);
 
             // Retrieve offers list for the selected listing
             OfferDAO offerDAO = new OfferDAO((Connection) getServletContext().getAttribute("databaseConnection"));
-            List<OfferDTO> offerList = offerDAO.getOfferByListing(listingID);
+            List<OfferDTO> offerList = offerDAO.getOfferByListing(/*listingID*/7);
             request.setAttribute("offerList", offerList);
 
             // If the current user is not the owner of the selected listing
@@ -98,7 +99,7 @@ public class ListingServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         try {
-
+            String res;
             String currentUsername = AccessController.getUsername(request);
             int listingID = Integer.parseInt(request.getParameter("listingID"));
 
@@ -133,15 +134,15 @@ public class ListingServlet extends HttpServlet {
                 OfferDAO offerDAO = new OfferDAO((Connection) getServletContext().getAttribute("databaseConnection"));
 
                 // Check if the current user already made an offer
-                int offerID = offerDAO.getUserOfferByListing(currentUsername, listingID);
-                Offer offer = new Offer(listingID, boxID, currentUsername, pokemonOffered, false, new Timestamp(System.currentTimeMillis()));
+                OfferDTO offerID = offerDAO.getUserOfferByListing(currentUsername, listingID);
+                Offer offer = new Offer(listingID, boxID, currentUsername, false, new Timestamp(System.currentTimeMillis()));
                 // if it is a new offer, insert it in the database
-                if (offerID == -1) {
-                    offerID = offerDAO.insertOffer(offer);
+                if (offerID == null) {
+                    res = offerDAO.insertOffer(offer);
                 }
                 // else, update the past offer of the current user for this listing
                 else {
-                    offerDAO.updateOffer(offerID, offer);
+                    offerDAO.updateOffer(offerID.getOfferID(), offer);
                 }
 
                 response.sendRedirect(request.getContextPath() + "/listing");

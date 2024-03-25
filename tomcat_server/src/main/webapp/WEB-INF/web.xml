@@ -6,9 +6,9 @@
 
     <display-name>Archetype Created Web Application</display-name>
 
-    <!--listener>
+    <listener>
         <listener-class>it.unipi.dsmt.app.AppContextListener</listener-class>
-    </listener-->
+    </listener>
 
     <filter>
         <filter-name>AccessFilter</filter-name>

@@ -15,7 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 // Class that handles the authentication token and the password
 public class AccessController {
     private static final int EXPIRATION_TIME = 86400000; // Tempo di scadenza del JWT (1 giorno)
-    private static final String SECRET_KEY = System.getenv("JWT_SECRET"); // Chiave segreta per firmare il JWT
+    private static final String SECRET_KEY = "root";
 
     /**
      * TOKEN CONTROLLER
@@ -24,16 +24,16 @@ public class AccessController {
     // Set a new authentication token for the specified user
     public static void setToken(HttpServletRequest request, String username) {
 
-        Map<String, Object> claims = new HashMap<>();
+        /*Map<String, Object> claims = new HashMap<>();
         claims.put("username", username);
 
         String token = Jwts.builder()
                 .setClaims(claims)
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
+               .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
                 .compact();
-
-        request.getSession().setAttribute("TOKEN", token);
+        */
+        request.getSession().setAttribute("TOKEN", /*token*/username);
 
     }
 
@@ -42,16 +42,19 @@ public class AccessController {
         String token = (String) request.getSession().getAttribute("TOKEN");
         if (token == null)
             return null;
+        return token;
 
-        Claims claims = Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
+        /*Claims claims = Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
         Date expirationDate = claims.getExpiration();
         Date now = new Date();
         if (expirationDate.before(now)) {
             request.getSession().setAttribute("TOKEN", null);
             return null;
         }
+*/
 
-        return token;
+
+
     }
 
     /** END TOKEN CONTROLLER */
@@ -65,15 +68,12 @@ public class AccessController {
     // Encrypt and return the password
     public static String encryptPassword(String plaintext) throws NoSuchAlgorithmException {
         byte[] byteString = MessageDigest.getInstance("SHA-256").digest(plaintext.getBytes(StandardCharsets.UTF_8));
-        StringBuilder hexString = new StringBuilder(2 * byteString.length);
-        for (int i = 0; i < byteString.length; i++) {
-            String hex = Integer.toHexString(0xff & byteString[i]);
-            if (hex.length() == 1) {
-                hexString.append('0');
-            }
-            hexString.append(hex);
+        StringBuilder hexString = new StringBuilder();
+        for (byte hashByte : byteString) {
+            hexString.append(String.format("%02x", hashByte));
         }
         return hexString.toString();
+
     }
 
     /** END PASSWORD CONTROLLER */
@@ -83,8 +83,9 @@ public class AccessController {
         String token = (String) request.getSession().getAttribute("TOKEN");
         if (token == null)
             return null;
-        Claims claims = Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
-        String username = (String) claims.get("username");
-        return username;
+        //Claims claims = Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
+     //   String username = (String) claims.get("username");
+     //   return username;
+        return token;
     }
 }

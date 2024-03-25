@@ -30,15 +30,17 @@
     <%-- Get listing info from request and show them aside --%>
     <% ListingDTO listing = (ListingDTO) request.getAttribute("listing"); %>
     <div class="left listing-info">
-        <img src="<%=listing.getImageURL()%>" class="img-listing" alt="Image placeholder">
         <h1>
-            <%=listing.getPokemonName()%>
+            <%=listing.getWinner()%>
         </h1>
         <h2>
-            <%=listing.getPokemonType()%>
+            <%=listing.getTimestamp()%>
         </h2>
         <h3>
             <%=listing.getUsername()%>
+        </h3>
+        <h3>
+            <%=listing.getID()%>
         </h3>
 
         <%-- If the current user is not the owner of the listing, he can make an offer --%>
@@ -55,16 +57,18 @@
         <div class="popup" id="box-popup">
             <% for(BoxDTO box : (List<BoxDTO>)request.getAttribute("boxList")) { %>
             <div class="popup-box-card" id="<%=box.getBoxID()%>">
-                <img src="<%=box.getImageUrl()%>" class="img-box" alt="Image placeholder"
                      onclick="showBoxPokemon('<%=box.getBoxID()%>')">
                 <h1>
-                    <%=box.getPokemonName()%>
+                    <%=box.getPokemonID()%>
                 </h1>
                 <h2>
-                    <%=box.getPokemonType()%>
+                    <%=box.getBoxID()%>
+                </h2>
+                <h2>
+                    <%=box.isListed()%>
                 </h2>
                 <form method="post"
-                      action="${pageContext.request.contextPath}/listing?listingID=<%=listing.getListingID()%>?boxID=<%=box.getBoxID()%>">
+                      action="${pageContext.request.contextPath}/listing?listingID=<%=listing.getID()%>?boxID=<%=box.getBoxID()%>">
                     <button type="submit"> Select </button>
                 </form>
             </div>
@@ -77,15 +81,20 @@
     <div class="center offers-wrapper">
         <% for(OfferDTO offer : (List<OfferDTO>)request.getAttribute("offerList")){ %>
         <div class="card offer-card" id="<%=offer.getOfferID()%>">
-            <img src="<%=offer.getImageURL()%>" class="img-listing" alt="Image placeholder">
             <h1>
-                <%=offer.getPokemonName()%>
+                <%=offer.getOfferID()%>
             </h1>
             <h2>
-                <%=offer.getPokemonType()%>
+                <%=offer.getTimestamp()%>
             </h2>
             <h3>
                 <%=offer.getTrader()%>
+            </h3>
+            <h3>
+                <%=offer.getUsername()%>
+            </h3>
+            <h3>
+                <%=offer.isChecked()%>
             </h3>
             <%-- If the current user is the owner of the listing, he can accept an offer --%>
             <% if (currentUser.equals(listing.getUsername())) { %>
@@ -94,7 +103,7 @@
                   E VENGO PORTATO AL MIO BOX --%>
             <button type="button" onclick="acceptOffer()"> TRADE </button>
             <form method="post"
-                  action="${pageContext.request.contextPath}/listing?listingID=<%=listing.getListingID()%>?offerID=<%=offer.getOfferID()%>">
+                  action="${pageContext.request.contextPath}/listing?listingID=<%=listing.getID()%>?offerID=<%=offer.getOfferID()%>">
                 <button type="submit"> TRADE </button>
             </form>
             <% } %>
