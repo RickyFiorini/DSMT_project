@@ -10,6 +10,7 @@ public class BoxDTO {
     private int defense;
     private String imageURL;
     private boolean listed;
+
     private String username;
 
     public BoxDTO(int boxID,String username,String pokemonName,String primaryType,String secondaryType,int attack,int defense, String imageURL) {
