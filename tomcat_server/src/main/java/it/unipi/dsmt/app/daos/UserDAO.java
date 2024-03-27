@@ -85,6 +85,7 @@ public class UserDAO {
 
     // Return user profile
     public UserProfileDTO getUserFromUsername(String username) throws SQLException {
+        System.out.print("printo username\n"+username);
         String sqlString = "SELECT name, surname, online_flag FROM user WHERE username=?";
         PreparedStatement statement = userConnection.prepareStatement(sqlString);
         statement.setString(1, username);

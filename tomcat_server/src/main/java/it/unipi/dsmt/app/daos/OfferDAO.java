@@ -6,6 +6,7 @@ import it.unipi.dsmt.app.entities.Offer;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 // Class to access offer info in the database
@@ -19,17 +20,23 @@ public class OfferDAO {
     // Retrieve all the offers of the selected listing
     public List<OfferDTO> getOfferByListing(int listingID) throws SQLException {
         ArrayList<OfferDTO> result = new ArrayList<>();
-        String sqlString = "SELECT b.pokemonID, o.trader, b.username, o.checked, o.timestamp " +
+        String sqlString = "SELECT o.ID, b.pokemonID, o.trader, b.username, o.checked, o.timestamp, p.pokemonName, p.primaryType, p.secondaryType, p.attack, p.defense, p.imageURL " +
                 "FROM offer o " +
                 "JOIN box b ON o.boxID = b.ID " +
+                "JOIN pokemon p  ON b.pokemonID = p.ID "+
                 "WHERE listingID= ?  ";
         PreparedStatement statement = offerConnection.prepareStatement(sqlString);
         statement.setInt(1, listingID);
         ResultSet set = statement.executeQuery();
+        System.out.print("sono in offer");
+        System.out.print(Arrays.toString(set.getClass().getFields()));
         while (set.next()) {
-            OfferDTO offer = new OfferDTO(set.getInt("pokemonID"),set.getString("trader"),set.getString("username"),
-                    set.getBoolean("checked"), set.getTimestamp("timestamp"));
+            OfferDTO offer = new OfferDTO(set.getInt("ID"),set.getString("trader"),set.getString("username"),
+                    set.getBoolean("checked"), set.getTimestamp("timestamp"),set.getString("pokemonName"),set.getString("primaryType"),
+                    set.getString("secondaryType"), set.getInt("attack"),set.getInt("defense"),set.getString("imageURL"));
+            System.out.print("-----" + offer + "-----");
             result.add(offer);
+            System.out.print("va bene");
         }
         return result;
 
@@ -37,17 +44,19 @@ public class OfferDAO {
 
     // Retrieve the offer of the current user for the selected listing
     public OfferDTO getUserOfferByListing(String currentUsername, int listingID) throws SQLException {
-        String sqlString = "SELECT b.pokemonID, o.trader, b.username, o.checked, o.timestamp " +
+        String sqlString = "SELECT o.ID, b.pokemonID, o.trader, b.username, o.checked, o.timestamp, p.pokemonName, p.primaryType, p.secondaryType, p.attack, p.defense, p.imageURL " +
                 "FROM offer o " +
                 "JOIN box b ON o.boxID = b.ID " +
+                "JOIN pokemon p  ON b.pokemonID = p.ID "+
                 "WHERE o.listingID= ? AND b.username= ? ";
         PreparedStatement statement = offerConnection.prepareStatement(sqlString);
         statement.setInt(1, listingID);
         statement.setString(1, currentUsername);
         ResultSet set = statement.executeQuery();
         set.next();
-        OfferDTO offer = new OfferDTO(set.getInt("pokemonID"),set.getString("trader"),set.getString("username"),
-                set.getBoolean("checked"), set.getTimestamp("timestamp"));
+        OfferDTO offer = new OfferDTO(set.getInt("ID"),set.getString("trader"),set.getString("username"),
+                set.getBoolean("checked"), set.getTimestamp("timestamp"),set.getString("pokemonName"),set.getString("primaryType"),
+                set.getString("secondaryType"), set.getInt("attack"),set.getInt("defense"),set.getString("imageURL"));
         return offer;
     }
 

@@ -3,30 +3,78 @@ package it.unipi.dsmt.app.dtos;
 import java.sql.Timestamp;
 
 // To represent listing info that are transferred in the web app
+
 public class ListingDTO {
     private int ID;
-    private int pokemonID;
+    private String pokemonName;
+    private String primaryType;
+    private String secondaryType;
+    private int attack;
+    private int defense;
+    private String imageURL;
     private String username;
     private boolean status;
     private String winner;
     private Timestamp timestamp;
 
-    public ListingDTO(int pokemonID, String username, boolean status, String winner, Timestamp timestamp) {
-        this.pokemonID=pokemonID;
+    public ListingDTO(int ID,String username, boolean status, String winner, Timestamp timestamp,String pokemonName,String primaryType,String secondaryType,int attack,int defense, String imageURL) {
         this.username = username;
         this.status = status;
         this.winner = winner;
         this.timestamp = timestamp;
-
+        this.pokemonName=pokemonName;
+        this.primaryType=primaryType;
+        this.secondaryType=secondaryType;
+        this.attack=attack;
+        this.defense=defense;
+        this.imageURL=imageURL;
+        this.ID=ID;
     }
 
 
-    public int getPokemonID() {
-        return pokemonID;
+
+    public void setSecondaryType(String secondaryType) {
+        this.secondaryType = secondaryType;
+    }
+    public String getSecondaryType() {
+        return secondaryType;
     }
 
-    public void setPokemonID(String pokemonType) {
-        this.pokemonID = pokemonID;
+    public void setPrimaryType(String primaryType) {
+        this.primaryType = primaryType;
+    }
+    public String getPrimaryType() {
+        return primaryType;
+    }
+
+    public String getPokemonName() {
+        return pokemonName;
+    }
+
+    public void setPokemonName(String pokemonName) {
+        this.pokemonName = pokemonName;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
+
+    public int getAttack() {
+        return attack;
+    }
+    public void setAttack(int attack) {
+        this.attack = attack;
+    }
+
+    public int getDefense() {
+        return defense;
+    }
+
+    public void setDefense(int defense) {
+        this.defense = defense;
     }
 
     public int getID() {
@@ -73,8 +121,13 @@ public class ListingDTO {
     @Override
     public String toString() {
         return "ListingDTO{" +
-                ", pokemonID='" + pokemonID + '\'' +
                 ", username='" + username + '\'' +
+                ", pokemonName='" + pokemonName + '\'' +
+                ", primaryType='" + primaryType + '\'' +
+                ", secondaryType='" + secondaryType + '\'' +
+                ", attack='" + attack + '\'' +
+                ", defense='" + defense + '\'' +
+                ", imageURL='" + imageURL + '\'' +
                 ", status=" + status +
                 ", winner='" + winner + '\'' +
                 ", timestamp=" + timestamp +

@@ -19,24 +19,24 @@ public class PokemonDAO {
 
     //return pokemon attributes from name
     public PokemonDTO getPokemonFromName(String name) throws SQLException {
-        String sqlString = "SELECT primaryType,secondaryType,attack,defense,imageURL FROM pokemon WHERE PokemonName=?";
+        String sqlString = "SELECT ID,primaryType,secondaryType,attack,defense,imageURL FROM pokemon WHERE PokemonName=?";
         PreparedStatement statement = pokemonConnection.prepareStatement(sqlString);
         statement.setString(1, name);
         ResultSet set = statement.executeQuery();
         set.next();
-        PokemonDTO pokemon = new PokemonDTO(name, set.getString("primaryType"), set.getString("secondaryType"),
+        PokemonDTO pokemon = new PokemonDTO(set.getInt("ID"),set.getString("pokemonName"),set.getString("primaryType"), set.getString("secondaryType"),
                 set.getString("imageURL"), set.getInt("attack"),set.getInt("defense"));
         return pokemon;
     }
 
     //return pokemon attributes from name
     public PokemonDTO getPokemonFromID(int ID) throws SQLException {
-        String sqlString = "SELECT PokemonName,primaryType,secondaryType,attack,defense,imageURL FROM pokemon WHERE ID=?";
+        String sqlString = "SELECT ID,PokemonName,primaryType,secondaryType,attack,defense,imageURL FROM pokemon WHERE ID=?";
         PreparedStatement statement = pokemonConnection.prepareStatement(sqlString);
         statement.setInt(1, ID);
         ResultSet set = statement.executeQuery();
         set.next();
-        PokemonDTO pokemon = new PokemonDTO(set.getString("pokemonName"), set.getString("primaryType"), set.getString("secondaryType"),
+        PokemonDTO pokemon = new PokemonDTO(set.getInt("ID"),set.getString("pokemonName"), set.getString("primaryType"), set.getString("secondaryType"),
                 set.getString("imageURL"), set.getInt("attack"),set.getInt("defense"));
         return pokemon;
     }

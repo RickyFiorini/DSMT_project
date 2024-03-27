@@ -42,6 +42,16 @@
         <h3>
             <%=listing.getID()%>
         </h3>
+        <h3>
+            <%=listing.getAttack()%>
+            <%=listing.getDefense()%>
+            <%=listing.getSecondaryType()%>
+            <%=listing.getPrimaryType()%>
+            <%=listing.getPokemonName()%>
+            <img src="<%=listing.getImageURL() %>">
+        </h3>
+
+
 
         <%-- If the current user is not the owner of the listing, he can make an offer --%>
         <% if (!currentUser.equals(listing.getUsername())) { %>
@@ -59,7 +69,11 @@
             <div class="popup-box-card" id="<%=box.getBoxID()%>">
                      onclick="showBoxPokemon('<%=box.getBoxID()%>')">
                 <h1>
-                    <%=box.getPokemonID()%>
+                    <%=box.getAttack()%>
+                    <%=box.getDefense()%>
+                    <%=box.getPokemonName()%>
+                    <%=box.getSecondaryType()%>
+                    <img src="<%=box.getImageURL() %>">
                 </h1>
                 <h2>
                     <%=box.getBoxID()%>
@@ -91,10 +105,13 @@
                 <%=offer.getTrader()%>
             </h3>
             <h3>
+                <%=offer.getTrader()%>
+            </h3>
+            <h3>
                 <%=offer.getUsername()%>
             </h3>
             <h3>
-                <%=offer.isChecked()%>
+                <img src="<%=offer.getImageURL() %>">
             </h3>
             <%-- If the current user is the owner of the listing, he can accept an offer --%>
             <% if (currentUser.equals(listing.getUsername())) { %>

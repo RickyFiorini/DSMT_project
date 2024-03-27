@@ -10,13 +10,14 @@ public class PokemonDTO {
     private int defense;
     private String imageURL;
 
-    public PokemonDTO(String pokemonName, String primaryType,String secondaryType, String imageURL,int attack, int defense) {
+    public PokemonDTO(int pokemonID,String pokemonName, String primaryType,String secondaryType, String imageURL,int attack, int defense) {
         this.pokemonName = pokemonName;
         this.primaryType= primaryType;
         this.secondaryType=secondaryType;
         this.imageURL = imageURL;
         this.attack=attack;
         this.defense=defense;
+        this.pokemonID=pokemonID;
     }
 
     public int getPokemonID() {

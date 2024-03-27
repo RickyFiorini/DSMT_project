@@ -46,13 +46,15 @@
         <div class="user-sections">
             <div class="section">
                 <form id="box-section"
-                      action="${pageContext.request.contextPath}/profile?profileSection=box">
+                      action="${pageContext.request.contextPath}/profile" method="get">
+                    <input type="hidden" name="profileSection" value="box">
                     <button type="submit"> Box </button>
                 </form>
             </div>
             <div class="section">
                 <form id="listings-section"
-                      action="${pageContext.request.contextPath}/profile?profileSection=listings">
+                      action="${pageContext.request.contextPath}/profile" method="get">
+                    <input type="hidden" name="profileSection" value="Listings">
                     <button type="submit"> Listings </button>
                 </form>
             </div>
@@ -69,35 +71,49 @@
             <% for(BoxDTO box : (List<BoxDTO>)request.getAttribute("boxList")) { %>
             <div class="card box-card" id="<%=box.getBoxID()%>">
                 <%-- TODO IMPLEMENTARE showPokemonDetails(boxID) CON JS --%>
-                <img src="<%=box.getImageUrl()%>" class="img-box" alt="Image placeholder"
+                <img src="<%=box.getImageURL()%>" class="img-box" alt="Image placeholder"
                      onclick="showPokemonDetails('<%=box.getBoxID()%>')">
                 <h1>
                     <%=box.getPokemonName()%>
                 </h1>
                 <h2>
-                    <%=box.getPokemonType()%>
+                    <%=box.getPrimaryType()%>
                 </h2>
+                    <h2>
+                        <%=box.getSecondaryType()%>
+                    </h2>
             </div>
             <% } %>
         <% } %>
 
         <%-- If the user selected the listings section, show his listings --%>
-        <% if (profileSection.equals("listings")) { %>
+        <% if (profileSection.equals("Listings")) { %>
             <% for(ListingDTO listing : (List<ListingDTO>)request.getAttribute("listingList")) { %>
-            <div class="card listing-card" id="<%=listing.getListingID()%>">
-                <a href="${pageContext.request.contextPath}/listing?listingID=<%=listing.getListingID()%>>">
+            <div class="card listing-card" id="<%=listing.getID()%>">
                     <img src="<%=listing.getImageURL()%>" class="img-listing" alt="Image placeholder">
                     <h1>
                         <%=listing.getPokemonName()%>
                     </h1>
                     <h2>
-                        <%=listing.getPokemonType()%>
+                        <%=listing.getPrimaryType()%>
+                    </h2>
+                    <h2>
+                        <%=listing.getSecondaryType()%>
+                    </h2>
+                    <h2>
+                        <img src="<%= listing.getImageURL() %>">
+                    </h2>
+                    <h2>
+                        <%=listing.getAttack()%>
+                    </h2>
+                    <h2>
+                        <%=listing.getDefense()%>
                     </h2>
                     <h3>
                         <%=listing.getUsername()%>
                     </h3>
                 </a>
-                <button onclick='deleteListing("<%=listing.getListingID()%>","${pageContext.request.contextPath}/listing", "<%=user.getUsername()%>")'>DELETE</button>
+                <button onclick='deleteListing("<%=listing.getID()%>","${pageContext.request.contextPath}/listing", "<%=user.getUsername()%>")'>DELETE</button>
             </div>
             <% } %>
         <% } %>

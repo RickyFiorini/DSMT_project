@@ -29,21 +29,22 @@ public class ListingServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
         try {
-
             String currentUsername = AccessController.getUsername(request);
             int listingID = Integer.parseInt(request.getParameter("listingID"));
             System.out.print("LISTINGID"+ listingID);
 
             // Retrieve selected listing info
             ListingDAO listingDAO = new ListingDAO((Connection) getServletContext().getAttribute("databaseConnection"));
-            ListingDTO listing = listingDAO.getListingInfo(/*listingID*/7);
+            ListingDTO listing = listingDAO.getListingInfo(listingID);
             request.setAttribute("listing", listing);
 
             // Retrieve offers list for the selected listing
             OfferDAO offerDAO = new OfferDAO((Connection) getServletContext().getAttribute("databaseConnection"));
-            List<OfferDTO> offerList = offerDAO.getOfferByListing(/*listingID*/7);
+            List<OfferDTO> offerList = offerDAO.getOfferByListing(listingID);
             request.setAttribute("offerList", offerList);
 
+            System.out.print(offerList.get(0));
+            System.out.print(offerList.get(0).getImageURL());
             // If the current user is not the owner of the selected listing
             if (!listing.getUsername().equals(currentUsername)) {
                 // Retrieve the pokemon box of the current user
@@ -60,7 +61,6 @@ public class ListingServlet extends HttpServlet {
 
                 request.setAttribute("boxList", boxList);
             }
-
             request.getRequestDispatcher("/WEB-INF/jsp/listing.jsp").forward(request, response);
         } catch (Exception e) {
             ErrorHandler.safeDispatchToErrorPage(request, response, e);

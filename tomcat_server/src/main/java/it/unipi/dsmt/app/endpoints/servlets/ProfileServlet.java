@@ -34,9 +34,9 @@ public class ProfileServlet extends HttpServlet {
             // Retrieve the current user info
             UserDAO userDAO = new UserDAO((Connection) getServletContext().getAttribute("databaseConnection"));
             String currentUsername = AccessController.getUsername(request);
+            System.out.print("usernameSERVELT"+ currentUsername);
             UserProfileDTO userInfo = userDAO.getUserFromUsername(currentUsername);
             request.setAttribute("userInfo", userInfo);
-
             String profileSection = request.getParameter("profileSection");
             // If I am in box section
             if (profileSection.equals("box")) {
@@ -46,7 +46,7 @@ public class ProfileServlet extends HttpServlet {
                 request.setAttribute("boxList", boxList);
             }
             // else, if I am in the listings section
-            else if (profileSection.equals("listings")){
+            else if (profileSection.equals("Listings")){
                 // Retrieve current user listings
                 ListingDAO listingDAO = new ListingDAO((Connection) getServletContext().getAttribute("databaseConnection"));
                 List<ListingDTO> listingList = listingDAO.getListingsByUsername(currentUsername);
@@ -54,7 +54,7 @@ public class ProfileServlet extends HttpServlet {
             }
 
             // Set the target profile section to BOX
-            // request.setAttribute("profileSection", profileSection);
+            request.setAttribute("profileSection", profileSection);
 
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/jsp/profile.jsp");
             requestDispatcher.forward(request, response);

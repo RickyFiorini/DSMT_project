@@ -52,7 +52,7 @@
                     <%=listing.getTimestamp()%>
                 </h3>
                 <h4>
-                    <%=listing.getPokemonID()%>
+                    <%=listing.getID()%>
                 </h4>
                 <h5>
                     <%=listing.isStatus()%>
