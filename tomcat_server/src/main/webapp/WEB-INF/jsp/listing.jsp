@@ -31,27 +31,17 @@
     <% ListingDTO listing = (ListingDTO) request.getAttribute("listing"); %>
     <div class="left listing-info">
         <h1>
-            <%=listing.getWinner()%>
+            Winner: <%=listing.getWinner()%>
         </h1>
         <h2>
-            <%=listing.getTimestamp()%>
+            Timestamp: <%=listing.getTimestamp()%>
         </h2>
         <h3>
-            <%=listing.getUsername()%>
+            Username: <%=listing.getUsername()%>
         </h3>
         <h3>
-            <%=listing.getID()%>
+            Listing ID: <%=listing.getID()%>
         </h3>
-        <h3>
-            <%=listing.getAttack()%>
-            <%=listing.getDefense()%>
-            <%=listing.getSecondaryType()%>
-            <%=listing.getPrimaryType()%>
-            <%=listing.getPokemonName()%>
-            <img src="<%=listing.getImageURL() %>">
-        </h3>
-
-
 
         <%-- If the current user is not the owner of the listing, he can make an offer --%>
         <% if (!currentUser.equals(listing.getUsername())) { %>
@@ -65,24 +55,20 @@
     <% if (!currentUser.equals(listing.getUsername())) { %>
         <!-- This popup shows the user box, but initially it is hidden (display=none) -->
         <div class="popup" id="box-popup">
+            MY BOX
             <% for(BoxDTO box : (List<BoxDTO>)request.getAttribute("boxList")) { %>
             <div class="popup-box-card" id="<%=box.getBoxID()%>">
-                     onclick="showBoxPokemon('<%=box.getBoxID()%>')">
                 <h1>
-                    <%=box.getAttack()%>
-                    <%=box.getDefense()%>
-                    <%=box.getPokemonName()%>
-                    <%=box.getSecondaryType()%>
-                    <img src="<%=box.getImageURL() %>">
+                    Pokemon ID: <%=box.getPokemonID()%>
                 </h1>
                 <h2>
-                    <%=box.getBoxID()%>
+                    Box ID: <%=box.getBoxID()%>
                 </h2>
                 <h2>
-                    <%=box.isListed()%>
+                    Listed: <%=box.isListed()%>
                 </h2>
                 <form method="post"
-                      action="${pageContext.request.contextPath}/listing?listingID=<%=listing.getID()%>?boxID=<%=box.getBoxID()%>">
+                      action="${pageContext.request.contextPath}/listing?listingID=<%=listing.getID()%>&boxID=<%=box.getBoxID()%>">
                     <button type="submit"> Select </button>
                 </form>
             </div>
@@ -96,31 +82,25 @@
         <% for(OfferDTO offer : (List<OfferDTO>)request.getAttribute("offerList")){ %>
         <div class="card offer-card" id="<%=offer.getOfferID()%>">
             <h1>
-                <%=offer.getOfferID()%>
+                Offer ID: <%=offer.getOfferID()%>
             </h1>
             <h2>
-                <%=offer.getTimestamp()%>
+                Pokemon ID: <%=offer.getPokemonID()%>
             </h2>
             <h3>
-                <%=offer.getTrader()%>
+                Trader: <%=offer.getTrader()%>
             </h3>
             <h3>
-                <%=offer.getTrader()%>
-            </h3>
-            <h3>
-                <%=offer.getUsername()%>
-            </h3>
-            <h3>
-                <img src="<%=offer.getImageURL() %>">
+                Timestamp: <%=offer.getTimestamp()%>
             </h3>
             <%-- If the current user is the owner of the listing, he can accept an offer --%>
             <% if (currentUser.equals(listing.getUsername())) { %>
             <%-- TODO ACCETTARE UNA OFFER, EFFETTUARE IL TRADE
                   E NOTIFICARE TUTTI COLORO CHE HANNO PARTECIPATO
                   E VENGO PORTATO AL MIO BOX --%>
-            <button type="button" onclick="acceptOffer()"> TRADE </button>
+            <%-- <button type="button" onclick="acceptOffer()"> TRADE </button> --%>
             <form method="post"
-                  action="${pageContext.request.contextPath}/listing?listingID=<%=listing.getID()%>?offerID=<%=offer.getOfferID()%>">
+                  action="${pageContext.request.contextPath}/listing?listingID=<%=listing.getID()%>&offerID=<%=offer.getOfferID()%>">
                 <button type="submit"> TRADE </button>
             </form>
             <% } %>

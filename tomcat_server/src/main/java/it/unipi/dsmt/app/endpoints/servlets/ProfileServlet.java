@@ -34,10 +34,11 @@ public class ProfileServlet extends HttpServlet {
             // Retrieve the current user info
             UserDAO userDAO = new UserDAO((Connection) getServletContext().getAttribute("databaseConnection"));
             String currentUsername = AccessController.getUsername(request);
-            System.out.print("usernameSERVELT"+ currentUsername);
             UserProfileDTO userInfo = userDAO.getUserFromUsername(currentUsername);
             request.setAttribute("userInfo", userInfo);
+
             String profileSection = request.getParameter("profileSection");
+            System.out.println("Profile section: " + profileSection);
             // If I am in box section
             if (profileSection.equals("box")) {
                 // Retrieve the pokemon box of the current user
@@ -46,7 +47,7 @@ public class ProfileServlet extends HttpServlet {
                 request.setAttribute("boxList", boxList);
             }
             // else, if I am in the listings section
-            else if (profileSection.equals("Listings")){
+            else if (profileSection.equals("listings")){
                 // Retrieve current user listings
                 ListingDAO listingDAO = new ListingDAO((Connection) getServletContext().getAttribute("databaseConnection"));
                 List<ListingDTO> listingList = listingDAO.getListingsByUsername(currentUsername);
@@ -54,7 +55,7 @@ public class ProfileServlet extends HttpServlet {
             }
 
             // Set the target profile section to BOX
-            request.setAttribute("profileSection", profileSection);
+            // request.setAttribute("profileSection", profileSection);
 
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/jsp/profile.jsp");
             requestDispatcher.forward(request, response);
@@ -70,11 +71,13 @@ public class ProfileServlet extends HttpServlet {
                 E MANDA LA NUOVA LISTING IN FORMATO JSON ALL'ERLANG NODE DELLE LISTING (TRAMITE WS);
                 QUESTO LA AGGIUNGE AL DB E LA INOLTRA AGLI ALTRI UTENTI DELLA HOME, DOVE UNA FUNZIONE JS
                 LA AGGIUNGERÀ DINAMICAMENTE ALLA PAGINA
+                QUANDO SI CREA UNA NUOVA LISTING, SETTARE IL CAMPO listed DEL POKEMON CORRISPONDETE
         - DELETE LISTING --> UNA FUNZIONE JS ELIMINA LA LISTING DALLA MIA PAGINA E MANDA IN JSON
                 IL LISTING_ID ALL'ERLANG NODE DELLE LISTING (TRAMITE WS); QUESTO LA ELIMINA DAL DB E
                 LA INOLTRA AGLI ALTRI UTENTI CON WEBSOCKET: QUELLI NELLA HOME VEDONO SPARIRE LA LISTING,
                 MENTRE QUELLI NELLA PAGINA DELLA LISTING VENGONO AVVISATI CON UN POPUP CHE POI LI RIPORTA
                 NELLA HOME (ENTRAMBI QUESTI COMPORTAMENTI SI OTTENGONO CON FUNZIONI JS)
+                QUANDO SI ELIMINA UNA LISTING, RESETTARE IL CAMPO listed DEL POKEMON CORRISPONDETE
      */
     // To handle "post" request when I create a new listing
     @Override
@@ -86,10 +89,16 @@ public class ProfileServlet extends HttpServlet {
             int boxID = Integer.parseInt(request.getParameter("boxID"));
             // TODO NELLA NUOVA VERSIONE, DEVO PRENDERE SOLO BOX ID
             //  int pokemonID = Integer.parseInt(request.getParameter("pokemonID"));
+
             // Insert a new listing in the database
             ListingDAO listingDAO = new ListingDAO((Connection) getServletContext().getAttribute("databaseConnection"));
-            Listing listing = new Listing(boxID,currentUsername, new Timestamp(System.currentTimeMillis()));
+            Listing listing = new Listing(boxID, null, new Timestamp(System.currentTimeMillis()));
             listingDAO.insertListing(listing);
+
+            // Retrieve the current user info
+            UserDAO userDAO = new UserDAO((Connection) getServletContext().getAttribute("databaseConnection"));
+            UserProfileDTO userInfo = userDAO.getUserFromUsername(currentUsername);
+            request.setAttribute("userInfo", userInfo);
 
             // Retrieve current user listings
             List<ListingDTO> listingList = listingDAO.getListingsByUsername(currentUsername);
