@@ -16,7 +16,7 @@
     <jsp:param name="currentUsername" value="<%=AccessController.getUsername(request)%>" />
     </jsp:include>
 
-    <%-- TODO MODIFICARE FRONT-END SULLA BASE DELLE INFO CHE SI VOGLIONO RAGGIUNGERE (href verso altre pagine)>
+    <%-- TODO MODIFICARE FRONT-END SULLA BASE DELLE INFO CHE SI VOGLIONO RAGGIUNGERE (href verso altre pagine) --%>
     <div class="top-bar-home">
         <form action="search" method="get" class="site-block-top-search">
             <input name="keyword" type="text" class="form-listing" placeholder="Search">
@@ -35,8 +35,8 @@
                 <a class="dropdown-item" href="#">Fire</a>
                 <a class="dropdown-item" href="#">Water</a>
             </div>
-
         </div>
+
     </div>
     <div class="listings-wrapper">
         <% for(ListingDTO listing : (List<ListingDTO>)request.getAttribute("openListingList")){ %>
@@ -54,9 +54,9 @@
                 <h4>
                     <%=listing.getPokemonID()%>
                 </h4>
-                <h5>
-                    <%=listing.isStatus()%>
-                </h5>
+                <h4>
+                    <%=listing.getID()%>
+                </h4>
             </a>
         </div>
         <% } %>

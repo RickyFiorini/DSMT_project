@@ -7,17 +7,15 @@ public class ListingDTO {
     private int ID;
     private int pokemonID;
     private String username;
-    private boolean status;
     private String winner;
     private Timestamp timestamp;
 
-    public ListingDTO(int pokemonID, String username, boolean status, String winner, Timestamp timestamp) {
-        this.pokemonID=pokemonID;
+    public ListingDTO(int ID, int pokemonID, String username, String winner, Timestamp timestamp) {
+        this.ID = ID;
+        this.pokemonID = pokemonID;
         this.username = username;
-        this.status = status;
         this.winner = winner;
         this.timestamp = timestamp;
-
     }
 
 
@@ -45,20 +43,12 @@ public class ListingDTO {
         this.username = username;
     }
 
-    public boolean isStatus() {
-        return status;
-    }
-
     public String getWinner() {
         return winner;
     }
 
     public void setWinner(String winner) {
         this.winner = winner;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
     }
 
     public Timestamp getTimestamp() {
@@ -75,7 +65,6 @@ public class ListingDTO {
         return "ListingDTO{" +
                 ", pokemonID='" + pokemonID + '\'' +
                 ", username='" + username + '\'' +
-                ", status=" + status +
                 ", winner='" + winner + '\'' +
                 ", timestamp=" + timestamp +
                 '}';

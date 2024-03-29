@@ -10,7 +10,8 @@ public class OfferDTO {
     private Timestamp timestamp;
     private String trader;
 
-    public OfferDTO(int pokemonID, String trader, String username, boolean checked, Timestamp timestamp) {
+    public OfferDTO(int offerID, int pokemonID, String trader, String username, boolean checked, Timestamp timestamp) {
+        this.offerID = offerID;
         this.pokemonID = pokemonID;
         this.trader = trader;
         this.username = username;

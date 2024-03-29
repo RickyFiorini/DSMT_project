@@ -19,7 +19,7 @@ public class OfferDAO {
     // Retrieve all the offers of the selected listing
     public List<OfferDTO> getOfferByListing(int listingID) throws SQLException {
         ArrayList<OfferDTO> result = new ArrayList<>();
-        String sqlString = "SELECT b.pokemonID, o.trader, b.username, o.checked, o.timestamp " +
+        String sqlString = "SELECT o.ID, b.pokemonID, o.trader, b.username, o.checked, o.timestamp " +
                 "FROM offer o " +
                 "JOIN box b ON o.boxID = b.ID " +
                 "WHERE listingID= ?  ";
@@ -27,7 +27,7 @@ public class OfferDAO {
         statement.setInt(1, listingID);
         ResultSet set = statement.executeQuery();
         while (set.next()) {
-            OfferDTO offer = new OfferDTO(set.getInt("pokemonID"),set.getString("trader"),set.getString("username"),
+            OfferDTO offer = new OfferDTO(set.getInt("ID"), set.getInt("pokemonID"),set.getString("trader"),set.getString("username"),
                     set.getBoolean("checked"), set.getTimestamp("timestamp"));
             result.add(offer);
         }
@@ -37,18 +37,25 @@ public class OfferDAO {
 
     // Retrieve the offer of the current user for the selected listing
     public OfferDTO getUserOfferByListing(String currentUsername, int listingID) throws SQLException {
-        String sqlString = "SELECT b.pokemonID, o.trader, b.username, o.checked, o.timestamp " +
+
+        OfferDTO userOffer;
+
+        String sqlString = "SELECT o.ID, b.pokemonID, o.trader, b.username, o.checked, o.timestamp " +
                 "FROM offer o " +
                 "JOIN box b ON o.boxID = b.ID " +
                 "WHERE o.listingID= ? AND b.username= ? ";
         PreparedStatement statement = offerConnection.prepareStatement(sqlString);
         statement.setInt(1, listingID);
-        statement.setString(1, currentUsername);
+        statement.setString(2, currentUsername);
         ResultSet set = statement.executeQuery();
-        set.next();
-        OfferDTO offer = new OfferDTO(set.getInt("pokemonID"),set.getString("trader"),set.getString("username"),
-                set.getBoolean("checked"), set.getTimestamp("timestamp"));
-        return offer;
+        if (set.next()) {
+            userOffer = new OfferDTO(set.getInt("ID"), set.getInt("pokemonID"),set.getString("trader"),set.getString("username"),
+                    set.getBoolean("checked"), set.getTimestamp("timestamp"));
+        } else {
+            userOffer = null;
+        }
+
+        return userOffer;
     }
 
     // Check if the selected offer is the current user offer
@@ -59,7 +66,7 @@ public class OfferDAO {
                 "WHERE o.ID= ? AND b.username= ? ";
         PreparedStatement statement = offerConnection.prepareStatement(sqlString);
         statement.setInt(1, offerID);
-        statement.setString(1, currentUsername);
+        statement.setString(2, currentUsername);
         ResultSet set = statement.executeQuery();
         if (set.next())
             throw new SQLException("Invalid chat for username");
@@ -82,13 +89,13 @@ public class OfferDAO {
     // Insert a new offer in the database
     public String insertOffer(Offer offer) throws SQLException  {
         try {
-            String sqlString = "INSERT INTO offer(listingID, boxID,trader,checked,timestamp) VALUES (?, ?, ?, ?)";
+            String sqlString = "INSERT INTO offer(listingID, boxID,trader,checked,timestamp) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement statement = offerConnection.prepareStatement(sqlString);
             statement.setInt(1, offer.getListingID());
             statement.setInt(2, offer.getBoxID());
             statement.setString(3, offer.getTrader());
-            statement.setBoolean(3, offer.isChecked());
-            statement.setTimestamp(4, offer.getTimestamp());
+            statement.setBoolean(4, offer.isChecked());
+            statement.setTimestamp(5, offer.getTimestamp());
             int changedCount = statement.executeUpdate();
             return changedCount == 0 ? "Offer not inserted" : "";
         } catch (SQLIntegrityConstraintViolationException e) {
@@ -99,14 +106,14 @@ public class OfferDAO {
     // Update the selected offer:
     // update pokemon (boxID), set "checked" to false and update the timestamp
     public boolean updateOffer(int offerID, Offer offer) throws SQLException {
-        String sqlString = "UPDATE offer SET checked=? AND timestamp=? AND boxID=? WHERE ID = ?";
+        String sqlString = "UPDATE offer SET checked=? , timestamp=? , boxID=? WHERE ID = ?";
         PreparedStatement statement = offerConnection.prepareStatement(sqlString);
         statement.setBoolean(1, offer.isChecked());
         statement.setTimestamp(2, offer.getTimestamp());
         statement.setInt(3, offer.getBoxID());
         statement.setInt(4, offerID);
         int changedCount = statement.executeUpdate();
-        return changedCount == 1 ? true : false;
+        return (changedCount == 1);
     }
 
     // Delete the selected offer from the database

@@ -37,14 +37,14 @@ public class BoxDAO {
     }
     public List<BoxDTO> getBox(String username) throws SQLException {
         ArrayList<BoxDTO> result = new ArrayList<>();
-        String sqlString = "SELECT pokemonID " +
+        String sqlString = "SELECT ID, username, pokemonID, listed " +
                 "FROM box " +
                 "WHERE username= ? ";
         PreparedStatement statement = boxConnection.prepareStatement(sqlString);
         statement.setString(1, username);
         ResultSet set = statement.executeQuery();
         while (set.next()) {
-            BoxDTO box = new BoxDTO(set.getString("username"),set.getInt("pokemonID"),
+            BoxDTO box = new BoxDTO(set.getInt("ID"), set.getString("username"),set.getInt("pokemonID"),
                     set.getBoolean("listed"));
             result.add(box);
         }
@@ -124,7 +124,7 @@ public class BoxDAO {
     // Retrieve boxID
     public int getPokemonBoxIdFromUsername(String username,int ID) throws SQLException {
         String sqlString = "SELECT ID " +
-                "FROM box" +
+                "FROM box " +
                 "WHERE username=? AND pokemonID=?";
         PreparedStatement statement = boxConnection.prepareStatement(sqlString);
         statement.setString(1, username);

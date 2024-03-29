@@ -7,7 +7,8 @@ public class BoxDTO {
     private boolean listed;
     private String username;
 
-    public BoxDTO(String username, int pokemonID, boolean listed) {
+    public BoxDTO(int boxID, String username, int pokemonID, boolean listed) {
+        this.boxID = boxID;
         this.pokemonID = pokemonID;
         this.listed = listed;
         this.username = username;

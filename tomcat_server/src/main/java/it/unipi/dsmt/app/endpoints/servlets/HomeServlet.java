@@ -35,7 +35,6 @@ public class HomeServlet extends HttpServlet {
             List<ListingDTO> listingList = listingDAO.getListings();
             System.out.println(listingList);
 
-            /*
             // Filter out the current user listings
             listingList = listingList.stream().filter(new Predicate<ListingDTO>() {
                 @Override
@@ -60,8 +59,8 @@ public class HomeServlet extends HttpServlet {
                     return listing.getWinner() == null;
                 }
             }).collect(Collectors.toList());
-            */
-            request.setAttribute("openListingList", listingList);
+            request.setAttribute("openListingList", openListingList);
+
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/jsp/home.jsp");
             requestDispatcher.forward(request, response);
         } catch (Exception e) {
