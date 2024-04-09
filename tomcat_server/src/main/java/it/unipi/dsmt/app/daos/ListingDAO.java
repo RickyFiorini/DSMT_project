@@ -21,15 +21,14 @@ public class ListingDAO {
     // Retrieve all the listings of the database
     public List<ListingDTO> getListings() throws SQLException {
         ArrayList<ListingDTO> result = new ArrayList<>();
-        String sqlString = "SELECT l.ID,l.status_listing, l.winner, l.timestamp, b.username,p.pokemonName, p.primaryType, p.secondaryType, p.attack, p.defense, p.imageURL " +
+        String sqlString = "SELECT l.ID, l.winner, l.timestamp, b.username,p.pokemonName, p.primaryType, p.secondaryType, p.attack, p.defense, p.imageURL " +
                 "FROM listing l " +
                 "JOIN box b ON l.boxID = b.ID " +
                 "JOIN pokemon p ON b.pokemonID = p.ID";
         PreparedStatement statement = listingConnection.prepareStatement(sqlString);
         ResultSet set = statement.executeQuery();
         while (set.next()) {
-            ListingDTO listing = new ListingDTO(set.getInt("ID"),set.getString("username"),
-                    set.getBoolean("status_listing"),set.getString("winner"), set.getTimestamp("timestamp"),set.getString("pokemonName"),set.getString("primaryType"),
+            ListingDTO listing = new ListingDTO(set.getInt("ID"),set.getString("username"),set.getString("winner"), set.getTimestamp("timestamp"),set.getString("pokemonName"),set.getString("primaryType"),
                     set.getString("secondaryType"),set.getInt("attack"),set.getInt("defense"),set.getString("imageURL"));
             result.add(listing);
         }
@@ -39,7 +38,7 @@ public class ListingDAO {
     // Retrieve the listings of the current user
     public List<ListingDTO> getListingsByUsername(String username) throws SQLException {
         ArrayList<ListingDTO> result = new ArrayList<>();
-        String sqlString = "SELECT l.ID, l.status_listing, l.winner, l.timestamp, b.username, p.pokemonName, p.primaryType, p.secondaryType, p.attack, p.defense, p.imageURL " +
+        String sqlString = "SELECT l.ID, l.winner, l.timestamp, b.username, p.pokemonName, p.primaryType, p.secondaryType, p.attack, p.defense, p.imageURL " +
                 "FROM listing l " +
                 "JOIN box b ON l.boxID = b.ID " +
                 "JOIN pokemon p  ON b.pokemonID = p.ID "+
@@ -54,8 +53,7 @@ public class ListingDAO {
                 System.out.println(columnName + ": " + value);
             }
             System.out.println();
-            ListingDTO listing = new ListingDTO(set.getInt("ID"),username,
-                    set.getBoolean("status_listing"),set.getString("winner"), set.getTimestamp("timestamp"),set.getString("pokemonName"),set.getString("primaryType"),
+            ListingDTO listing = new ListingDTO(set.getInt("ID"),username,set.getString("winner"), set.getTimestamp("timestamp"),set.getString("pokemonName"),set.getString("primaryType"),
                     set.getString("secondaryType"),set.getInt("attack"),set.getInt("defense"),set.getString("imageURL"));
             result.add(listing);
             System.out.print(set.getInt("ID")+"ID");
@@ -66,7 +64,7 @@ public class ListingDAO {
 
     // Retrieve the selected listing info
     public ListingDTO getListingInfo(int listingID) throws SQLException {
-        String sqlString = "SELECT l.ID, l.status_listing, l.winner, l.timestamp, b.username, p.pokemonName, p.primaryType, p.secondaryType, p.attack, p.defense, p.imageURL " +
+        String sqlString = "SELECT l.ID, l.winner, l.timestamp, b.username, p.pokemonName, p.primaryType, p.secondaryType, p.attack, p.defense, p.imageURL " +
                 "FROM listing l " +
                 "JOIN box b ON l.boxID = b.ID " +
                 "JOIN pokemon p  ON b.pokemonID = p.ID "+
@@ -76,8 +74,7 @@ public class ListingDAO {
         ResultSet set = statement.executeQuery();
         set.next();
         System.out.print("ok lo stampa");
-        ListingDTO listing = new ListingDTO(set.getInt("ID"),set.getString("username"),
-                set.getBoolean("status_listing"),set.getString("winner"), set.getTimestamp("timestamp"),set.getString("pokemonName"),set.getString("primaryType"),
+        ListingDTO listing = new ListingDTO(set.getInt("ID"),set.getString("username"),set.getString("winner"), set.getTimestamp("timestamp"),set.getString("pokemonName"),set.getString("primaryType"),
                 set.getString("secondaryType"),set.getInt("attack"),set.getInt("defense"),set.getString("imageURL"));
         System.out.print(listing+"ok");
         return listing;
@@ -86,7 +83,7 @@ public class ListingDAO {
     // Check if the current user is the owner of the selected listing
     public boolean validateListing(String currentUsername, int listingID)  throws SQLException {
         boolean ret = false;
-        String sqlString = "SELECT l.ID,l.status_listing, l.winner, l.timestamp, b.username, b.pokemonID " +
+        String sqlString = "SELECT l.ID, l.winner, l.timestamp, b.username, b.pokemonID " +
                 "FROM listing l " +
                 "JOIN box b ON l.boxID = b.ID " +
                 "WHERE l.ID=? AND b.username=?";
@@ -116,10 +113,9 @@ public class ListingDAO {
     // Insert a new listing into the database
     public String insertListing(Listing listing) throws SQLException  {
         try {
-            String sqlString = "INSERT INTO listing(boxID, status, winner, timestamp) VALUES (?, ?, ?, ?)";
+            String sqlString = "INSERT INTO listing(boxID, winner, timestamp) VALUES (?, ?, ?, ?)";
             PreparedStatement statement = listingConnection.prepareStatement(sqlString);
             statement.setInt(1, listing.getBoxID());
-            statement.setBoolean(2, listing.isStatus_listing());
             statement.setString(3, listing.getWinner());
             statement.setTimestamp(4, listing.getTimestamp());
             int changedCount = statement.executeUpdate();

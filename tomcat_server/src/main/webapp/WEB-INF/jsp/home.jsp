@@ -54,9 +54,7 @@
                 <h4>
                     <%=listing.getID()%>
                 </h4>
-                <h5>
-                    <%=listing.isStatus()%>
-                </h5>
+
             </a>
         </div>
         <% } %>

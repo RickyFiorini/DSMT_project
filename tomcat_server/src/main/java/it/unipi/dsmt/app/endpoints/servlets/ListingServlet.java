@@ -43,8 +43,8 @@ public class ListingServlet extends HttpServlet {
             List<OfferDTO> offerList = offerDAO.getOfferByListing(listingID);
             request.setAttribute("offerList", offerList);
 
-            System.out.print(offerList.get(0));
-            System.out.print(offerList.get(0).getImageURL());
+           // System.out.print(offerList.get(0));
+            //System.out.print(offerList.get(0).getImageURL());
             // If the current user is not the owner of the selected listing
             if (!listing.getUsername().equals(currentUsername)) {
                 // Retrieve the pokemon box of the current user

@@ -6,14 +6,12 @@ import java.sql.Timestamp;
 // TODO NELLA NUOVA VERSIONE, HO SOLO IL BOX ID, CHE USO PER PRENDERE LE ALTRE INFO DEL POKEMON
 public class Listing {
     private int boxID;
-    private boolean status_listing;
     private String winner;
     private Timestamp timestamp;
 
 
-    public Listing(int boxID,boolean status, String winner, Timestamp timestamp) {
+    public Listing(int boxID, String winner, Timestamp timestamp) {
         this.boxID = boxID;
-        this.status_listing = status;
         this.winner = winner;
         this.timestamp = timestamp;
 
@@ -25,14 +23,6 @@ public class Listing {
 
     public void setBoxID(int boxID) {
         this.boxID = boxID;
-    }
-
-    public boolean isStatus_listing() {
-        return status_listing;
-    }
-
-    public void setStatus_listing(boolean status) {
-        this.status_listing = status;
     }
 
     public String getWinner() {
@@ -56,7 +46,6 @@ public class Listing {
     public String toString() {
         return "Listing{" +
                 "boxID=" + boxID +
-                ", status=" + status_listing +
                 ", winner='" + winner + '\'' +
                 ", timestamp=" + timestamp + '\'' +
                 '}';

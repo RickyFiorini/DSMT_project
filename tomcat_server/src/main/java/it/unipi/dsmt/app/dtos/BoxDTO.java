@@ -20,7 +20,6 @@ public class BoxDTO {
         this.attack=attack;
         this.defense=defense;
         this.imageURL=imageURL;
-
         this.username = username;
         this.boxID=boxID;
     }

@@ -86,10 +86,9 @@ public class ProfileServlet extends HttpServlet {
             int boxID = Integer.parseInt(request.getParameter("boxID"));
             // TODO NELLA NUOVA VERSIONE, DEVO PRENDERE SOLO BOX ID
             //  int pokemonID = Integer.parseInt(request.getParameter("pokemonID"));
-            Boolean status = Boolean.valueOf(request.getParameter("status"));
             // Insert a new listing in the database
             ListingDAO listingDAO = new ListingDAO((Connection) getServletContext().getAttribute("databaseConnection"));
-            Listing listing = new Listing(boxID, status, currentUsername, new Timestamp(System.currentTimeMillis()));
+            Listing listing = new Listing(boxID,currentUsername, new Timestamp(System.currentTimeMillis()));
             listingDAO.insertListing(listing);
 
             // Retrieve current user listings

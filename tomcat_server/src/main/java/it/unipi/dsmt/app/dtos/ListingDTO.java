@@ -13,13 +13,11 @@ public class ListingDTO {
     private int defense;
     private String imageURL;
     private String username;
-    private boolean status;
     private String winner;
     private Timestamp timestamp;
 
-    public ListingDTO(int ID,String username, boolean status, String winner, Timestamp timestamp,String pokemonName,String primaryType,String secondaryType,int attack,int defense, String imageURL) {
+    public ListingDTO(int ID,String username, String winner, Timestamp timestamp,String pokemonName,String primaryType,String secondaryType,int attack,int defense, String imageURL) {
         this.username = username;
-        this.status = status;
         this.winner = winner;
         this.timestamp = timestamp;
         this.pokemonName=pokemonName;
@@ -93,10 +91,6 @@ public class ListingDTO {
         this.username = username;
     }
 
-    public boolean isStatus() {
-        return status;
-    }
-
     public String getWinner() {
         return winner;
     }
@@ -105,9 +99,6 @@ public class ListingDTO {
         this.winner = winner;
     }
 
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
 
     public Timestamp getTimestamp() {
         return timestamp;
@@ -128,7 +119,6 @@ public class ListingDTO {
                 ", attack='" + attack + '\'' +
                 ", defense='" + defense + '\'' +
                 ", imageURL='" + imageURL + '\'' +
-                ", status=" + status +
                 ", winner='" + winner + '\'' +
                 ", timestamp=" + timestamp +
                 '}';
