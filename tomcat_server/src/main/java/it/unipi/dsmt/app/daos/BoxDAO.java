@@ -19,22 +19,7 @@ public class BoxDAO {
     }
 
     // Retrieve pokemon's information of the current user
-    public List<PokemonDTO> getPokemonBoxFromUsername(String username) throws SQLException {
-        ArrayList<PokemonDTO> result = new ArrayList<>();
-        String sqlString = "SELECT p.pokemonID, p.pokemonName, p.primaryType, p.secondaryType, p.attack, p.defense, p.imageURL " +
-                "FROM box b " +
-                "JOIN pokemon p ON b.pokemonID = p.ID " +
-                "WHERE b.username=?";
-        PreparedStatement statement = boxConnection.prepareStatement(sqlString);
-        statement.setString(1, username);
-        ResultSet set = statement.executeQuery();
-        while (set.next()) {
-            PokemonDTO pokemon = new PokemonDTO(set.getInt("pokemonID"),set.getString("pokemonName"),set.getString("primaryType"),
-                    set.getString("secondaryType"),set.getString("imageURL"), set.getInt("attack"),set.getInt("defense"));
-            result.add(pokemon);
-        }
-        return result;
-    }
+
     public List<BoxDTO> getBox(String username) throws SQLException {
         ArrayList<BoxDTO> result = new ArrayList<>();
         String sqlString = "SELECT b.ID,b.username, b.listed, p.pokemonName, p.primaryType, p.secondaryType, p.attack, p.defense, p.imageURL " +
@@ -55,7 +40,7 @@ public class BoxDAO {
     }
     public List<PokemonDTO> getPokemonBoxFromUsernameByAttack(String username) throws SQLException {
         ArrayList<PokemonDTO> result = new ArrayList<>();
-        String sqlString = "SELECT p.pokemonID,p.pokemonName, p.primaryType, p.secondaryType, p.attack, p.defense, p.imageURL " +
+        String sqlString = "SELECT b.pokemonID,p.pokemonName, p.primaryType, p.secondaryType, p.attack, p.defense, p.imageURL " +
                 "FROM box b " +
                 "JOIN pokemon p ON b.pokemonID = p.ID " +
                 "WHERE b.username=? " +
@@ -72,7 +57,7 @@ public class BoxDAO {
     }
     public List<PokemonDTO> getPokemonBoxFromUsernameByDefense(String username) throws SQLException {
         ArrayList<PokemonDTO> result = new ArrayList<>();
-        String sqlString = "SELECT p.pokemonID, p.pokemonName, p.primaryType, p.secondaryType, p.attack, p.defense, p.imageURL " +
+        String sqlString = "SELECT b.pokemonID, p.pokemonName, p.primaryType, p.secondaryType, p.attack, p.defense, p.imageURL " +
                 "FROM box b " +
                 "JOIN pokemon p ON b.pokemonID = p.ID " +
                 "WHERE b.username=? " +
@@ -90,7 +75,7 @@ public class BoxDAO {
 
     public List<PokemonDTO> getPokemonBoxFromUsernameByPrimaryType(String username,String primaryType) throws SQLException {
         ArrayList<PokemonDTO> result = new ArrayList<>();
-        String sqlString = "SELECT p.pokemonID,p.pokemonName, p.primaryType, p.secondaryType, p.attack, p.defense, p.imageURL " +
+        String sqlString = "SELECT b.pokemonID,p.pokemonName, p.primaryType, p.secondaryType, p.attack, p.defense, p.imageURL " +
                 "FROM box b " +
                 "JOIN pokemon p ON b.pokemonID = p.ID " +
                 "WHERE b.username=?  AND p.primaryType=? ";
@@ -108,7 +93,7 @@ public class BoxDAO {
 
     public List<PokemonDTO> getPokemonBoxFromUsernameBySecondaryType(String username,String secondaryType) throws SQLException {
         ArrayList<PokemonDTO> result = new ArrayList<>();
-        String sqlString = "SELECT p.pokemonID,p.pokemonName, p.primaryType, p.secondaryType, p.attack, p.defense, p.imageURL " +
+        String sqlString = "SELECT b.pokemonID,p.pokemonName, p.primaryType, p.secondaryType, p.attack, p.defense, p.imageURL " +
                 "FROM box b " +
                 "JOIN pokemon p ON b.pokemonID = p.ID " +
                 "WHERE b.username=?  AND p.secondaryType=?  ";

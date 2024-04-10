@@ -9,16 +9,14 @@ public class User {
     private String password;
     private String name;
     private String surname;
-    private Boolean online_flag;
     private Date timestamp;
 
-    public User(String username, String password, String name, String surname, Boolean online_flag,
+    public User(String username, String password, String name, String surname,
                 Date timestamp) {
         this.username = username;
         this.password = password;
         this.name = name;
         this.surname = surname;
-        this.online_flag = online_flag;
         this.timestamp = timestamp;
     }
 
@@ -54,17 +52,6 @@ public class User {
         this.surname = surname;
     }
 
-    public Boolean isOnline_flag() {
-        return this.online_flag;
-    }
-
-    public Boolean getOnline_flag() {
-        return this.online_flag;
-    }
-
-    public void setOnline_flag(Boolean online_flag) {
-        this.online_flag = online_flag;
-    }
 
     public Date getTimestamp() {
         return this.timestamp;
@@ -81,7 +68,6 @@ public class User {
                 ", password='" + getPassword() + "'" +
                 ", name='" + getName() + "'" +
                 ", surname='" + getSurname() + "'" +
-                ", online_flag='" + isOnline_flag() + "'" +
                 ", creationTime='" + getTimestamp() + "'" +
                 "}";
     }
