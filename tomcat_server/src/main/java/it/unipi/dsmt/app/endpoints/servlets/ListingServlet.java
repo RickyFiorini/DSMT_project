@@ -29,7 +29,6 @@ public class ListingServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
         try {
-
             String currentUsername = AccessController.getUsername(request);
             System.out.println(currentUsername);
             int listingID = Integer.parseInt(request.getParameter("listingID"));
@@ -44,6 +43,7 @@ public class ListingServlet extends HttpServlet {
             OfferDAO offerDAO = new OfferDAO((Connection) getServletContext().getAttribute("databaseConnection"));
             List<OfferDTO> offerList = offerDAO.getOfferByListing(listingID);
             request.setAttribute("offerList", offerList);
+
 
             // If the current user is not the owner of the selected listing
             if (!listing.getUsername().equals(currentUsername)) {
@@ -61,7 +61,6 @@ public class ListingServlet extends HttpServlet {
 
                 request.setAttribute("boxList", boxList);
             }
-
             request.getRequestDispatcher("/WEB-INF/jsp/listing.jsp").forward(request, response);
         } catch (Exception e) {
             ErrorHandler.safeDispatchToErrorPage(request, response, e);

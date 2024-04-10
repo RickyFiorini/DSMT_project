@@ -24,7 +24,7 @@ public class AccessController {
     // Set a new authentication token for the specified user
     public static void setToken(HttpServletRequest request, String username) {
 
-        /*Map<String, Object> claims = new HashMap<>();
+        Map<String, Object> claims = new HashMap<>();
         claims.put("username", username);
 
         String token = Jwts.builder()
@@ -32,8 +32,8 @@ public class AccessController {
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
                 .compact();
-        */
-        request.getSession().setAttribute("TOKEN", /*token*/username);
+
+        request.getSession().setAttribute("TOKEN", token);
 
     }
 
@@ -42,17 +42,16 @@ public class AccessController {
         String token = (String) request.getSession().getAttribute("TOKEN");
         if (token == null)
             return null;
-        return token;
 
-        /*Claims claims = Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
+        Claims claims = Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
         Date expirationDate = claims.getExpiration();
         Date now = new Date();
         if (expirationDate.before(now)) {
             request.getSession().setAttribute("TOKEN", null);
             return null;
         }
-*/
 
+    return token;
 
 
     }
@@ -83,9 +82,8 @@ public class AccessController {
         String token = (String) request.getSession().getAttribute("TOKEN");
         if (token == null)
             return null;
-        //Claims claims = Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
-     //   String username = (String) claims.get("username");
-     //   return username;
-        return token;
+        Claims claims = Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
+       String username = (String) claims.get("username");
+       return username;
     }
 }
