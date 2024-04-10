@@ -1,31 +1,72 @@
-.page {
-    width: calc(100vw - 20%);
-    margin-left: 20%;
+.site-wrap {
+    /* width: calc(100vw - 20%); */
+    /* margin-left: 20%; */
     min-height: calc(100vh - 2.5rem);
     margin-top: 2.5rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #663500;
-    background-image: url("https://www.transparenttextures.com/patterns/retina-wood.png");
 }
 
 /* SEARCH BAR */
+body{
+    background-color: #7e4938;
+    background-image: url("https://www.transparenttextures.com/patterns/bright-squares.png");
+}
+
+.searchTerm {
+    width: 100%;
+    border: 3px solid #00B4CC;
+    border-right: none;
+    padding: 5px;
+    height: 20px;
+    border-radius: 5px 0 0 5px;
+    outline: none;
+    color: #9DBFAF;
+}
+
+.searchTerm:focus{
+    color: #00B4CC;
+}
+
+.searchButton {
+    width: 40px;
+    height: 36px;
+    border: 1px solid #00B4CC;
+    background: #00B4CC;
+    text-align: center;
+    color: #fff;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    font-size: 20px;
+}
+.wrap{
+    width: 30%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
 
 .search {
     width: 60%;
     background: rgba(224, 224, 224, 1);
-    display: grid;
+    display: flex;
     grid-template-columns: 1fr 0.01fr;
     place-content: center;
     padding: 0.4rem 0.5rem 0.4rem 0.8rem;
-    border-radius: 4rem;
+    border-radius: 1rem;
+    position: fixed;
+    top: 5rem;
 }
-.search > input {
-    background: none;
+.form-listing {
+    width: 90%;
+    border: 3px solid #00B4CC;
+    padding: 5px;
+    height: 20px;
+    border-radius: 5px 0 0 5px;
     outline: none;
-    border: none;
-    padding: 0px;
+    color: #9DBFAF;
 }
 .search > img {
     width: 30px;
@@ -43,22 +84,21 @@
     align-items: center;
 }
 
-/* USERS BOARD */
-.centerize-board {
+/* List of Listings */
+.center-board {
     position: fixed;
     top: 12rem;
-    left: 20%;
     width: calc(100% - 20%);
     height: calc(100% - 14rem);
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.users-board {
+.listings-wrapper {
     width: 95%;
     height: 100%;
     display: grid;
-    grid-template-columns: 0.33fr 0.33fr 0.33fr;
+    grid-template-columns: 0.25fr 0.25fr 0.25fr 0.25fr;
     overflow-x: hidden;
     overflow-y: scroll;
     gap: 2rem;
@@ -71,11 +111,11 @@
     background: rgba(224, 224, 224, 1);
     border-radius: 4rem;
 }
-.user-card {
+
+.card {
     position: relative;
     width: 100%;
-    height: 100%;
-    max-height: 139.3px;
+    height: 20rem;
     background: rgba(224, 224, 224, 1);
     box-shadow: 0px 0px 0.5rem 0.1rem black;
     text-align: center;
@@ -85,19 +125,23 @@
     outline: none;
     border: none;
 }
-.user-card:hover {
+.card > a > .listing-img{
+    width: 128px;
+    padding-top: 5%;
+}
+.card:hover {
     background: rgb(255, 255, 255, 1);
 }
-.user-card > h1 {
+.card > a > h1 {
     font-size: 20px;
 }
-.user-card > h2 {
+.card > a > h2 {
     font-size: 15px;
 }
-.user-card > h3 {
+.card > a > h3 {
     font-size: 15px;
 }
-.user-card > .flag {
+.card > a > .flag {
     position: absolute;
     top: 0.6rem;
     left: 0.6rem;
@@ -106,7 +150,7 @@
     border-radius: 50%;
     background: radial-gradient(circle, rgba(255, 0, 24, 1) 0%, rgba(212, 0, 7, 1) 60%);
 }
-.user-card > .connected {
+.card > .connected {
     background: radial-gradient(circle, rgba(39, 255, 0, 1) 0%, rgba(29, 193, 0, 1) 60%);
 }
 .hidden {
