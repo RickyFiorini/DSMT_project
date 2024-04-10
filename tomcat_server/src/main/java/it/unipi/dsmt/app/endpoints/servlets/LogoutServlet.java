@@ -21,7 +21,6 @@ public class LogoutServlet extends HttpServlet {
         try {
             UserDAO userDAO = new UserDAO((Connection) getServletContext().getAttribute("databaseConnection"));
             String username = AccessController.getUsername(request);
-            userDAO.setOnlineFlag(false, username);
             request.getSession().invalidate();
             response.sendRedirect(request.getContextPath() + "/login");
         } catch (Exception e) {

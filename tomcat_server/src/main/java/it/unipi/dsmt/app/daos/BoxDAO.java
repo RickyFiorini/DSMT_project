@@ -37,7 +37,7 @@ public class BoxDAO {
     }
     public List<BoxDTO> getBox(String username) throws SQLException {
         ArrayList<BoxDTO> result = new ArrayList<>();
-        String sqlString = "SELECT b.ID,b.username, p.pokemonName, p.primaryType, p.secondaryType, p.attack, p.defense, p.imageURL " +
+        String sqlString = "SELECT b.ID,b.username, b.listed, p.pokemonName, p.primaryType, p.secondaryType, p.attack, p.defense, p.imageURL " +
                 "FROM box b " +
                 "JOIN pokemon p ON b.pokemonID = p.ID " +
                 "WHERE b.username=? ";
@@ -46,7 +46,7 @@ public class BoxDAO {
         ResultSet set = statement.executeQuery();
         while (set.next()) {
             BoxDTO box = new BoxDTO(set.getInt("ID"),set.getString("username"),set.getString("pokemonName"),set.getString("primaryType"),
-                    set.getString("secondaryType"),set.getInt("attack"),set.getInt("defense"),set.getString("imageURL"));
+                    set.getString("secondaryType"),set.getInt("attack"),set.getInt("defense"),set.getString("imageURL"),set.getBoolean("listed"));
             result.add(box);
             System.out.print(box.getImageURL());
         }

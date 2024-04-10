@@ -11,14 +11,12 @@ public class OfferDTO {
     private int attack;
     private int defense;
     private String imageURL;
-    private boolean checked;
     private Timestamp timestamp;
     private String trader;
 
-    public OfferDTO(int offerID,String trader, String username, boolean checked, Timestamp timestamp,String pokemonName,String primaryType,String secondaryType,int attack,int defense, String imageURL) {
+    public OfferDTO(int offerID,String trader, String username, Timestamp timestamp,String pokemonName,String primaryType,String secondaryType,int attack,int defense, String imageURL) {
         this.trader = trader;
         this.username = username;
-        this.checked = checked;
         this.timestamp = timestamp;
         this.pokemonName=pokemonName;
         this.primaryType=primaryType;
@@ -52,14 +50,6 @@ public class OfferDTO {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public boolean isChecked() {
-        return checked;
-    }
-
-    public void setChecked(boolean checked) {
-        this.checked = checked;
     }
 
     public Timestamp getTimestamp() {
@@ -126,7 +116,6 @@ public class OfferDTO {
                 ", defense='" + defense + '\'' +
                 ", imageURL='" + imageURL + '\'' +
                 ", username='" + username + '\'' +
-                ", checked=" + checked +
                 ", timestamp='" + timestamp + '\'' +
                 '}';
     }

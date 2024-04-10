@@ -47,14 +47,13 @@ public class UserDAO {
     // Register a new user
     public String register(User userInfo) throws SQLException {
         try {
-            String sqlString = "INSERT INTO user(username, password, name, surname, online_flag, timestamp) VALUES (?, ?, ?, ?, ?, ?)";
+            String sqlString = "INSERT INTO user(username, password, name, surname, timestamp) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement statement = userConnection.prepareStatement(sqlString);
             statement.setString(1, userInfo.getUsername());
             statement.setString(2, userInfo.getPassword());
             statement.setString(3, userInfo.getName());
             statement.setString(4, userInfo.getSurname());
-            statement.setBoolean(5, userInfo.getOnline_flag());
-            statement.setDate(6, userInfo.getTimestamp());
+            statement.setDate(5, userInfo.getTimestamp());
             int changedCount = statement.executeUpdate();
             return changedCount == 0 ? "User already exists" : "";
         } catch (SQLIntegrityConstraintViolationException e) {
@@ -62,37 +61,14 @@ public class UserDAO {
         }
     }
 
-    // Return the state of the user
-    public boolean getOnlineStateOfUsername(String username) throws SQLException {
-        String sqlString = "SELECT online_flag FROM user WHERE username=?";
-        PreparedStatement statement = userConnection.prepareStatement(sqlString);
-        statement.setString(1, username);
-        ResultSet set = statement.executeQuery();
-        if (set.next())
-            return set.getBoolean("online_flag");
-        throw new SQLException("No Such Username");
-    }
-
-    // Set the user state on online
-    public Boolean setOnlineFlag(Boolean flag, String username) throws SQLException {
-        String sqlString = "UPDATE user SET online_flag = ? WHERE username = ?";
-        PreparedStatement statement = userConnection.prepareStatement(sqlString);
-        statement.setBoolean(1, flag);
-        statement.setString(2, username);
-        int changedCount = statement.executeUpdate();
-        return changedCount == 1 ? true : false;
-    }
-
     // Return user profile
     public UserProfileDTO getUserFromUsername(String username) throws SQLException {
-        System.out.print("printo username\n"+username);
-        String sqlString = "SELECT name, surname, online_flag FROM user WHERE username=?";
+        String sqlString = "SELECT name, surname FROM user WHERE username=? ";
         PreparedStatement statement = userConnection.prepareStatement(sqlString);
         statement.setString(1, username);
         ResultSet set = statement.executeQuery();
         set.next();
-        UserProfileDTO user = new UserProfileDTO(username, set.getString("name"), set.getString("surname"),
-                set.getBoolean("online_flag"));
+        UserProfileDTO user = new UserProfileDTO(username, set.getString("name"), set.getString("surname"));
         return user;
     }
 
@@ -102,14 +78,13 @@ public class UserDAO {
     // Return user profile
     public ArrayList<UserProfileDTO> getUsersFromNameAndSurname(String name, String surname) throws SQLException {
         ArrayList<UserProfileDTO> result = new ArrayList<>();
-        String sqlString = "SELECT username, online_flag FROM user WHERE name=? and surname=?";
+        String sqlString = "SELECT username, FROM user WHERE name=? and surname=?";
         PreparedStatement statement = userConnection.prepareStatement(sqlString);
         statement.setString(1, name);
         statement.setString(2, surname);
         ResultSet set = statement.executeQuery();
         while (set.next()) {
-            UserProfileDTO user = new UserProfileDTO(set.getString("username"), name, surname,
-                    set.getBoolean("online_flag"));
+            UserProfileDTO user = new UserProfileDTO(set.getString("username"), name, surname);
             result.add(user);
         }
         return result;
@@ -123,8 +98,7 @@ public class UserDAO {
         ResultSet set = statement.executeQuery();
         while (set.next()) {
             UserProfileDTO user = new UserProfileDTO(set.getString("username"), set.getString("name"),
-                    set.getString("surname"),
-                    set.getBoolean("online_flag"));
+                    set.getString("surname"));
             result.add(user);
         }
         return result;

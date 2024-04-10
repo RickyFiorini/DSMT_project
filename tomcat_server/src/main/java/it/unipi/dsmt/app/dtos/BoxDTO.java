@@ -1,6 +1,7 @@
 package it.unipi.dsmt.app.dtos;
 
 // To represent box slot info that are transferred in the web app
+//TODO listed modificare
 public class BoxDTO {
     private int boxID;
     private String pokemonName;
@@ -10,10 +11,9 @@ public class BoxDTO {
     private int defense;
     private String imageURL;
     private boolean listed;
-
     private String username;
 
-    public BoxDTO(int boxID,String username,String pokemonName,String primaryType,String secondaryType,int attack,int defense, String imageURL) {
+    public BoxDTO(int boxID,String username,String pokemonName,String primaryType,String secondaryType,int attack,int defense, String imageURL,Boolean listed) {
         this.pokemonName=pokemonName;
         this.primaryType=primaryType;
         this.secondaryType=secondaryType;
@@ -22,6 +22,7 @@ public class BoxDTO {
         this.imageURL=imageURL;
         this.username = username;
         this.boxID=boxID;
+        this.listed=listed;
     }
 
     public int getBoxID() {

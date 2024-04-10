@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 // To represent listing info that are transferred in the web app
 
 public class ListingDTO {
-    private int ID;
+    private int listingID;
     private String pokemonName;
     private String primaryType;
     private String secondaryType;
@@ -16,7 +16,7 @@ public class ListingDTO {
     private String winner;
     private Timestamp timestamp;
 
-    public ListingDTO(int ID,String username, String winner, Timestamp timestamp,String pokemonName,String primaryType,String secondaryType,int attack,int defense, String imageURL) {
+    public ListingDTO(int listingID,String username, String winner, Timestamp timestamp,String pokemonName,String primaryType,String secondaryType,int attack,int defense, String imageURL) {
         this.username = username;
         this.winner = winner;
         this.timestamp = timestamp;
@@ -26,7 +26,7 @@ public class ListingDTO {
         this.attack=attack;
         this.defense=defense;
         this.imageURL=imageURL;
-        this.ID=ID;
+        this.listingID=listingID;
     }
 
 
@@ -76,11 +76,11 @@ public class ListingDTO {
     }
 
     public int getID() {
-        return ID;
+        return listingID;
     }
 
-    public void setID(int id) {
-        this.ID = id;
+    public void setListingID(int id) {
+        this.listingID = id;
     }
 
     public String getUsername() {
