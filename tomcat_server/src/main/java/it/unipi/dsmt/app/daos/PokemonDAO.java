@@ -23,10 +23,12 @@ public class PokemonDAO {
         PreparedStatement statement = pokemonConnection.prepareStatement(sqlString);
         statement.setString(1, name);
         ResultSet set = statement.executeQuery();
-        set.next();
-        PokemonDTO pokemon = new PokemonDTO(set.getInt("ID"),set.getString("pokemonName"),set.getString("primaryType"), set.getString("secondaryType"),
-                set.getString("imageURL"), set.getInt("attack"),set.getInt("defense"));
-        return pokemon;
+        if(set.next()) {
+            PokemonDTO pokemon = new PokemonDTO(set.getInt("ID"), set.getString("pokemonName"), set.getString("primaryType"), set.getString("secondaryType"),
+                    set.getString("imageURL"), set.getInt("attack"), set.getInt("defense"));
+            return pokemon;
+        }
+        return null;
     }
 
     //return pokemon attributes from name
@@ -35,10 +37,12 @@ public class PokemonDAO {
         PreparedStatement statement = pokemonConnection.prepareStatement(sqlString);
         statement.setInt(1, ID);
         ResultSet set = statement.executeQuery();
-        set.next();
-        PokemonDTO pokemon = new PokemonDTO(set.getInt("ID"),set.getString("pokemonName"), set.getString("primaryType"), set.getString("secondaryType"),
-                set.getString("imageURL"), set.getInt("attack"),set.getInt("defense"));
-        return pokemon;
+       if(set.next()) {
+           PokemonDTO pokemon = new PokemonDTO(set.getInt("ID"), set.getString("pokemonName"), set.getString("primaryType"), set.getString("secondaryType"),
+                   set.getString("imageURL"), set.getInt("attack"), set.getInt("defense"));
+           return pokemon;
+       }
+       return null;
     }
 
 

@@ -72,12 +72,12 @@ public class ListingDAO {
         PreparedStatement statement = listingConnection.prepareStatement(sqlString);
         statement.setInt(1, listingID);
         ResultSet set = statement.executeQuery();
-        set.next();
-        System.out.print("ok lo stampa");
-        ListingDTO listing = new ListingDTO(set.getInt("ID"),set.getString("username"),set.getString("winner"), set.getTimestamp("timestamp"),set.getString("pokemonName"),set.getString("primaryType"),
+        if(set.next()) {
+            ListingDTO listing = new ListingDTO(set.getInt("ID"),set.getString("username"),set.getString("winner"), set.getTimestamp("timestamp"),set.getString("pokemonName"),set.getString("primaryType"),
                 set.getString("secondaryType"),set.getInt("attack"),set.getInt("defense"),set.getString("imageURL"));
-        System.out.print(listing+"ok");
-        return listing;
+            return listing;
+        }
+        return null;
     }
 
     // Check if the current user is the owner of the selected listing

@@ -28,8 +28,6 @@ public class OfferDAO {
         PreparedStatement statement = offerConnection.prepareStatement(sqlString);
         statement.setInt(1, listingID);
         ResultSet set = statement.executeQuery();
-        System.out.print("sono in offer");
-        System.out.print(Arrays.toString(set.getClass().getFields()));
         while (set.next()) {
             OfferDTO offer = new OfferDTO(set.getInt("ID"),set.getString("trader"),set.getString("username"),
                     set.getTimestamp("timestamp"),set.getString("pokemonName"),set.getString("primaryType"),
@@ -41,7 +39,6 @@ public class OfferDAO {
         return result;
 
     }
-    //TODO controllo set.next() modificare per valori null
     // Retrieve the offer of the current user for the selected listing
     public OfferDTO getUserOfferByListing(String currentUsername, int listingID) throws SQLException {
         String sqlString = "SELECT o.ID, b.pokemonID, o.trader, b.username, o.timestamp, p.pokemonName, p.primaryType, p.secondaryType, p.attack, p.defense, p.imageURL " +
@@ -53,12 +50,14 @@ public class OfferDAO {
         statement.setInt(1, listingID);
         statement.setString(1, currentUsername);
         ResultSet set = statement.executeQuery();
-        set.next();
-        OfferDTO offer = new OfferDTO(set.getInt("ID"),set.getString("trader"),set.getString("username"),
-                set.getTimestamp("timestamp"),set.getString("pokemonName"),set.getString("primaryType"),
-                set.getString("secondaryType"), set.getInt("attack"),set.getInt("defense"),set.getString("imageURL"));
-        return offer;
-    }
+        if (set.next()) {
+            OfferDTO offer = new OfferDTO(set.getInt("ID"), set.getString("trader"), set.getString("username"),
+                    set.getTimestamp("timestamp"), set.getString("pokemonName"), set.getString("primaryType"),
+                    set.getString("secondaryType"), set.getInt("attack"), set.getInt("defense"), set.getString("imageURL"));
+            return offer;
+        }
+        return null;
+     }
 
     // Check if the selected offer is the current user offer
     public void validateOfferIDByUsername(int offerID, String currentUsername) throws SQLException {
@@ -84,8 +83,10 @@ public class OfferDAO {
         PreparedStatement statement = offerConnection.prepareStatement(sqlString);
         statement.setInt(1, offerID);
         ResultSet set = statement.executeQuery();
-        set.next();
-        return set.getString(("username"));
+        if(set.next()) {
+            return set.getString(("username"));
+        }
+        return null;
     }
 
     // Insert a new offer in the database
