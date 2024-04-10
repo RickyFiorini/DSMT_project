@@ -11,6 +11,10 @@
 
 <head>
     <title>PokeTrade - Profile</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/profile.css?v=1.10" />
+    <!--script src="js/searchbar.js?v=1.9" defer> </script-->
 </head>
 
 <body>
@@ -22,50 +26,54 @@
 
     <%-- Get user info from request and show them aside --%>
     <% UserProfileDTO user = (UserProfileDTO) request.getAttribute("userInfo"); %>
-    <div class="left profile-info">
-        <div class="user-info">
-            <div class="info">
-                <h1>Username</h1>
-                <label>
-                    <%= user.getUsername() %>
-                </label>
+
+    <div id="backgroundBlock"></div>
+    <div class="content-wrapper">
+        <div class="left profile-info">
+            <div class="user-info">
+                <div class="info">
+                    <img src="icons/placeholder_user.png">
+                    <h1>Username</h1>
+                    <label>
+                        <%= user.getUsername() %>
+                    </label>
+                </div>
+                <div class="info">
+                    <h1>Name</h1>
+                    <label>
+                        <%= user.getName() %>
+                    </label>
+                </div>
+                <div class="info">
+                    <h1>Surname</h1>
+                    <label>
+                        <%= user.getSurname() %>
+                    </label>
+                </div>
             </div>
-            <div class="info">
-                <h1>Name</h1>
-                <label>
-                    <%= user.getName() %>
-                </label>
-            </div>
-            <div class="info">
-                <h1>Surname</h1>
-                <label>
-                    <%= user.getSurname() %>
-                </label>
+            <div class="user-sections">
+                <div class="section">
+                    <a id="box-section"
+                       href="${pageContext.request.contextPath}/profile?profileSection=box">
+                        <button type="submit"> Box </button>
+                    </a>
+                </div>
+                <div class="section">
+                    <a id="listings-section"
+                       href="${pageContext.request.contextPath}/profile?profileSection=listings">
+                        <button type="submit"> Listings </button>
+                    </a>
+                </div>
             </div>
         </div>
-        <div class="user-sections">
-            <div class="section">
-                <a id="box-section"
-                      href="${pageContext.request.contextPath}/profile?profileSection=box">
-                    <button type="submit"> Box </button>
-                </a>
-            </div>
-            <div class="section">
-                <a id="listings-section"
-                      href="${pageContext.request.contextPath}/profile?profileSection=listings">
-                    <button type="submit"> Listings </button>
-                </a>
-            </div>
-        </div>
-    </div>
 
-    <%-- Check the selected profile section --%>
-    <% String profileSection = request.getParameter("profileSection"); %>
+        <%-- Check the selected profile section --%>
+        <% String profileSection = request.getParameter("profileSection"); %>
 
-    <%-- Get the box from request and show it at the center --%>
-    <div class="center section-wrapper">
-        <%-- If the user selected the box section, show his box --%>
-        <% if (profileSection.equals("box")) { %>
+        <%-- Get the box from request and show it at the center --%>
+        <div class="center section-wrapper">
+            <%-- If the user selected the box section, show his box --%>
+            <% if (profileSection.equals("box")) { %>
             <% for(BoxDTO box : (List<BoxDTO>)request.getAttribute("boxList")) { %>
             <div class="card box-card" id="<%=box.getBoxID()%>">
                 <%-- TODO IMPLEMENTARE showPokemonDetails(boxID) CON JS
@@ -97,10 +105,10 @@
                 <% } %>
             </div>
             <% } %>
-        <% } %>
+            <% } %>
 
-        <%-- If the user selected the listings section, show his listings --%>
-        <% if (profileSection.equals("listings")) { %>
+            <%-- If the user selected the listings section, show his listings --%>
+            <% if (profileSection.equals("listings")) { %>
             <% for(ListingDTO listing : (List<ListingDTO>)request.getAttribute("listingList")) { %>
             <div class="card listing-card" id="<%=listing.getID()%>">
                 <a href="${pageContext.request.contextPath}/listing?listingID=<%=listing.getID()%>">
@@ -118,23 +126,8 @@
                 <button onclick='deleteListing("<%=listing.getID()%>","${pageContext.request.contextPath}/listing?listingID=" + <%=listing.getID()%>, "<%=user.getUsername()%>")'>DELETE</button>
             </div>
             <% } %>
-        <% } %>
-    </div>
-
-    <!-- Show the details of the selected pokemon on the right side -->
-    <!-- TODO IMPLEMENTARE SECTION CON I DETAILS DEL POKEMON:
-          QUANDO FACCIO CLICK SUL POKEMON, MOSTRO A DESTRA I DETAILS E IL BUTTON "NEW LISTING" -->
-    <div class="right pokemon-wrapper" id="">
-        <img src="" id="pokemon-details-img" class="img-box-big" alt="Image placeholder">
-        <h1 id="pokemon-details-name"></h1>
-        <h2 id="pokemon-details-type"></h2>
-
-        <!-- TODO GESTIONE NEW LISTING (E SE IL POKEMON HA LISTED=TRUE, DEVO MOSTRARE IL BUTTON)
-                SETTARE DINAMICAMENTE L'ID DEL BUTTON CON IL BOXID -->
-        <form id="new-listing" method="post"
-              action="${pageContext.request.contextPath}/profile?profileSection=listing">
-            <button id="new-listing-button" type="submit" name="boxID" value="" hidden="hidden"> New Listing </button>
-        </form>
+            <% } %>
+        </div>
     </div>
 
 </div>
