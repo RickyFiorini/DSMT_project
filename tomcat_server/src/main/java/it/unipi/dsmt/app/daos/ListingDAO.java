@@ -91,7 +91,6 @@ public class ListingDAO {
         statement.setInt(1, listingID);
         statement.setString(2, currentUsername);
         ResultSet set = statement.executeQuery();
-        set.next();
         if (set.next())
             return true;
         throw new SQLException("No listing for this user");
@@ -113,11 +112,11 @@ public class ListingDAO {
     // Insert a new listing into the database
     public String insertListing(Listing listing) throws SQLException  {
         try {
-            String sqlString = "INSERT INTO listing(boxID, winner, timestamp) VALUES (?, ?, ?, ?)";
+            String sqlString = "INSERT INTO listing(boxID, winner, timestamp) VALUES (?, ?, ?)";
             PreparedStatement statement = listingConnection.prepareStatement(sqlString);
             statement.setInt(1, listing.getBoxID());
-            statement.setString(3, listing.getWinner());
-            statement.setTimestamp(4, listing.getTimestamp());
+            statement.setString(2, listing.getWinner());
+            statement.setTimestamp(3, listing.getTimestamp());
             int changedCount = statement.executeUpdate();
             return changedCount == 0 ? "Listing not inserted" : "";
         } catch (SQLIntegrityConstraintViolationException e) {

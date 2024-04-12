@@ -18,7 +18,7 @@ public class AuthenticationHandler {
         password = AccessController.encryptPassword(password);
         String firstname = Optional.ofNullable(request.getParameter("name")).orElse("");
         String surname = Optional.ofNullable(request.getParameter("surname")).orElse("");
-        User userInfo = new User(username, password, firstname, surname, true, new Date(System.currentTimeMillis()));
+        User userInfo = new User(username, password, firstname, surname, new Date(System.currentTimeMillis()));
         System.out.println(String.format("[Server] -> Received SignUp Request: %s", userInfo.toString()));
         return userInfo;
     }

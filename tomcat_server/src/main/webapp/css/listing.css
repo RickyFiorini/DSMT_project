@@ -33,23 +33,30 @@ body{
     display: flex;
 }
 
-.profile-info{
+.listing-info{
     width: 16%;
     float: left;
 }
 
 .section-wrapper {
-    width: 80%;
+    width: 60%;
     float: left;
     height: 100%;
     display: grid;
-    grid-template-columns: 0.25fr 0.25fr 0.25fr 0.25fr 0.25fr;
+    grid-template-columns: 0.25fr 0.25fr 0.25fr 0.25fr;
     overflow-x: hidden;
     overflow-y: scroll;
     gap: 2rem;
     padding: 0.5rem 0.3rem 0.5rem 0.3rem;
     margin-left: 2%;
     margin-right: 2%;
+}
+
+.popup{
+    width: 20%;
+    float: right;
+    grid-template-columns: 0.5fr 0.5fr;
+    display: none;
 }
 
 
@@ -60,8 +67,24 @@ body{
 
 
 /* Listings Cards */
-.img-box{
+
+
+.card.offer-card > .img-box{
     width: 200px;
+}
+
+.popup-box-card > .img-box{
+    width: 100px;
+}
+
+.card.popup-box-card {
+    margin: 5%;
+    width: 95%;
+    height: 15rem;
+}
+
+.card.offer-card{
+    height: 25rem;
 }
 
 .card {
@@ -77,22 +100,22 @@ body{
     border: none;
     align-items: center;
 }
-.card > .listing-img{
+.card > a > .listing-img{
     width: 128px;
     padding-top: 5%;
 }
 .card:hover {
     background: rgb(255, 255, 255, 1);
 }
-.card > h1, .card > a > h1 {
+.card > h1, .info > h1 {
     font-size: 20px;
     margin: 0px;
 }
-.card > h2, .card > a > h2 {
+.card > h2, .info > h2 {
     font-size: 15px;
     margin: 0px;
 }
-.card > h4, .card > a > h4 {
+.card > h3, .info > h3 {
     font-size: 15px;
     margin: 0px;
 }
@@ -105,7 +128,7 @@ body{
     border-radius: 50%;
     background: radial-gradient(circle, rgba(255, 0, 24, 1) 0%, rgba(212, 0, 7, 1) 60%);
 }
-.card >.connected {
+.card > .connected {
     background: radial-gradient(circle, rgba(39, 255, 0, 1) 0%, rgba(29, 193, 0, 1) 60%);
 }
 .hidden {

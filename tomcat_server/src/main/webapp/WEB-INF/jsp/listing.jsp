@@ -11,7 +11,10 @@
 
 <head>
     <title>PokeTrade - Listing</title>
-    <script src="listing.js" type="text/javascript"></script>
+    <script src="js/listing.js" type="text/javascript"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/listing.css?v=1.10" />
 </head>
 
 <body>
@@ -29,83 +32,119 @@
 
     <%-- Get listing info from request and show them aside --%>
     <% ListingDTO listing = (ListingDTO) request.getAttribute("listing"); %>
-    <div class="left listing-info">
-        <h1>
-            Winner: <%=listing.getWinner()%>
-        </h1>
-        <h2>
-            Timestamp: <%=listing.getTimestamp()%>
-        </h2>
-        <h3>
-            Username: <%=listing.getUsername()%>
-        </h3>
-        <h3>
-            Listing ID: <%=listing.getID()%>
-        </h3>
 
-        <%-- If the current user is not the owner of the listing, he can make an offer --%>
-        <% if (!currentUser.equals(listing.getUsername())) { %>
-        <%-- Show the user box, so he can select the pokemon to offer --%>
-        <button type="button" onclick="showBox('box-popup')"> MAKE AN OFFER </button>
-        <% } %>
+    <div id="backgroundBlock"></div>
+    <div class="content-wrapper">
 
-    </div>
+        <div class="left listing-info">
+            <img src="<%=listing.getImageURL()%>">
+            <div class="user-info">
 
-    <%-- If the current user is not the owner of the listing, he can make an offer --%>
-    <% if (!currentUser.equals(listing.getUsername())) { %>
-        <!-- This popup shows the user box, but initially it is hidden (display=none) -->
-        <div class="popup" id="box-popup">
-            MY BOX
-            <% for(BoxDTO box : (List<BoxDTO>)request.getAttribute("boxList")) { %>
-            <div class="popup-box-card" id="<%=box.getBoxID()%>">
+                <div class="info">
+                    <h1>Username:</h1>
+                    <label>
+                        <%=listing.getUsername()%>
+                    </label>
+                </div>
+                <div class="info">
+                    <h1>Pokemon:</h1>
+                    <label>
+                        <%=listing.getPokemonName()%>
+                    </label>
+                </div>
+                <div class="info">
+                    <h1>Type:</h1>
+                    <label>
+                        <%=listing.getPrimaryType()%>
+                    </label>
+                </div>
+                <div class="info">
+                    <h1>Stats:</h1>
+                    <label>
+                        Atk: <%=listing.getAttack()%> Def: <%=listing.getDefense()%>
+                    </label>
+                </div>
+            </div>
+
+
+
+            <%-- If the current user is not the owner of the listing, he can make an offer --%>
+            <% if (!currentUser.equals(listing.getUsername())) { %>
+            <%-- Show the user box, so he can select the pokemon to offer --%>
+            <button type="button" onclick="showBox('box-popup')"> MAKE AN OFFER </button>
+            <% } %>
+
+        </div>
+
+
+        <%-- Get list of offers from request and show them at the center --%>
+        <div class="center section-wrapper">
+            <% for(OfferDTO offer : (List<OfferDTO>)request.getAttribute("offerList")){ %>
+            <div class="card offer-card" id="<%=offer.getOfferID()%>">
+                <img src="<%=offer.getImageURL()%>" class="img-box" alt="Image placeholder">
                 <h1>
-                    Pokemon ID: <%=box.getPokemonID()%>
+                    <%-- Pokemon Name --%>
+                    <%=offer.getPokemonName()%>
                 </h1>
                 <h2>
-                    Box ID: <%=box.getBoxID()%>
+                    <%-- Pokemon type --%>
+                    <%=offer.getPrimaryType()%>
                 </h2>
-                <h2>
-                    Listed: <%=box.isListed()%>
-                </h2>
+                <h3>
+                    Trader: <%=offer.getTrader()%>
+                </h3>
+                <h4>
+                    Atk: <%=offer.getAttack()%> Def: <%=offer.getDefense()%>
+                </h4>
+                <%-- If the current user is the owner of the listing, he can accept an offer --%>
+                <% if (currentUser.equals(listing.getUsername())) { %>
+                <%-- TODO ACCETTARE UNA OFFER, EFFETTUARE IL TRADE
+                      E NOTIFICARE TUTTI COLORO CHE HANNO PARTECIPATO
+                      E VENGO PORTATO AL MIO BOX --%>
+                <%-- <button type="button" onclick="acceptOffer()"> TRADE </button> --%>
                 <form method="post"
-                      action="${pageContext.request.contextPath}/listing?listingID=<%=listing.getID()%>&boxID=<%=box.getBoxID()%>">
-                    <button type="submit"> Select </button>
+                      action="${pageContext.request.contextPath}/listing?listingID=<%=listing.getID()%>&offerID=<%=offer.getOfferID()%>">
+                    <button type="submit"> TRADE </button>
                 </form>
+                <% } %>
             </div>
             <% } %>
-            <a href="#" onclick="hideBox('box-popup')">Close</a>
         </div>
-    <% } %>
 
-    <%-- Get list of offers from request and show them at the center --%>
-    <div class="center offers-wrapper">
-        <% for(OfferDTO offer : (List<OfferDTO>)request.getAttribute("offerList")){ %>
-        <div class="card offer-card" id="<%=offer.getOfferID()%>">
-            <h1>
-                Offer ID: <%=offer.getOfferID()%>
-            </h1>
-            <h2>
-                Pokemon ID: <%=offer.getPokemonID()%>
-            </h2>
-            <h3>
-                Trader: <%=offer.getTrader()%>
-            </h3>
-            <h3>
-                Timestamp: <%=offer.getTimestamp()%>
-            </h3>
-            <%-- If the current user is the owner of the listing, he can accept an offer --%>
-            <% if (currentUser.equals(listing.getUsername())) { %>
-            <%-- TODO ACCETTARE UNA OFFER, EFFETTUARE IL TRADE
-                  E NOTIFICARE TUTTI COLORO CHE HANNO PARTECIPATO
-                  E VENGO PORTATO AL MIO BOX --%>
-            <%-- <button type="button" onclick="acceptOffer()"> TRADE </button> --%>
-            <form method="post"
-                  action="${pageContext.request.contextPath}/listing?listingID=<%=listing.getID()%>&offerID=<%=offer.getOfferID()%>">
-                <button type="submit"> TRADE </button>
-            </form>
-            <% } %>
-        </div>
+
+    <%-- If the current user is not the owner of the listing, he can make an offer --%>
+        <% if (!currentUser.equals(listing.getUsername())) { %>
+            <!-- This popup shows the user box, but initially it is hidden (display=none) -->
+            <div class="popup" id="box-popup">
+                <% for(BoxDTO box : (List<BoxDTO>)request.getAttribute("boxList")) { %>
+                <div class="card popup-box-card" id="<%=box.getBoxID()%>">
+                    <img src="<%=box.getImageURL()%>" class="img-box" alt="Image placeholder"
+                         onclick="showPokemonDetails('<%=box.getBoxID()%>')">
+                    <h1>
+                        <%-- Pokemon Name --%>
+                        <%=box.getPokemonName()%>
+                    </h1>
+                    <h2>
+                        <%-- Pokemon type --%>
+                        <%=box.getPrimaryType()%>
+                    </h2>
+                    <h4>
+                        Atk: <%=box.getAttack()%> Def: <%=box.getDefense()%>
+                    </h4>
+                    <h3>
+                        Listed: <%=box.isListed()%>
+                    </h3>
+
+                    <form method="post"
+                          action="${pageContext.request.contextPath}/listing?listingID=<%=listing.getID()%>&boxID=<%=box.getBoxID()%>">
+                        <button type="submit"> Select </button>
+                    </form>
+                </div>
+                <% } %>
+                <a href="#" onclick="hideBox('box-popup')">Close</a>
+            </div>
         <% } %>
+
     </div>
 
 
