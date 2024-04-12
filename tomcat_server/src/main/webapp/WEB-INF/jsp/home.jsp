@@ -40,9 +40,9 @@
             <% for(ListingDTO listing : (List<ListingDTO>)request.getAttribute("openListingList")){ %>
             <div class="card listing-card" id="<%=listing.getID()%>">
                 <a href="${pageContext.request.contextPath}/listing?listingID=<%=listing.getID()%>">
-                    <img class="listing-img" src="icons/placeholder_pokemon.png">
+                    <img src="<%=listing.getImageURL()%>" class="img-box" alt="icons/placeholder_pokemon.png">
                     <h1>
-                        <%=listing.getPokemonID()%>
+                        <%=listing.getPokemonName()%>
                     </h1>
                     <h3>
                         <%=listing.getUsername()%>

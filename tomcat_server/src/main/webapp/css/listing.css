@@ -39,17 +39,24 @@ body{
 }
 
 .section-wrapper {
-    width: 80%;
+    width: 60%;
     float: left;
     height: 100%;
     display: grid;
-    grid-template-columns: 0.25fr 0.25fr 0.25fr 0.25fr 0.25fr;
+    grid-template-columns: 0.25fr 0.25fr 0.25fr 0.25fr;
     overflow-x: hidden;
     overflow-y: scroll;
     gap: 2rem;
     padding: 0.5rem 0.3rem 0.5rem 0.3rem;
     margin-left: 2%;
     margin-right: 2%;
+}
+
+.popup{
+    width: 20%;
+    float: right;
+    grid-template-columns: 0.5fr 0.5fr;
+    display: none;
 }
 
 
@@ -60,8 +67,27 @@ body{
 
 
 /* Listings Cards */
+
+
+.card.offer-card > .img-box{
+    width: 200px;
+}
+
+.popup-box-card > .img-box{
+    width: 100px;
+}
+
+.card.popup-box-card {
+    margin: 5%;
+    width: 95%;
+    height: 15rem;
+}
+
+.card.offer-card{
+    height: 25rem;
+}
+
 .card {
-    position: relative;
     width: 100%;
     height: 20rem;
     background: rgba(224, 224, 224, 1);
@@ -72,6 +98,7 @@ body{
     transition: all 0.2s ease-in-out;
     outline: none;
     border: none;
+    align-items: center;
 }
 .card > a > .listing-img{
     width: 128px;
@@ -80,16 +107,19 @@ body{
 .card:hover {
     background: rgb(255, 255, 255, 1);
 }
-.card > a > h1 {
+.card > h1, .info > h1 {
     font-size: 20px;
+    margin: 0px;
 }
-.card > a > h2 {
+.card > h2, .info > h2 {
     font-size: 15px;
+    margin: 0px;
 }
-.card > a > h3 {
+.card > h3, .info > h3 {
     font-size: 15px;
+    margin: 0px;
 }
-.card > a > .flag {
+.card > .flag {
     position: absolute;
     top: 0.6rem;
     left: 0.6rem;
@@ -108,5 +138,4 @@ body{
 a {
     text-decoration: none;
     color: blue;
-    max-height: 139.3px;
 }

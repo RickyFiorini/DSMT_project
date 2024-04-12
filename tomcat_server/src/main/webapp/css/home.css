@@ -112,6 +112,12 @@ body{
     border-radius: 4rem;
 }
 
+/* Pokemon cards */
+.img-box{
+    width: 200px;
+    background-image: url("/icons/placeholder_pokemon.png");
+}
+
 .card {
     position: relative;
     width: 100%;
@@ -134,12 +140,15 @@ body{
 }
 .card > a > h1 {
     font-size: 20px;
+    margin: 0px;
 }
 .card > a > h2 {
     font-size: 15px;
+    margin: 0px;
 }
 .card > a > h3 {
     font-size: 15px;
+    margin: 0px;
 }
 .card > a > .flag {
     position: absolute;
@@ -153,6 +162,12 @@ body{
 .card > .connected {
     background: radial-gradient(circle, rgba(39, 255, 0, 1) 0%, rgba(29, 193, 0, 1) 60%);
 }
+
+a {
+    text-decoration: none;
+    color: blue;
+}
+
 .hidden {
     display: none;
 }

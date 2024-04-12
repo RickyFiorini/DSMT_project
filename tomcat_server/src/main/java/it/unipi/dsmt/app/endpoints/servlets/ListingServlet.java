@@ -138,7 +138,7 @@ public class ListingServlet extends HttpServlet {
 
                 // Check if the current user already made an offer
                 OfferDTO offer = offerDAO.getUserOfferByListing(currentUsername, listingID);
-                Offer newOffer = new Offer(listingID, boxID, currentUsername, false, new Timestamp(System.currentTimeMillis()));
+                Offer newOffer = new Offer(listingID, boxID, currentUsername, new Timestamp(System.currentTimeMillis()));
                 System.out.println("Offered Pokemon: " + boxID);
                 // if it is a new offer, insert it in the database
                 if (offer == null) {

@@ -14,6 +14,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="css/profile.css?v=1.10" />
+    <script src="js/profile.js"></script>
     <!--script src="js/searchbar.js?v=1.9" defer> </script-->
 </head>
 
@@ -30,9 +31,9 @@
     <div id="backgroundBlock"></div>
     <div class="content-wrapper">
         <div class="left profile-info">
+            <img src="icons/placeholder_user.png">
             <div class="user-info">
                 <div class="info">
-                    <img src="icons/placeholder_user.png">
                     <h1>Username</h1>
                     <label>
                         <%= user.getUsername() %>
@@ -76,32 +77,29 @@
             <% if (profileSection.equals("box")) { %>
             <% for(BoxDTO box : (List<BoxDTO>)request.getAttribute("boxList")) { %>
             <div class="card box-card" id="<%=box.getBoxID()%>">
-                <%-- TODO IMPLEMENTARE showPokemonDetails(boxID) CON JS
-                      E DETTAGLI DEL POKEMON IN BoxDTO --%>
-                <img src="<%--=box.getImageUrl()--%>" class="img-box" alt="Image placeholder"
+                <img src="<%=box.getImageURL()%>" class="img-box" alt="Image placeholder"
                      onclick="showPokemonDetails('<%=box.getBoxID()%>')">
                 <h1>
-                    Pokemon Name: <%--=box.getPokemonName()--%>
+                    <%-- Pokemon Name --%>
+                    <%=box.getPokemonName()%>
                 </h1>
                 <h2>
-                    Pokemon Type: <%--=box.getPokemonType()--%>
+                    <%-- Pokemon type --%>
+                    <%=box.getPrimaryType()%>
                 </h2>
-                <h3>
-                    Box ID: <%=box.getBoxID()%>
-                </h3>
-                <h3>
-                    Pokemon ID: <%=box.getPokemonID()%>
-                </h3>
+                <h4>
+                   Atk: <%=box.getAttack()%> Def: <%=box.getDefense()%>
+                </h4>
 
                 <!-- TODO IMPLEMENTARE FUNZIONE PER LA CREAZIONE DI UNA NUOVA LISTING -->
+
+                <%-- If the pokemon is not listed already --%>
+                <% if (!box.isListed()) { %>
+                <%-- Show the button that allows the creation of a new listing --%>
                 <form method="post"
                       action="${pageContext.request.contextPath}/profile?profileSection=listings&boxID=<%=box.getBoxID()%>">
                     <button type="submit"> CREATE LISTING </button>
                 </form>
-                <%-- If the pokemon is not listed already --%>
-                <% if (!box.isListed()) { %>
-                <%-- Show the button that allows the creation of a new listing --%>
-                <button type="button" onclick="createListing()"> CREATE LISTING </button>
                 <% } %>
             </div>
             <% } %>
@@ -112,18 +110,18 @@
             <% for(ListingDTO listing : (List<ListingDTO>)request.getAttribute("listingList")) { %>
             <div class="card listing-card" id="<%=listing.getID()%>">
                 <a href="${pageContext.request.contextPath}/listing?listingID=<%=listing.getID()%>">
-                    <img src="<--%=listing.getImageURL()--%>" class="img-listing" alt="Image placeholder">
+                    <img src="<%=listing.getImageURL()%>" class="img-listing" alt="Image placeholder">
                     <h1>
-                        Pokemon ID: <%=listing.getPokemonID()%>
+                        <%=listing.getPokemonName()%>
                     </h1>
                     <h2>
                         Listing ID: <%=listing.getID()%>
                     </h2>
-                    <h3>
+                    <h4>
                         Timestamp: <%=listing.getTimestamp()%>
-                    </h3>
+                    </h4>
                 </a>
-                <button onclick='deleteListing("<%=listing.getID()%>","${pageContext.request.contextPath}/listing?listingID=" + <%=listing.getID()%>, "<%=user.getUsername()%>")'>DELETE</button>
+                <button onclick='deleteListing("<%=listing.getID()%>","${pageContext.request.contextPath}/profile", "<%=listing.getUsername()%>")'>DELETE</button>
             </div>
             <% } %>
             <% } %>

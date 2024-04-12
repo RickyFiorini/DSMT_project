@@ -48,7 +48,7 @@ public class OfferDAO {
                 "WHERE o.listingID= ? AND b.username= ? ";
         PreparedStatement statement = offerConnection.prepareStatement(sqlString);
         statement.setInt(1, listingID);
-        statement.setString(1, currentUsername);
+        statement.setString(2, currentUsername);
         ResultSet set = statement.executeQuery();
         if (set.next()) {
             OfferDTO offer = new OfferDTO(set.getInt("ID"), set.getString("trader"), set.getString("username"),
@@ -67,7 +67,7 @@ public class OfferDAO {
                 "WHERE o.ID= ? AND b.username= ? ";
         PreparedStatement statement = offerConnection.prepareStatement(sqlString);
         statement.setInt(1, offerID);
-        statement.setString(1, currentUsername);
+        statement.setString(2, currentUsername);
         ResultSet set = statement.executeQuery();
         if (set.next())
             throw new SQLException("Invalid chat for username");
