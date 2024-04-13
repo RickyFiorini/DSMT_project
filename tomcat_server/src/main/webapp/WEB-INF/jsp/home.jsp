@@ -9,8 +9,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="css/home.css?v=1.10" />
-    <!--script src="js/searchbar.js?v=1.9" defer> </script-->
+    <link rel="stylesheet" href="css/home.css" />
+    <script src="js/searchbar.js" defer> </script>
     <title>PokeTrade - Home</title>
 </head>
 
@@ -22,9 +22,9 @@
 
     <%-- TODO MODIFICARE FRONT-END SULLA BASE DELLE INFO CHE SI VOGLIONO RAGGIUNGERE (href verso altre pagine) --%>
     <div class="search">
-        <input type="text" class="searchTerm" placeholder="What are you looking for?">
+        <input type="text" class="searchTerm" id="searchbar" placeholder="What are you looking for?">
         <button type="submit" class="searchButton">
-            <img src="icons/search.png">
+            <img src="icons/search.png" alt="search icon" onclick="searchListing()">
         </button>
         <!--form action="search" method="get" class="site-block-top-search">
             <input name="keyword" type="text" class="form-listing" placeholder="Search">
@@ -37,8 +37,16 @@
     </div>
     <div class="center-board">
         <div class="listings-wrapper">
-            <% for(ListingDTO listing : (List<ListingDTO>)request.getAttribute("openListingList")){ %>
-            <div class="card listing-card" id="<%=listing.getID()%>">
+            <% for(ListingDTO listing : (List<ListingDTO>)request.getAttribute("listingList")){ %>
+            <% String listingStatus = "listing-card"; %>
+            <% if (listing.getWinner() != null) {
+                listingStatus += "-past";
+            } %>
+            <div class="card <%=listingStatus%>" id="<%=listing.getID()%>"
+                <% if (listing.getWinner() != null) { %>
+                    style="display: none;"
+                    <% } %>
+            >
                 <a href="${pageContext.request.contextPath}/listing?listingID=<%=listing.getID()%>">
                     <img src="<%=listing.getImageURL()%>" class="img-box" alt="icons/placeholder_pokemon.png">
                     <h1>

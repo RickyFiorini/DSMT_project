@@ -42,6 +42,7 @@ public class HomeServlet extends HttpServlet {
                     return !listing.getUsername().equals(currentUsername);
                 }
             }).collect(Collectors.toList());
+            request.setAttribute("listingList", listingList);
 
             // Filter out the open listings
             List<ListingDTO> closedListingList = listingList.stream().filter(new Predicate<ListingDTO>() {
