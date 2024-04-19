@@ -11,7 +11,12 @@
 /* SEARCH BAR */
 body{
     background-color: #7e4938;
-    background-image: url("https://www.transparenttextures.com/patterns/bright-squares.png");
+    background-image: url("../images/poke_bkgd_2.jpg");
+    background-position: center 10%;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    margin: 0;
 }
 
 .searchTerm {

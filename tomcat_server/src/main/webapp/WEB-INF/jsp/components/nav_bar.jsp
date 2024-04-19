@@ -10,5 +10,5 @@
 <nav class="navbar">
   <a href="${pageContext.request.contextPath}/home">Home</a>
   <a href="${pageContext.request.contextPath}/profile?profileSection=box">Profile</a>
-  <a onclick='handleLogout(event, "${pageContext.request.contextPath}/logout")'>Logout</a>
+  <a href = "#" onclick='handleLogout(event, "${pageContext.request.contextPath}/logout")'>Logout</a>
 </nav>

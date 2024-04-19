@@ -56,13 +56,13 @@
                 <div class="section">
                     <a id="box-section"
                        href="${pageContext.request.contextPath}/profile?profileSection=box">
-                        <button type="submit"> Box </button>
+                        <button type="submit" class="profile-button"> Box </button>
                     </a>
                 </div>
                 <div class="section">
                     <a id="listings-section"
                        href="${pageContext.request.contextPath}/profile?profileSection=listings">
-                        <button type="submit"> Listings </button>
+                        <button type="submit" class="profile-button"> Listings </button>
                     </a>
                 </div>
             </div>
@@ -98,7 +98,7 @@
                 <%-- Show the button that allows the creation of a new listing --%>
                 <form method="post"
                       action="${pageContext.request.contextPath}/profile?profileSection=listings&boxID=<%=box.getBoxID()%>">
-                    <button type="submit"> CREATE LISTING </button>
+                    <button type="submit" class="profile-button"> New Listing </button>
                 </form>
                 <% } %>
             </div>
@@ -121,7 +121,7 @@
                         Timestamp: <%=listing.getTimestamp()%>
                     </h4>
                 </a>
-                <button onclick='deleteListing("<%=listing.getID()%>","${pageContext.request.contextPath}/profile", "<%=listing.getUsername()%>")'>DELETE</button>
+                <button class="profile-button" onclick='deleteListing("<%=listing.getID()%>","${pageContext.request.contextPath}/profile", "<%=listing.getUsername()%>")'>DELETE</button>
             </div>
             <% } %>
             <% } %>

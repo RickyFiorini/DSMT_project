@@ -64,14 +64,20 @@
                         Atk: <%=listing.getAttack()%> Def: <%=listing.getDefense()%>
                     </label>
                 </div>
+                <div class="info">
+                    <h2>Winner:</h2>
+                    <label>
+                        <%=listing.getWinner()%>
+                    </label>
+                </div>
             </div>
 
 
 
             <%-- If the current user is not the owner of the listing, he can make an offer --%>
-            <% if (!currentUser.equals(listing.getUsername())) { %>
+            <% if (!currentUser.equals(listing.getUsername()) && (listing.getWinner() == null)) { %>
             <%-- Show the user box, so he can select the pokemon to offer --%>
-            <button type="button" onclick="showBox('box-popup')"> MAKE AN OFFER </button>
+            <button class="listing-button" type="button" onclick="showBox('box-popup')"> MAKE AN OFFER </button>
             <% } %>
 
         </div>
@@ -97,14 +103,14 @@
                     Atk: <%=offer.getAttack()%> Def: <%=offer.getDefense()%>
                 </h4>
                 <%-- If the current user is the owner of the listing, he can accept an offer --%>
-                <% if (currentUser.equals(listing.getUsername())) { %>
+                <% if (currentUser.equals(listing.getUsername()) && (listing.getWinner() == null)) { %>
                 <%-- TODO ACCETTARE UNA OFFER, EFFETTUARE IL TRADE
                       E NOTIFICARE TUTTI COLORO CHE HANNO PARTECIPATO
                       E VENGO PORTATO AL MIO BOX --%>
                 <%-- <button type="button" onclick="acceptOffer()"> TRADE </button> --%>
                 <form method="post"
                       action="${pageContext.request.contextPath}/listing?listingID=<%=listing.getID()%>&offerID=<%=offer.getOfferID()%>">
-                    <button type="submit"> TRADE </button>
+                    <button class="listing-button" type="submit"> TRADE </button>
                 </form>
                 <% } %>
             </div>
@@ -116,6 +122,7 @@
         <% if (!currentUser.equals(listing.getUsername())) { %>
             <!-- This popup shows the user box, but initially it is hidden (display=none) -->
             <div class="popup" id="box-popup">
+                <button id="closePopup" class="listing-button" onclick="hideBox('box-popup')"> Close </button>
                 <% for(BoxDTO box : (List<BoxDTO>)request.getAttribute("boxList")) { %>
                 <div class="card popup-box-card" id="<%=box.getBoxID()%>">
                     <img src="<%=box.getImageURL()%>" class="img-box" alt="Image placeholder"
@@ -137,11 +144,10 @@
 
                     <form method="post"
                           action="${pageContext.request.contextPath}/listing?listingID=<%=listing.getID()%>&boxID=<%=box.getBoxID()%>">
-                        <button type="submit"> Select </button>
+                        <button class="listing-button" type="submit"> Select </button>
                     </form>
                 </div>
                 <% } %>
-                <a href="#" onclick="hideBox('box-popup')">Close</a>
             </div>
         <% } %>
 

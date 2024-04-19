@@ -55,6 +55,9 @@
                     <h3>
                         <%=listing.getUsername()%>
                     </h3>
+                    <h3>
+                        Winner: <%=listing.getWinner()%>
+                    </h3>
                     <h4>
                         <%=listing.getTimestamp()%>
                     </h4>

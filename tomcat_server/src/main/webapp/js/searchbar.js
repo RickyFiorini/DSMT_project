@@ -8,9 +8,10 @@ function searchListing() {
     let currentListings = document.getElementsByClassName('listing-card');
     let pastListings = document.getElementsByClassName('listing-card-past');
 
+
     // Handle current listings
     for (i = 0; i < currentListings.length; i++) {
-        if (currentListings[i].querySelector("h1").textContent.toLowerCase().includes(input)) {
+        if (currentListings[i].querySelector("h1").innerText.toLowerCase().startsWith(input)) {
             currentListings[i].style.display = "flex";
         }
         else {
@@ -20,7 +21,7 @@ function searchListing() {
 
     // Handle past listings
     for (i = 0; i < pastListings.length; i++) {
-        if ((togglePastListings.checked) && pastListings[i].querySelector("h1").textContent.toLowerCase().includes(input)) {
+        if ((togglePastListings.checked) && pastListings[i].querySelector("h1").innerText.toLowerCase().startsWith(input)) {
             pastListings[i].style.display = "flex";
         }
         else {
@@ -28,3 +29,10 @@ function searchListing() {
         }
     }
 }
+
+// Event listener for keypress
+document.addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        searchListing();
+    }
+});
