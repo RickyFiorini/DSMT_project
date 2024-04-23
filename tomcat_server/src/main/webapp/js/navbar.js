@@ -1,5 +1,3 @@
-const nws = new WebSocket(`ws://localhost:8083/notification?username=${currentUsername}`);
-const audio = new Audio("sounds/alert.wav");
 
 function createNotificationComponent(sender, chatID) {
     const newNotificationComponent = document.createElement("a");
@@ -79,24 +77,15 @@ async function getChatID(sender) {
     return chatID;
 }
 
-async function getNotificationNumber() {
-    const response = await fetch(`http://localhost:80/app/notificationcount`, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        },
-    });
-    const data = await response.json();
-    return data;
-}
 
-getNotificationNumber().then((data) => {
-    const notificationLabel = document.querySelector("div.notification > label");
-    notificationLabel.innerHTML = data.count;
-});
-
+// To handle logout operation
 function handleLogout(event, redirectPath) {
     event.preventDefault();
     nws.send(JSON.stringify({ type: "logout" }));
     location.href = redirectPath;
+}
+
+// To close the websocket connection
+function closeWebsocket() {
+    cws.close();
 }

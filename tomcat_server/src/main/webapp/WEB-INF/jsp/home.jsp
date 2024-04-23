@@ -10,6 +10,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="css/home.css" />
+    <script>
+        var contextPath = "${pageContext.request.contextPath}";
+        var currentUsername = "<%=AccessController.getUsername(request)%>";
+    </script>
+    <script src="js/home.js" defer> </script>
     <script src="js/searchbar.js" defer> </script>
     <title>PokeTrade - Home</title>
 </head>
@@ -20,7 +25,6 @@
     <jsp:param name="currentUsername" value="<%=AccessController.getUsername(request)%>" />
     </jsp:include>
 
-    <%-- TODO MODIFICARE FRONT-END SULLA BASE DELLE INFO CHE SI VOGLIONO RAGGIUNGERE (href verso altre pagine) --%>
     <div class="search">
         <input type="text" class="searchTerm" id="searchbar" placeholder="What are you looking for?">
         <button type="submit" class="searchButton">
@@ -47,7 +51,7 @@
                     style="display: none;"
                     <% } %>
             >
-                <a href="${pageContext.request.contextPath}/listing?listingID=<%=listing.getID()%>">
+                <a onclick="closeWebsocket()" href="${pageContext.request.contextPath}/listing?listingID=<%=listing.getID()%>">
                     <img src="<%=listing.getImageURL()%>" class="img-box" alt="icons/placeholder_pokemon.png">
                     <h1>
                         <%=listing.getPokemonName()%>

@@ -14,7 +14,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="css/profile.css?v=1.10" />
-    <script src="js/profile.js"></script>
+    <script>
+        var contextPath = "${pageContext.request.contextPath}";
+        var currentUsername = "<%=AccessController.getUsername(request)%>";
+    </script>
+    <%-- TODO DA METTERE defer QUANDO SI PROVA ERLANG --%>
+    <script src="js/profile.js" defer></script>
+
     <!--script src="js/searchbar.js?v=1.9" defer> </script-->
 </head>
 
@@ -54,14 +60,14 @@
             </div>
             <div class="user-sections">
                 <div class="section">
-                    <a id="box-section"
-                       href="${pageContext.request.contextPath}/profile?profileSection=box">
+                    <a id="box-section" href="${pageContext.request.contextPath}/profile?profileSection=box"
+                       onclick="closeWebsocket()">
                         <button type="submit" class="profile-button"> Box </button>
                     </a>
                 </div>
                 <div class="section">
-                    <a id="listings-section"
-                       href="${pageContext.request.contextPath}/profile?profileSection=listings">
+                    <a id="listings-section" href="${pageContext.request.contextPath}/profile?profileSection=listings"
+                       onclick="closeWebsocket()">
                         <button type="submit" class="profile-button"> Listings </button>
                     </a>
                 </div>
@@ -96,10 +102,12 @@
                 <%-- If the pokemon is not listed already --%>
                 <% if (!box.isListed()) { %>
                 <%-- Show the button that allows the creation of a new listing --%>
-                <form method="post"
+                <form id="redirectFormListing_<%=box.getBoxID()%>" hidden="hidden" method="post"
                       action="${pageContext.request.contextPath}/profile?profileSection=listings&boxID=<%=box.getBoxID()%>">
-                    <button type="submit" class="profile-button"> New Listing </button>
                 </form>
+                    <button type="submit" class="profile-button"
+                            onclick='handleNewListing("${pageContext.request.contextPath}/profile","<%=box.getBoxID()%>", "<%=box.getPokemonName()%>")'> New Listing </button>
+
                 <% } %>
             </div>
             <% } %>
@@ -109,7 +117,8 @@
             <% if (profileSection.equals("listings")) { %>
             <% for(ListingDTO listing : (List<ListingDTO>)request.getAttribute("listingList")) { %>
             <div class="card listing-card" id="<%=listing.getID()%>">
-                <a href="${pageContext.request.contextPath}/listing?listingID=<%=listing.getID()%>">
+                <a href="${pageContext.request.contextPath}/listing?listingID=<%=listing.getID()%>"
+                   onclick="closeWebsocket()">
                     <img src="<%=listing.getImageURL()%>" class="img-listing" alt="Image placeholder">
                     <h1>
                         <%=listing.getPokemonName()%>

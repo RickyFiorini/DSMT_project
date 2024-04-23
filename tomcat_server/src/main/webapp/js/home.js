@@ -1,49 +1,5 @@
 const cws = new WebSocket(`ws://localhost:8081/home?username=${currentUsername}`);
-// TODO DA METTERE QUANDO SI FANNO LE PROVE CON ERLANG
-// const listingsWrapper = document.querySelector(".center.section-wrapper");
-
-// Send the "delete" request to the servlet and remove the listing from the user profile
-async function deleteListing(listingID, path, user) {
-    const response = await fetch(`${path}?listingID=${listingID}`, {
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/json",
-        },
-    });
-    if (response.status === 200) {
-        const listingList = document.querySelector("div.center.section-wrapper");
-        listingList && listingList.removeChild(document.getElementById(listingID));
-        // TODO DOPO L'ELIMINAZIONE DI UNA LISTING DEVO NOTIFICARE COLORO CHE HANNO FATTO
-        //  UNA OFFER ED ELIMINARE LE OFFER RIGUARDANTE QUELLA LISTING
-        //  CON ERLANG?
-        nws && nws.send(JSON.stringify({ type: "delete", listingID }));
-    }
-}
-
-// Send post request to the servlet and handle new listing
-function handleNewListing(path, boxID, pokemon){
-
-    // Send post request to the servlet (for user redirection)
-    // TODO DA TOGLIERE QUANDO SI FANNO LE PROVE CON ERLANG
-    document.getElementById("redirectFormListing_" + boxID).submit();
-
-    const timestamp = Date.now();
-    const operation = "insert";
-
-    // Send listing with websocket
-    cws.send(
-        JSON.stringify({
-            boxID: boxID,
-            timestamp: timestamp,
-            operation: operation,
-        })
-    );
-    // Close websocket connection with ListingServer erlang node
-    // TODO DA TOGLIERE QUANDO SI FANNO LE PROVE CON ERLANG
-    closeWebsocket();
-}
-
-/*
+const listingsWrapper = document.querySelector(".listings-wrapper");
 
 // TODO QUANDO RICEVO UN MESSAGGIO DA WEBSOCKET, A SECONDA DEL MESSAGGIO DEVO AGGIUNGERE O ELIMINARE UNA LISTING
 // To handle receiving of messages on websocket
@@ -53,7 +9,7 @@ cws.onmessage = (event) => {
 
         const timestamp = formatTimestamp(Date.now());
 
-        // TODO DEBUG
+        // DEBUG
         console.log("Listing ID: " + message.listingID +
             "Winner: " + message.winner + " " +
             "Timestamp: " + timestamp + " " +
@@ -61,6 +17,8 @@ cws.onmessage = (event) => {
             "PokemonName: " + message.pokemonName + " " +
             "ImageURL: " + message.imageURL
         );
+
+        // Append the new listing
         appendListingComponent(message.listingID, timestamp, message.username, message.pokemonName, message.imageURL);
         return;
     }
@@ -124,4 +82,3 @@ cws.onerror = (event) => {
 function closeWebsocket() {
     cws.close();
 }
-*/

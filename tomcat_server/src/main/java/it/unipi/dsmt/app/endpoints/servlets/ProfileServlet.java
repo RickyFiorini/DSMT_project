@@ -86,14 +86,16 @@ public class ProfileServlet extends HttpServlet {
 
             // Here profileSection == listings
             String currentUsername = AccessController.getUsername(request);
-            int boxID = Integer.parseInt(request.getParameter("boxID"));
-            // TODO NELLA NUOVA VERSIONE, DEVO PRENDERE SOLO BOX ID
-            //  int pokemonID = Integer.parseInt(request.getParameter("pokemonID"));
 
+            // TODO NON DEVO INSERIRE LA LISTING DA QUI, PERCHÈ LO SI FA DA ERLANG
+
+            /*
             // Insert a new listing in the database
-            ListingDAO listingDAO = new ListingDAO((Connection) getServletContext().getAttribute("databaseConnection"));
+            ListingDAO = new ListingDAO((Connection) getServletContext().getAttribute("databaseConnection"));
+            int boxID = Integer.parseInt(request.getParameter("boxID"));
             Listing listing = new Listing(boxID, null, new Timestamp(System.currentTimeMillis()));
             listingDAO.insertListing(listing);
+             */
 
             // Retrieve the current user info
             UserDAO userDAO = new UserDAO((Connection) getServletContext().getAttribute("databaseConnection"));
@@ -101,6 +103,7 @@ public class ProfileServlet extends HttpServlet {
             request.setAttribute("userInfo", userInfo);
 
             // Retrieve current user listings
+            ListingDAO listingDAO = new ListingDAO((Connection) getServletContext().getAttribute("databaseConnection"));
             List<ListingDTO> listingList = listingDAO.getListingsByUsername(currentUsername);
             request.setAttribute("listingList", listingList);
 

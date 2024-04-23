@@ -17,7 +17,6 @@ public class ListingDAO {
         listingConnection = db;
     }
 
-    //TODO MODIFICARE DTO AGGIUNGERE POKEMON ID QUI X TUTTI DTO
     // Retrieve all the listings of the database
     public List<ListingDTO> getListings() throws SQLException {
         ArrayList<ListingDTO> result = new ArrayList<>();
