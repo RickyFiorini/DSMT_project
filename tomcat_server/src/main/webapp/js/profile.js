@@ -23,10 +23,6 @@ async function deleteListing(listingID, path, user) {
 // Send post request to the servlet and handle new listing
 function handleNewListing(path, boxID, pokemon){
 
-    // Send post request to the servlet (for user redirection)
-    // TODO DA TOGLIERE QUANDO SI FANNO LE PROVE CON ERLANG
-    document.getElementById("redirectFormListing_" + boxID).submit();
-
     const timestamp = Date.now();
     const operation = "insert";
 
@@ -41,6 +37,21 @@ function handleNewListing(path, boxID, pokemon){
     // Close websocket connection with ListingServer erlang node
     // TODO DA TOGLIERE QUANDO SI FANNO LE PROVE CON ERLANG
     closeWebsocket();
+
+    // Send post request to the servlet (for user redirection)
+    // TODO DA TOGLIERE QUANDO SI FANNO LE PROVE CON ERLANG
+    document.getElementById("redirectFormListing_" + boxID).submit();
+}
+
+// To close the websocket connection
+function closeWebsocket() {
+    cws.close();
+}
+
+// TODO FUNZIONE DELETE LISTING
+// Handle the elimination of a listing
+function handleDeleteListing () {
+
 }
 
 /*
