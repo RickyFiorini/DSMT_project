@@ -60,18 +60,29 @@ websocket_info(Info, State) ->
   io:format("[Socket Listener websocket_info WS:~p] -> websocket_info ~n",[self()]),
   case Info of
 
-    {forwarded_message, insert, ReceivedMessageKeys, ReceivedMessageValues} ->
-      %% Take the listing attributes and send them in a json
-      [[ListingID, Winner, Username, PokemonName, ImageURL]] = ReceivedMessageValues,
-      io:format("[Listing WS:~p] -> Received forwarded message: ~p~n",[self(), ReceivedMessageValues]),
-      Json = jsone:encode(#{<<"type">> => <<"listing">>,
-        <<"listingID">> => ListingID,
-        <<"winner">> => Winner,
-        <<"username">> => Username,
-        <<"pokemonName">> => PokemonName,
-        <<"imageURL">> => ImageURL
-        }),
-      {reply, {text, Json}, State};
+    {forwarded_message, Operation, ReceivedMessageKeys, ReceivedMessageValues} ->
+
+      %% Check Operation
+      case Operation of
+
+        %% "Insert" operation
+        <<"insert">> ->
+          %% Take the listing attributes and send them in a json
+          [[ListingID, Winner, Username, PokemonName, ImageURL]] = ReceivedMessageValues,
+          io:format("[Listing WS:~p] -> Received forwarded message: ~p~n",[self(), ReceivedMessageValues]),
+          Json = jsone:encode(#{<<"type">> => <<"listing">>,
+            <<"listingID">> => ListingID,
+            <<"winner">> => Winner,
+            <<"username">> => Username,
+            <<"pokemonName">> => PokemonName,
+            <<"imageURL">> => ImageURL
+          }),
+          {reply, {text, Json}, State};
+
+        %% "Delete" Operation
+        <<"delete">> ->
+          io:format("DELETE OPERATION")
+      end;
 
     {sql_error, CreationTime} ->
       io:format("[Listing WS:~p] -> Received error from SQL~n",[self()]),

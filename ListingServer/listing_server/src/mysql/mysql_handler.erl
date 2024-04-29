@@ -3,13 +3,14 @@
 %% API
 -export([start_db/0]).
 
-%% TODO A SECONDA DEL MESSAGGIO RICEVUTO, SI AGGIUNGE, SI ELIMINA O SI MODIFICA UNA LISTING
 %% Loop to receive listings and execute queries
 run_loop(Conn) ->
   receive
     %% Insert Listing operation
     {insert_listing, BoxID, Timestamp, RegistryPID} ->
       insert_listing(Conn, BoxID, Timestamp, RegistryPID)
+
+    %% TODO RECEIVE DELETE LISTING
 
   end,
   run_loop(Conn).
@@ -36,11 +37,39 @@ insert_listing(Conn, BoxID, Timestamp, RegistryPID) ->
           RegistryPID ! {sql_error, Timestamp};
 
         Result ->
-          %% Now we have to retrieve the new listing
           io:format("[MYSQL HANDLER] -> Insert Result: ~p~n", [Result]),
 
-          %% Get the listing info and send it
+          %% Set the selected pokemon in the box as listed
+          set_box_listed(Conn, BoxID, 1, Timestamp, RegistryPID),
+
+          %% Now we have to retrieve the new listing info and send them
           select_listing(Conn, BoxID, Timestamp, RegistryPID)
+      end
+  end.
+
+%% To update the "listed" attribute in the database
+set_box_listed(Conn, BoxID, Listed, Timestamp, RegistryPID) ->
+  io:format("[MYSQL HANDLER] -> Update listing with BoxID ~p: setting listed to ~p~n", [BoxID, Listed]),
+  SelectStatement = "UPDATE box SET listed = ? WHERE ID = ? ",
+
+  %% Check query preparation (UPDATE)
+  case mysql:prepare(Conn, SelectStatement) of
+
+    {error, Reason} ->
+      io:format("[MYSQL HANDLER] -> failed to insert listing: ~p~n", [Reason]),
+      RegistryPID ! {sql_error, Timestamp};
+
+    {ok, StatementID} ->
+      %% Check query execution (UPDATE)
+      case mysql:execute(Conn, StatementID, [Listed, BoxID]) of
+
+        {error, Reason} ->
+          io:format("[MYSQL HANDLER] -> failed to insert listing: ~p~n", [Reason]),
+          RegistryPID ! {sql_error, Timestamp};
+
+        %% Fetch the listing returned from the database and send it back to the registry
+        Result ->
+          io:format("[MYSQL HANDLER] -> UPDATE Result: ~p~n", [Result])
       end
   end.
 

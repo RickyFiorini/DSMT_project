@@ -26,9 +26,8 @@ registry_loop(Mappings) ->
       NewMappings = maps:put(Username, Values, Mappings),
       registry_loop(NewMappings);
 
-    % Forward the listing to the users in the registry
+    % Spawn a process that forward the request to mysql
     {forward, BoxID, Timestamp, Operation, Sender, SocketListenerPID} ->
-      %% TODO AGGIUNGERE CHIAMATA DI MYSQL PER AGGIUNGERE NEL DATABASE
       spawn(fun() -> handle_mysql(
         BoxID,
         Timestamp,
@@ -40,20 +39,31 @@ registry_loop(Mappings) ->
 
     % Unregister a user
     {unregister, Username} ->
-      io:format("[Listing Registry] -> removing user ~p from registry~n", [Username]),
+      io:format("[Listing Registry] -> removing user ~p from registry ~n", [Username]),
       NewMappings = maps:remove(Username, Mappings),
       registry_loop(NewMappings)
   end.
 
 
-%% TODO IMPLEMENTARE MYSQL HANDLER PER AGGIUNGERE LA LISTING E NOTIFICARLO AGLI ALTRI UTENTI DEL REGISTRY
 %% Method than handle Erlang-MySQL communication
 handle_mysql(BoxID, Timestamp, Operation, SocketListenerPID, Mappings) ->
   DBPid = whereis(database_connection),
 
-  %% TODO AGGIUNGERE IF PER CONTROLLARE OPERATION
-  DBPid ! {insert_listing, BoxID, Timestamp, self()},
+  %% Check operation
+  case Operation of
+    %% Send "insert" request
+    <<"insert">> ->
+      DBPid ! {insert_listing, BoxID, Timestamp, self()};
+
+    %% Send "delete" request
+    %% TODO TO IMPLEMENT DELETE LISTING
+    <<"delete">> ->
+      io:format("REQUESTING DELETE LISTING OPERATION ~n")
+  end,
+
+  %% Handle mysql reply
   receive
+    %% Mysql reply to "insert" request
     {ok, MessageKeys, MessageValues} ->
       io:format("[Message Handler] -> forwarding message PRE fold ~p~n",[BoxID]),
       % To forward the listing to each user of the registry
@@ -61,7 +71,7 @@ handle_mysql(BoxID, Timestamp, Operation, SocketListenerPID, Mappings) ->
         fun(Username, Values, _) ->
           case Values of
             #{pid := Pid} ->
-              Pid ! {forwarded_message, insert, MessageKeys, MessageValues};
+              Pid ! {forwarded_message, Operation, MessageKeys, MessageValues};
             _ ->
               % Handle invalid or unexpected data
               error_logger:error_msg("Invalid value for username ~p", [Username])
