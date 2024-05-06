@@ -130,7 +130,8 @@
                         Timestamp: <%=listing.getTimestamp()%>
                     </h4>
                 </a>
-                <button class="profile-button" onclick='deleteListing("<%=listing.getID()%>","${pageContext.request.contextPath}/profile", "<%=listing.getUsername()%>")'>DELETE</button>
+                <!-- TODO Remove delete from servlet -->
+                <button class="profile-button" onclick='handleDeleteListing("<%=listing.getID()%>","${pageContext.request.contextPath}/profile", "<%=listing.getUsername()%>")'>DELETE</button>
             </div>
             <% } %>
             <% } %>

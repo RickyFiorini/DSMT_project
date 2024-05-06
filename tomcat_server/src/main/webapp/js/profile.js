@@ -50,8 +50,36 @@ function closeWebsocket() {
 
 // TODO FUNZIONE DELETE LISTING
 // Handle the elimination of a listing
-function handleDeleteListing () {
+function handleDeleteListing (listingID) {
+    const timestamp = Date.now();
+    const operation = "delete";
 
+    // Send listing with websocket
+    cws.send(
+        JSON.stringify({
+            listingID: listingID,
+            timestamp: timestamp,
+            operation: operation,
+        })
+    );
+}
+
+// To handle receiving of messages on websocket
+cws.onmessage = (event) => {
+    const message = JSON.parse(event.data);
+    
+    if (message.type && message.operation === "delete"){
+        console.log("Listing ID: " + message.listingID +
+            " Operation: " + message.operation
+        );
+        hideListingComponent(message.listingID);
+    }
+};
+
+// To dinamically hide the deleted listing
+function hideListingComponent(listingID){
+    const listingComponent = document.getElementById(listingID);
+    listingComponent.style.display = 'none';
 }
 
 /*

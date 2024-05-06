@@ -27,9 +27,19 @@ registry_loop(Mappings) ->
       registry_loop(NewMappings);
 
     % Spawn a process that forward the request to mysql
-    {forward, BoxID, Timestamp, Operation, Sender, SocketListenerPID} ->
+    {insert, BoxID, Timestamp, Operation, Sender, SocketListenerPID} ->
       spawn(fun() -> handle_mysql(
         BoxID,
+        Timestamp,
+        Operation,
+        SocketListenerPID,
+        Mappings
+      ) end),
+      registry_loop(Mappings);
+
+    {delete, ListingID, Timestamp, Operation, Sender, SocketListenerPID} ->
+      spawn(fun() -> handle_mysql(
+        ListingID,
         Timestamp,
         Operation,
         SocketListenerPID,
@@ -46,32 +56,32 @@ registry_loop(Mappings) ->
 
 
 %% Method than handle Erlang-MySQL communication
-handle_mysql(BoxID, Timestamp, Operation, SocketListenerPID, Mappings) ->
+handle_mysql(ID, Timestamp, Operation, SocketListenerPID, Mappings) ->
   DBPid = whereis(database_connection),
 
   %% Check operation
   case Operation of
     %% Send "insert" request
     <<"insert">> ->
-      DBPid ! {insert_listing, BoxID, Timestamp, self()};
+      DBPid ! {insert_listing, ID, Timestamp, self()};
 
     %% Send "delete" request
     %% TODO TO IMPLEMENT DELETE LISTING
     <<"delete">> ->
-      io:format("REQUESTING DELETE LISTING OPERATION ~n")
+      DBPid ! {delete_listing, ID, Timestamp, self()}
   end,
 
   %% Handle mysql reply
   receive
     %% Mysql reply to "insert" request
-    {ok, MessageKeys, MessageValues} ->
-      io:format("[Message Handler] -> forwarding message PRE fold ~p~n",[BoxID]),
+    {insert_ok, MessageKeys, MessageValues} ->
+      io:format("[Message Handler] -> forwarding message PRE fold ~p~n",[ID]),
       % To forward the listing to each user of the registry
       maps:fold(
         fun(Username, Values, _) ->
           case Values of
             #{pid := Pid} ->
-              Pid ! {forwarded_message, Operation, MessageKeys, MessageValues};
+              Pid ! {forward_insert, Operation, MessageKeys, MessageValues};
             _ ->
               % Handle invalid or unexpected data
               error_logger:error_msg("Invalid value for username ~p", [Username])
@@ -80,6 +90,24 @@ handle_mysql(BoxID, Timestamp, Operation, SocketListenerPID, Mappings) ->
         ok,
         Mappings
       );
+
+    {delete_ok, ListingID}->
+      io:format("[Message Handler] -> forwarding message PRE fold ~p~n",[ID]),
+      % To forward the listing to each user of the registry
+      maps:fold(
+        fun(Username, Values, _) ->
+          case Values of
+            #{pid := Pid} ->
+              Pid ! {forward_delete, Operation, ID, ListingID};
+            _ ->
+              % Handle invalid or unexpected data
+              error_logger:error_msg("Invalid value for username ~p", [Username])
+          end
+        end,
+        ok,
+        Mappings
+      );
+
     {sql_error, Reason} ->
       SocketListenerPID ! {sql_error, Reason}
   end.

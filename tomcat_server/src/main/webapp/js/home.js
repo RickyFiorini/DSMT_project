@@ -5,7 +5,9 @@ const listingsWrapper = document.querySelector(".listings-wrapper");
 // To handle receiving of messages on websocket
 cws.onmessage = (event) => {
     const message = JSON.parse(event.data);
-    if (message.type && message.type === "listing") {
+
+    // TODO Control operation type (insert, delete)
+    if (message.type && message.operation === "insert") {
 
         const timestamp = formatTimestamp(Date.now());
 
@@ -20,12 +22,22 @@ cws.onmessage = (event) => {
 
         // Append the new listing
         appendListingComponent(message.listingID, timestamp, message.username, message.pokemonName, message.imageURL);
-        return;
+
+    } else if (message.type && message.operation === "delete"){
+        console.log("Listing ID: " + message.listingID +
+            " Operation: " + message.operation
+        );
+        hideListingComponent(message.listingID);
     }
 };
 
+// To dinamically hide the deleted listing
+function hideListingComponent(listingID){
+    const listingComponent = document.getElementById(listingID);
+    listingComponent.style.display = 'none';
+}
+
 // To dinamically append a new listing in the home
-// TODO MODIFICARE LA FUNZIONE PER AGGIUNGERE DINAMICAMENTE UNA NUOVA LISTING
 function appendListingComponent(listingID, timestamp, username, pokemonName, imageURL) {
 
     const listingHref = contextPath + "/listing?listingID=" + listingID;

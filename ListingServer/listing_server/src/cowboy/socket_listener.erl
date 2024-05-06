@@ -22,6 +22,7 @@ websocket_init(State)->
   {ok, State}.
 
 % override of the cowboy_websocket websocket_handle/2 method
+% Message from javascript
 websocket_handle(_Frame={text, Listing}, State) ->
   io:format("[Socket Listener websocket_handle WS:~p] -> websocket_handle PRE decode ~n",[self()]),
   DecodedListing = jsone:try_decode(Listing),
@@ -29,24 +30,48 @@ websocket_handle(_Frame={text, Listing}, State) ->
             {ok, ListingMap, _} ->
               io:format("[Listing WS:~p] -> Received frame: ~p~n",[self(), ListingMap]),
 
-              % request unpack
-              BoxID = maps:get(<<"boxID">>, ListingMap, undefined),
-              Timestamp = maps:get(<<"timestamp">>, ListingMap, undefined),
               Operation = maps:get(<<"operation">>, ListingMap, undefined),
+              io:format("[Listing WS:~p] -> Received operarion: ~p~n",[self(), Operation]),
 
-              % Limit case handling
-              if
-                BoxID == undefined orelse Operation == undefined ->
-                  JsonResponse = jsone:encode(#{<<"type">> => <<"error">>, <<"messageID">> => BoxID}),
-                  {reply, {text, JsonResponse}, State};
-                true ->
-                  % correct format
-                  #{username := Sender, register_pid := RegisterPid} = State,
+              %% Check Operation
+              case Operation of
+                <<"insert">> ->
+                  % request unpack
+                  BoxID = maps:get(<<"boxID">>, ListingMap, undefined),
+                  Timestamp = maps:get(<<"timestamp">>, ListingMap, undefined),
+                  % Limit case handling
+                  if
+                    BoxID == undefined orelse Operation == undefined ->
+                      JsonResponse = jsone:encode(#{<<"type">> => <<"error">>, <<"messageID">> => BoxID}),
+                      {reply, {text, JsonResponse}, State};
+                    true ->
+                      % correct format
+                      #{username := Sender, register_pid := RegisterPid} = State,
 
-                  % Forward listing to the registry, that will broadcast to the other users and send a request to mysql
-                  RegisterPid ! {forward, BoxID, Timestamp, Operation, Sender, self()},
-                  {ok, State}
+                      % Forward listing to the registry, that will broadcast to the other users and send a request to mysql
+                      RegisterPid ! {insert, BoxID, Timestamp, Operation, Sender, self()},
+                      {ok, State}
+                  end;
+
+                <<"delete">> ->
+                  ListingID = maps:get(<<"listingID">>, ListingMap, undefined),
+                  Timestamp = maps:get(<<"timestamp">>, ListingMap, undefined),
+                  % Limit case handling
+                  if
+                    ListingID == undefined orelse Operation == undefined ->
+                      JsonResponse = jsone:encode(#{<<"type">> => <<"error">>, <<"messageID">> => ListingID}),
+                      {reply, {text, JsonResponse}, State};
+                    true ->
+                      % correct format
+                      #{username := Sender, register_pid := RegisterPid} = State,
+
+                      % Forward listing to the registry, that will broadcast to the other users and send a request to mysql
+                      RegisterPid ! {delete, ListingID, Timestamp, Operation, Sender, self()},
+                      {ok, State}
+                  end
               end;
+
+            % Default
             _ ->
               JsonResponse = jsone:encode(#{<<"type">> => <<"error">>, <<"reason">> => <<"invalid payload">>}),
               {reply, {text, JsonResponse}, State}
@@ -59,30 +84,31 @@ websocket_handle(_Frame={text, Listing}, State) ->
 websocket_info(Info, State) ->
   io:format("[Socket Listener websocket_info WS:~p] -> websocket_info ~n",[self()]),
   case Info of
+    {forward_insert, Operation, ReceivedMessageKeys, ReceivedMessageValues} ->
+      %% "Insert" operation
 
-    {forwarded_message, Operation, ReceivedMessageKeys, ReceivedMessageValues} ->
+      %% Take the listing attributes and send them in a json
+      [[ListingID, Winner, Username, PokemonName, ImageURL]] = ReceivedMessageValues,
+      io:format("[Listing WS:~p] -> Received forwarded message: ~p~n",[self(), ReceivedMessageValues]),
+      Json = jsone:encode(#{<<"type">> => <<"listing">>,
+        <<"listingID">> => ListingID,
+        <<"winner">> => Winner,
+        <<"username">> => Username,
+        <<"pokemonName">> => PokemonName,
+        <<"imageURL">> => ImageURL,
+        <<"operation">> => Operation
+      }),
+      {reply, {text, Json}, State};
 
-      %% Check Operation
-      case Operation of
-
-        %% "Insert" operation
-        <<"insert">> ->
-          %% Take the listing attributes and send them in a json
-          [[ListingID, Winner, Username, PokemonName, ImageURL]] = ReceivedMessageValues,
-          io:format("[Listing WS:~p] -> Received forwarded message: ~p~n",[self(), ReceivedMessageValues]),
-          Json = jsone:encode(#{<<"type">> => <<"listing">>,
-            <<"listingID">> => ListingID,
-            <<"winner">> => Winner,
-            <<"username">> => Username,
-            <<"pokemonName">> => PokemonName,
-            <<"imageURL">> => ImageURL
-          }),
-          {reply, {text, Json}, State};
-
-        %% "Delete" Operation
-        <<"delete">> ->
-          io:format("DELETE OPERATION")
-      end;
+    %% "Delete" Operation
+    {forward_delete, Operation, BoxID, ListingID} ->
+      io:format("DELETE OPERATION ~n"),
+      Json = jsone:encode(#{<<"type">> => <<"listing">>,
+        <<"boxID">> => BoxID,
+        <<"listingID">> => ListingID,
+        <<"operation">> => Operation
+      }),
+      {reply, {text, Json}, State};
 
     {sql_error, CreationTime} ->
       io:format("[Listing WS:~p] -> Received error from SQL~n",[self()]),
