@@ -1,5 +1,8 @@
 package it.unipi.dsmt.app.dtos;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.validation.constraints.Null;
+
 import java.sql.Timestamp;
 
 // To represent listing info that are transferred in the web app
@@ -13,12 +16,12 @@ public class ListingDTO {
     private int defense;
     private String imageURL;
     private String username;
-    private String winner;
+    private Integer winnerID;
     private Timestamp timestamp;
 
-    public ListingDTO(int listingID,String username, String winner, Timestamp timestamp,String pokemonName,String primaryType,String secondaryType,int attack,int defense, String imageURL) {
+    public ListingDTO(int listingID,String username,Integer winnerID, Timestamp timestamp,String pokemonName,String primaryType,String secondaryType,int attack,int defense, String imageURL) {
         this.username = username;
-        this.winner = winner;
+        this.winnerID = winnerID;
         this.timestamp = timestamp;
         this.pokemonName=pokemonName;
         this.primaryType=primaryType;
@@ -91,14 +94,13 @@ public class ListingDTO {
         this.username = username;
     }
 
-    public String getWinner() {
-        return winner;
+    public Integer getWinner() {
+        return winnerID;
     }
 
-    public void setWinner(String winner) {
-        this.winner = winner;
+    public void setWinner(Integer winner) {
+        this.winnerID = winner;
     }
-
 
     public Timestamp getTimestamp() {
         return timestamp;
@@ -119,7 +121,7 @@ public class ListingDTO {
                 ", attack='" + attack + '\'' +
                 ", defense='" + defense + '\'' +
                 ", imageURL='" + imageURL + '\'' +
-                ", winner='" + winner + '\'' +
+                ", winner='" + winnerID + '\'' +
                 ", timestamp=" + timestamp +
                 '}';
     }

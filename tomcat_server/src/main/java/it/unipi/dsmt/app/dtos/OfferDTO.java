@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 
 public class OfferDTO {
     private int offerID;
+    private int boxID;
     private String username;
     private String pokemonName;
     private String primaryType;
@@ -26,6 +27,19 @@ public class OfferDTO {
         this.imageURL=imageURL;
         this.offerID=offerID;
     }
+    public OfferDTO(int offerID,int boxID,String trader, String username, Timestamp timestamp,String pokemonName,String primaryType,String secondaryType,int attack,int defense, String imageURL) {
+        this.trader = trader;
+        this.username = username;
+        this.timestamp = timestamp;
+        this.pokemonName=pokemonName;
+        this.primaryType=primaryType;
+        this.secondaryType=secondaryType;
+        this.attack=attack;
+        this.defense=defense;
+        this.imageURL=imageURL;
+        this.offerID=offerID;
+        this.boxID=boxID;
+    }
 
     public int getOfferID() {
         return offerID;
@@ -35,6 +49,13 @@ public class OfferDTO {
         this.offerID = offerID;
     }
 
+    public int getBoxID() {
+        return boxID;
+    }
+
+    public void setBoxID(int boxID) {
+        this.boxID = boxID;
+    }
 
     public String getTrader() {
         return trader;

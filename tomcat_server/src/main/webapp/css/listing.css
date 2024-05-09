@@ -1,0 +1,241 @@
+
+body{
+    background-color: #7e4938;
+    background-image: url("../images/poke_6.jpeg");
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+.site-wrap {
+    /* width: calc(100vw - 20%); */
+    /* margin-left: 20%; */
+    min-height: calc(100vh - 2.5rem);
+    margin-top: 2.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+#backgroundBlock
+{
+    background: #55cece;
+    width: 16%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+/* Three sections */
+.content-wrapper{
+    width: 100%;
+    clear: both;
+    align-items: stretch;
+    display: flex;
+    position: fixed;
+    height: 90%;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+.listing-info{
+    width: 16%;
+    float: left;
+}
+.listing-info > img{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    margin-top: 10%;
+    margin-bottom: 10%;
+}
+
+.user-info{
+    width: 92%;
+    margin: 4%;
+}
+.info {
+    margin-top: 8%;
+    margin-bottom: 8%;
+}
+
+.section-wrapper {
+    width: 60%;
+    float: left;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 0.25fr 0.25fr 0.25fr 0.25fr;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    gap: 2rem;
+    padding: 0.5rem 0.3rem 0.5rem 0.3rem;
+    margin-left: 2%;
+    margin-right: 2%;
+}
+
+.popup{
+    width: 20%;
+    float: right;
+    grid-template-columns: 0.5fr 0.5fr;
+    grid-template-rows: 0.25fr 0.25fr 0.25fr 0.25fr;
+    display: none;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+
+.pokemon-wrapper {
+    width: 20%;
+    float: right;
+}
+
+
+/* Listings Cards */
+
+
+.card.offer-card > .img-box{
+    width: 200px;
+}
+
+.popup-box-card > .img-box{
+    width: 100px;
+}
+
+.card.popup-box-card {
+    margin: 2.5%;
+    margin-top: 20%;
+    width: 95%;
+    height: 15rem;
+}
+
+.card.offer-card{
+    height: 20rem;
+}
+
+.card {
+    width: 100%;
+    height: 20rem;
+    background: rgba(224, 224, 224, 1);
+    box-shadow: 0px 0px 0.5rem 0.1rem black;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.2s ease-in-out;
+    outline: none;
+    border: none;
+    align-items: center;
+}
+.card > a > .listing-img{
+    width: 128px;
+    padding-top: 5%;
+}
+.card:hover {
+    background: rgb(255, 255, 255, 1);
+}
+.card > h1 {
+    font-size: 20px;
+    margin: 0px;
+}
+.card > h2 {
+    font-size: 15px;
+    margin: 0px;
+}
+.card > h3 {
+    font-size: 15px;
+    margin: 0px;
+}
+.card > h4 {
+    font-size: 15px;
+    margin: 0px;
+}
+
+
+.info > h1 {
+    font-size: 25px;
+    margin: 0px;
+}
+.info > h2 {
+    font-size: 20px;
+    margin: 0px;
+}
+.info > h3 {
+    font-size: 20px;
+    margin: 0px;
+}
+
+#closePopup {
+    position: fixed;
+    margin: 0;
+    top: 47px;
+    left: 80%;
+    width: 20%;
+    background: red;
+    border: red;
+}
+
+.listing-button {
+    width: 100%;
+    height: 36px;
+    border: 1px solid #00B4CC;
+    background: #00B4CC;
+    text-align: center;
+    color: #fff;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.listing-button-disable {
+    width: 100%;
+    height: 36px;
+    border: 1px solid #00B4CC;
+    background: #00B4CC;
+    text-align: center;
+    color: #fff;
+    cursor: none;
+    font-size: 20px;
+}
+
+.listing-button:hover {
+    background-color: #009cb0;
+}
+
+.hidden {
+    display: none;
+}
+
+a {
+    text-decoration: none;
+    color: blue;
+}
+
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+}
+
+#popupAlert {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    z-index: 10000;
+}
+
+#popupAlert a {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    color: blue;
+}

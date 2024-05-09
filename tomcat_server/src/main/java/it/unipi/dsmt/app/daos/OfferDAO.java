@@ -20,7 +20,7 @@ public class OfferDAO {
     // Retrieve all the offers of the selected listing
     public List<OfferDTO> getOfferByListing(int listingID) throws SQLException {
         ArrayList<OfferDTO> result = new ArrayList<>();
-        String sqlString = "SELECT o.ID, b.pokemonID, o.trader, b.username, o.timestamp, p.pokemonName, p.primaryType, p.secondaryType, p.attack, p.defense, p.imageURL " +
+        String sqlString = "SELECT o.ID, o.boxID, b.pokemonID, o.trader, b.username, o.timestamp, p.pokemonName, p.primaryType, p.secondaryType, p.attack, p.defense, p.imageURL " +
                 "FROM offer o " +
                 "JOIN box b ON o.boxID = b.ID " +
                 "JOIN pokemon p  ON b.pokemonID = p.ID "+
@@ -29,7 +29,7 @@ public class OfferDAO {
         statement.setInt(1, listingID);
         ResultSet set = statement.executeQuery();
         while (set.next()) {
-            OfferDTO offer = new OfferDTO(set.getInt("ID"),set.getString("trader"),set.getString("username"),
+            OfferDTO offer = new OfferDTO(set.getInt("ID"),set.getInt("boxID"),set.getString("trader"),set.getString("username"),
                     set.getTimestamp("timestamp"),set.getString("pokemonName"),set.getString("primaryType"),
                     set.getString("secondaryType"), set.getInt("attack"),set.getInt("defense"),set.getString("imageURL"));
             System.out.print("-----" + offer + "-----");
@@ -48,7 +48,7 @@ public class OfferDAO {
                 "WHERE o.listingID= ? AND b.username= ? ";
         PreparedStatement statement = offerConnection.prepareStatement(sqlString);
         statement.setInt(1, listingID);
-        statement.setString(1, currentUsername);
+        statement.setString(2, currentUsername);
         ResultSet set = statement.executeQuery();
         if (set.next()) {
             OfferDTO offer = new OfferDTO(set.getInt("ID"), set.getString("trader"), set.getString("username"),
@@ -75,8 +75,8 @@ public class OfferDAO {
     }
 
     // Retrieve the user of the selected offer
-    public String getUserByOfferID(int offerID) throws SQLException {
-        String sqlString = "SELECT b.username " +
+    public Integer getUserByOfferID(int offerID) throws SQLException {
+        String sqlString = "SELECT b.ID " +
                 "FROM offer o " +
                 "JOIN box b ON o.boxID = b.ID " +
                 "WHERE o.ID= ? ";
@@ -84,7 +84,7 @@ public class OfferDAO {
         statement.setInt(1, offerID);
         ResultSet set = statement.executeQuery();
         if(set.next()) {
-            return set.getString(("username"));
+            return set.getInt(("ID"));
         }
         return null;
     }

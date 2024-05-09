@@ -35,7 +35,6 @@ public class HomeServlet extends HttpServlet {
             List<ListingDTO> listingList = listingDAO.getListings();
             System.out.println(listingList);
 
-            // TODO CHECK FUNZIONE
             // Filter out the current user listings
             listingList = listingList.stream().filter(new Predicate<ListingDTO>() {
                 @Override
@@ -44,11 +43,11 @@ public class HomeServlet extends HttpServlet {
                 }
             }).collect(Collectors.toList());
 
+            request.setAttribute("listingList", listingList);
             // Filter out the open listings
             List<ListingDTO> closedListingList = listingList.stream().filter(new Predicate<ListingDTO>() {
                 @Override
-                public boolean test(ListingDTO listing) {
-                    return listing.getWinner() != null;
+                public boolean test(ListingDTO listing) { return listing.getWinner() != 0;
                 }
             }).collect(Collectors.toList());
             request.setAttribute("closedListingList", closedListingList);
@@ -57,7 +56,7 @@ public class HomeServlet extends HttpServlet {
             List<ListingDTO> openListingList = listingList.stream().filter(new Predicate<ListingDTO>() {
                 @Override
                 public boolean test(ListingDTO listing) {
-                    return listing.getWinner() == null;
+                    return listing.getWinner() == 0;
                 }
             }).collect(Collectors.toList());
             request.setAttribute("openListingList", openListingList);

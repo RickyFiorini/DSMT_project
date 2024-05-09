@@ -1,0 +1,28 @@
+{application, offer_server,
+ [{description, "An OTP application"},
+  {vsn, "0.1.0"},
+  {registered, []},
+  {mod, {offer_server_app, []}},
+  {applications,
+   [kernel,
+    stdlib,
+    cowboy,
+    jsone,
+    mysql
+   ]},
+  {env,[
+   {offer_endpoint, "/listing"},
+   {db_config, [
+    {host, "localhost"},
+    {user, "root"},
+    {password, "root"},
+    {database, "pokemondb"}
+   ]},
+   {home_node, home@home_server},
+   {port, 8081}
+  ]},
+  {modules, []},
+
+  {licenses, ["Apache-2.0"]},
+  {links, []}
+ ]}.
