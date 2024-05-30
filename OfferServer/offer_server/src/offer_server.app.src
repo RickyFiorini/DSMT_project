@@ -16,7 +16,7 @@
     {host, "localhost"},
     {user, "root"},
     {password, "root"},
-    {database, "pokemondb"}
+    {database, "PokemonDB"}
    ]},
    {home_node, home@home_server},
    {port, 8081}
