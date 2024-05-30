@@ -1,4 +1,4 @@
-const cws = new WebSocket(`ws://localhost:8081/home?username=${currentUsername}`);
+const cws = new WebSocket(`ws://localhost:8082/home?username=${currentUsername}`);
 // TODO DA METTERE QUANDO SI FANNO LE PROVE CON ERLANG
 // const listingsWrapper = document.querySelector(".center.section-wrapper");
 
@@ -22,10 +22,9 @@ async function deleteListing(listingID, path, user) {
 
 // Send post request to the servlet and handle new listing
 function handleNewListing(path, boxID, pokemon){
-
     const timestamp = Date.now();
     const operation = "insert";
-
+     console.log(currentUsername)
     // Send listing with websocket
     cws.send(
         JSON.stringify({
@@ -36,7 +35,7 @@ function handleNewListing(path, boxID, pokemon){
     );
     // Close websocket connection with ListingServer erlang node
     // TODO DA TOGLIERE QUANDO SI FANNO LE PROVE CON ERLANG
-    closeWebsocket();
+   // closeWebsocket();
 
     // Send post request to the servlet (for user redirection)
     // TODO DA TOGLIERE QUANDO SI FANNO LE PROVE CON ERLANG

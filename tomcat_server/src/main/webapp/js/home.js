@@ -1,4 +1,4 @@
-const cws = new WebSocket(`ws://localhost:8081/home?username=${currentUsername}`);
+const cws = new WebSocket(`ws://localhost:8082/home?username=${currentUsername}`);
 const listingsWrapper = document.querySelector(".listings-wrapper");
 
 // TODO QUANDO RICEVO UN MESSAGGIO DA WEBSOCKET, A SECONDA DEL MESSAGGIO DEVO AGGIUNGERE O ELIMINARE UNA LISTING

@@ -13,7 +13,8 @@ run_loop(Conn) ->
       trade(Conn,Username,ListingID,BoxId, Caller);
     {delete_offer,OfferID,BoxId, Caller} ->
       io:format("[Offer MySQL] -> Deleting Offer  ~p~n",[OfferID]),
-      delete_offer(Conn,OfferID,BoxId, Caller)
+      delete_offer(Conn,OfferID,BoxId, Caller),
+      Caller ! {ok, <<"saved">>}
   end,
   run_loop(Conn).
 
@@ -81,7 +82,7 @@ boxUpdateStatement(Conn,BoxId,Caller,ListedValue) ->
   end.
 
 
-delete_offer(Conn,OfferID,BoxID, Caller) ->
+delete_offer(Conn,OfferID,BoxID,Caller) ->
   DeleteStatement = "DELETE FROM offer WHERE ID = ? ",
   case mysql:prepare(Conn,  DeleteStatement) of
     {error, Reason} ->
@@ -94,8 +95,8 @@ delete_offer(Conn,OfferID,BoxID, Caller) ->
         Caller ! {sql_error, OfferID};
        Result ->
        io:format("[offer MySQL] -> DELETE ~p~n",[Result]),
-       boxUpdateStatement(Conn,BoxID,Caller,0), %change the listing value of the corresponding Pokémon offer to 0
-       Caller ! {ok, <<"saved">>}
+       boxUpdateStatement(Conn,BoxID,Caller,0) %change the listing value of the corresponding Pokémon offer to 0
+
 
  end
 end.

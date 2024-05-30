@@ -13,7 +13,6 @@ init(Req, _State)->
   {cowboy_websocket, Req, InitialState, #{idle_timeout => infinity}}.
 
 
-
 websocket_init(State)->
   io:format("[OFFER WS:~p] -> STATE: ~p~n",[self(),State]),
   #{register_pid := RegisterPid,username:=Username,listingID := ListingID} = State,

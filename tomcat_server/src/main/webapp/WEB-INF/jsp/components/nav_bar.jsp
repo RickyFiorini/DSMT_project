@@ -1,9 +1,9 @@
 <link rel="stylesheet" href="css/nav_bar.css?v=1.9">
 <script src="js/navbar.js?v=1.34" defer></script>
 
-<script>
-  var currentUsername = '<%=request.getParameter("currentUsername")%>';
-</script>
+<%--<script>--%>
+<%--  var currentUsername = '<%=request.getParameter("currentUsername")%>';--%>
+<%--</script>--%>
 
 
 
