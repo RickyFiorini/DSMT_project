@@ -1,40 +1,89 @@
 package it.unipi.dsmt.app.dtos;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.validation.constraints.Null;
+
 import java.sql.Timestamp;
 
 // To represent listing info that are transferred in the web app
+
 public class ListingDTO {
-    private int ID;
-    private int pokemonID;
+    private int listingID;
+    private String pokemonName;
+    private String primaryType;
+    private String secondaryType;
+    private int attack;
+    private int defense;
+    private String imageURL;
     private String username;
-    private boolean status;
-    private String winner;
+    private Integer winnerID;
     private Timestamp timestamp;
 
-    public ListingDTO(int pokemonID, String username, boolean status, String winner, Timestamp timestamp) {
-        this.pokemonID=pokemonID;
+    public ListingDTO(int listingID,String username,Integer winnerID, Timestamp timestamp,String pokemonName,String primaryType,String secondaryType,int attack,int defense, String imageURL) {
         this.username = username;
-        this.status = status;
-        this.winner = winner;
+        this.winnerID = winnerID;
         this.timestamp = timestamp;
-
+        this.pokemonName=pokemonName;
+        this.primaryType=primaryType;
+        this.secondaryType=secondaryType;
+        this.attack=attack;
+        this.defense=defense;
+        this.imageURL=imageURL;
+        this.listingID=listingID;
     }
 
 
-    public int getPokemonID() {
-        return pokemonID;
+
+    public void setSecondaryType(String secondaryType) {
+        this.secondaryType = secondaryType;
+    }
+    public String getSecondaryType() {
+        return secondaryType;
     }
 
-    public void setPokemonID(String pokemonType) {
-        this.pokemonID = pokemonID;
+    public void setPrimaryType(String primaryType) {
+        this.primaryType = primaryType;
+    }
+    public String getPrimaryType() {
+        return primaryType;
+    }
+
+    public String getPokemonName() {
+        return pokemonName;
+    }
+
+    public void setPokemonName(String pokemonName) {
+        this.pokemonName = pokemonName;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
+
+    public int getAttack() {
+        return attack;
+    }
+    public void setAttack(int attack) {
+        this.attack = attack;
+    }
+
+    public int getDefense() {
+        return defense;
+    }
+
+    public void setDefense(int defense) {
+        this.defense = defense;
     }
 
     public int getID() {
-        return ID;
+        return listingID;
     }
 
-    public void setID(int id) {
-        this.ID = id;
+    public void setListingID(int id) {
+        this.listingID = id;
     }
 
     public String getUsername() {
@@ -45,20 +94,12 @@ public class ListingDTO {
         this.username = username;
     }
 
-    public boolean isStatus() {
-        return status;
+    public Integer getWinner() {
+        return winnerID;
     }
 
-    public String getWinner() {
-        return winner;
-    }
-
-    public void setWinner(String winner) {
-        this.winner = winner;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
+    public void setWinner(Integer winner) {
+        this.winnerID = winner;
     }
 
     public Timestamp getTimestamp() {
@@ -73,10 +114,14 @@ public class ListingDTO {
     @Override
     public String toString() {
         return "ListingDTO{" +
-                ", pokemonID='" + pokemonID + '\'' +
                 ", username='" + username + '\'' +
-                ", status=" + status +
-                ", winner='" + winner + '\'' +
+                ", pokemonName='" + pokemonName + '\'' +
+                ", primaryType='" + primaryType + '\'' +
+                ", secondaryType='" + secondaryType + '\'' +
+                ", attack='" + attack + '\'' +
+                ", defense='" + defense + '\'' +
+                ", imageURL='" + imageURL + '\'' +
+                ", winner='" + winnerID + '\'' +
                 ", timestamp=" + timestamp +
                 '}';
     }

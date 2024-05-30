@@ -31,7 +31,6 @@ public class AccessFilter implements Filter {
             // if the session is expired, redirect user to login
             if (token == null) {
                 if (claimingUsername != null)
-                    userDAO.setOnlineFlag(false, claimingUsername);
                 ErrorHandler.setPopupErrorMessage(req, "Invalid/Expired token. Login again.");
                 resp.sendRedirect(req.getContextPath() + "/login");
                 return;

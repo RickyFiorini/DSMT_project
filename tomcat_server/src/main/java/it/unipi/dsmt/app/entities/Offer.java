@@ -4,27 +4,16 @@ package it.unipi.dsmt.app.entities;
 import java.sql.Timestamp;
 
 public class Offer {
-    private int offerID;
     private int listingID;
     private int boxID;
     private String trader;  //TODO CHECK se serve
-    private boolean checked;
     private Timestamp timestamp;
 
-    public Offer(int listingID, int boxID, String trader, boolean checked, Timestamp timestamp) {
+    public Offer(int listingID, int boxID, String trader, Timestamp timestamp) {
         this.listingID = listingID;
         this.boxID = boxID;
         this.trader = trader;
-        this.checked = checked;
         this.timestamp = timestamp;
-    }
-
-    public int getOfferID() {
-        return offerID;
-    }
-
-    public void setOfferID(int offerID) {
-        this.offerID = offerID;
     }
 
     public int getListingID() {
@@ -51,14 +40,6 @@ public class Offer {
         this.trader = trader;
     }
 
-    public boolean isChecked() {
-        return checked;
-    }
-
-    public void setChecked(boolean checked) {
-        this.checked = checked;
-    }
-
     public Timestamp getTimestamp() {
         return timestamp;
     }
@@ -73,7 +54,6 @@ public class Offer {
                 "listingID=" + listingID +
                 ", boxID=" + boxID +
                 ", trader='" + trader + '\'' +
-                ", checked=" + checked +
                 ", timestamp=" + timestamp +
                 '}';
     }

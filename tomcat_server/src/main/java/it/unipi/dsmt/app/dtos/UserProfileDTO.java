@@ -5,13 +5,11 @@ public class UserProfileDTO {
     private String username;
     private String name;
     private String surname;
-    private Boolean online_flag;
 
-    public UserProfileDTO(String username, String name, String surname, Boolean online_flag) {
+    public UserProfileDTO(String username, String name, String surname) {
         this.username = username;
         this.name = name;
         this.surname = surname;
-        this.online_flag = online_flag;
     }
 
     public String getUsername() {
@@ -38,25 +36,12 @@ public class UserProfileDTO {
         this.surname = surname;
     }
 
-    public Boolean isOnline_flag() {
-        return this.online_flag;
-    }
-
-    public Boolean getOnline_flag() {
-        return this.online_flag;
-    }
-
-    public void setOnline_flag(Boolean online_flag) {
-        this.online_flag = online_flag;
-    }
-
     @Override
     public String toString() {
         return "{" +
                 " username='" + getUsername() + "'" +
                 ", name='" + getName() + "'" +
                 ", surname='" + getSurname() + "'" +
-                ", online_flag='" + isOnline_flag() + "'" +
                 "}";
     }
 

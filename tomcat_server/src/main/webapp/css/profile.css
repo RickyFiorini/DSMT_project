@@ -1,116 +1,163 @@
-.page {
+
+body{
+    background-color: #7e4938;
+    background-image: url("../images/poke_bkgd_2.jpg");
+    background-position: center 10%;
+    position: fixed;
+    height: 100%;
     width: 100%;
+    margin: 0;
+}
+.site-wrap {
+    /* width: calc(100vw - 20%); */
+    /* margin-left: 20%; */
     min-height: calc(100vh - 2.5rem);
     margin-top: 2.5rem;
     display: flex;
-    flex-direction: column;
-    background-color: #663500;
-    background-image: url("https://www.transparenttextures.com/patterns/retina-wood.png");
-}
-.fields-container {
-    position: fixed;
-    top: 3rem;
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    place-content: center;
-}
-.field {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
     justify-content: center;
     align-items: center;
-    font-size: 20px;
 }
-.field > h1 {
-    font-size: 25px;
+
+
+#backgroundBlock
+{
+    background: #55cece;
+    width: 16%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
 }
-.chat-history-container {
-    position: fixed;
-    top: 12rem;
-    display: flex;
+
+/* Three sections */
+.content-wrapper{
     width: 100%;
-    height: calc(100% - 14rem);
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+    clear: both;
+    align-items: stretch;
+    display: flex;
+    position: fixed;
+    height: 90%;
+    margin-top: 5%;
+    margin-bottom: 5%;
 }
-.grid {
-    width: 95%;
+
+.profile-info{
+    width: 16%;
+    float: left;
+}
+
+.profile-info > img{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    margin-top: 10%;
+    margin-bottom: 10%;
+}
+
+.user-info{
+    width: 92%;
+    margin: 4%;
+}
+
+.section-wrapper {
+    width: 80%;
+    float: left;
     height: 100%;
     display: grid;
-    grid-template-columns: 0.25fr 0.25fr 0.25fr 0.25fr;
-    gap: 2rem;
+    grid-template-columns: 0.25fr 0.25fr 0.25fr 0.25fr 0.25fr;
     overflow-x: hidden;
     overflow-y: scroll;
+    gap: 2rem;
     padding: 0.5rem 0.3rem 0.5rem 0.3rem;
+    margin-left: 2%;
+    margin-right: 2%;
 }
-.grid::-webkit-scrollbar {
-    width: 10px;
+
+
+.pokemon-wrapper {
+    width: 20%;
+    float: right;
 }
-.grid::-webkit-scrollbar-thumb {
-    background: rgba(224, 224, 224, 1);
-    border-radius: 4rem;
+
+
+/* Listings Cards */
+.img-box{
+    width: 200px;
 }
-.chat-card {
+
+.card {
     width: 100%;
-    height: 100%;
-    z-index: 5;
-}
-.chat-card > h1 {
-    margin-top: 1.2rem;
-    font-size: 20px;
-}
-.chat-card > label {
-    margin-top: 2rem;
-}
-.chat-card > .flag {
-    position: absolute;
-    top: 43%;
-    left: 10%;
-    width: 4%;
-    aspect-ratio: 1 / 1;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(255, 0, 24, 1) 0%, rgba(212, 0, 7, 1) 60%);
-}
-.chat-card > .connected {
-    background: radial-gradient(circle, rgba(39, 255, 0, 1) 0%, rgba(29, 193, 0, 1) 60%);
-}
-a {
-    text-decoration: none;
-    color: blue;
-    max-height: 139.3px;
-}
-.chat-box {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    max-height: 139.9px;
+    height: 20rem;
     background: rgba(224, 224, 224, 1);
     box-shadow: 0px 0px 0.5rem 0.1rem black;
     text-align: center;
     display: flex;
     flex-direction: column;
-    cursor: pointer;
     transition: all 0.2s ease-in-out;
-    border-radius: 4rem;
-}
-.chat-box:hover {
-    background: rgb(255, 255, 255, 1);
-}
-.chat-box > button {
-    background: none;
     outline: none;
     border: none;
-    color: black;
-    font-size: 25px;
-    transition: all 0.2s ease-in-out;
-    z-index: 10;
-    position: absolute;
-    right: 0;
-    top: 36%;
+    align-items: center;
 }
-.chat-box > button:hover {
-    color: rgb(195, 0, 0);
+.card > .listing-img{
+    width: 128px;
+    padding-top: 5%;
+}
+.card:hover {
+    background: rgb(255, 255, 255, 1);
+}
+.card > h1, .card > a > h1 {
+    font-size: 20px;
+    margin: 0px;
+}
+.card > h2, .card > a > h2 {
+    font-size: 15px;
+    margin: 0px;
+}
+.card > h4, .card > a > h4 {
+    font-size: 15px;
+    margin: 0px;
+}
+
+.info {
+    margin-top: 8%;
+    margin-bottom: 8%;
+}
+
+.info > h1 {
+    font-size: 25px;
+    margin: 0px;
+}
+.info > h2 {
+    font-size: 20px;
+    margin: 0px;
+}
+.info > h3 {
+    font-size: 20px;
+    margin: 0px;
+}
+
+.profile-button {
+    width: 100%;
+    height: 36px;
+    border: 1px solid #00B4CC;
+    background: #00B4CC;
+    text-align: center;
+    color: #fff;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.profile-button:hover {
+    background-color: #009cb0;
+}
+
+.hidden {
+    display: none;
+}
+
+a {
+    text-decoration: none;
+    color: blue;
 }

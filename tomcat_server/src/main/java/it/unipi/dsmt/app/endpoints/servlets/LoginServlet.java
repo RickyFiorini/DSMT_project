@@ -55,7 +55,7 @@ public class LoginServlet extends HttpServlet {
 
             // else, forward the request to the user home page
             AccessController.setToken(request, userInfo.getUsername());
-            userDAO.setOnlineFlag(true, userInfo.getUsername());
+            System.out.print("loginUSERNAME:"+ userInfo.getUsername());
             response.sendRedirect(request.getContextPath() + "/home");
         } catch (Exception e) {
             ErrorHandler.safeDispatchToErrorPage(request, response, e);
