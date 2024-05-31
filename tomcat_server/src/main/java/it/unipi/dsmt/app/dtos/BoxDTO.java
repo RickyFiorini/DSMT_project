@@ -41,7 +41,7 @@ public class BoxDTO {
         this.listed = listed;
     }
 
-    public String username() {
+    public String getUsername() {
         return username;
     }
 

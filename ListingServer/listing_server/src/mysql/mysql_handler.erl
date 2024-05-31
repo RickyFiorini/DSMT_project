@@ -8,11 +8,11 @@
 run_loop(Conn) ->
   receive
   %% Insert Listing operation
-    {insert_listing, BoxID, Timestamp, RegistryPID} ->
+    {insert_listing, Username, BoxID, Timestamp, RegistryPID} ->
       io:format("[MYSQL HANDLER] -> Insert selected ~n"),
-      insert_listing(Conn, BoxID, Timestamp, RegistryPID);
+      insert_listing(Conn, Username, BoxID, Timestamp, RegistryPID);
 
-  %% TODO RECEIVE DELETE LISTING
+  %% Delete Listing Operation
     {delete_listing, ListingID, Timestamp, RegistryPID} ->
       io:format("[MYSQL HANDLER] -> Delete selected ~n"),
       %% Retrieve boxID of the selected listing
@@ -25,9 +25,9 @@ run_loop(Conn) ->
 
 
 %% To insert a new listing
-insert_listing(Conn, BoxID, Timestamp, RegistryPID) ->
+insert_listing(Conn, Username, BoxID, Timestamp, RegistryPID) ->
   io:format("[MYSQL HANDLER] -> inserting listing with BoxID ~p~n", [BoxID]),
-  InsertStatement = "INSERT INTO listing(boxID, boxIDwinner, timestamp) VALUES (?, ?, FROM_UNIXTIME(? * 0.001))",
+  InsertStatement = "INSERT INTO listing(username, boxID, boxIDwinner, timestamp) VALUES (?, ?, ?, FROM_UNIXTIME(? * 0.001))",
 
   %% Check query preparation (INSERT)
   case mysql:prepare(Conn, InsertStatement) of
@@ -38,7 +38,7 @@ insert_listing(Conn, BoxID, Timestamp, RegistryPID) ->
 
     {ok, StatementID} ->
       %% Check query execution (INSERT)
-      case mysql:execute(Conn, StatementID, [BoxID, null, Timestamp]) of
+      case mysql:execute(Conn, StatementID, [Username, BoxID, null, Timestamp]) of
 
         {error, Reason} ->
           io:format("[MYSQL HANDLER - insert_listing] -> failed to insert listing: ~p~n", [Reason]),
@@ -174,7 +174,6 @@ set_box_listed(Conn, BoxID, Listed, Timestamp, RegistryPID) ->
           io:format("[MYSQL HANDLER - set_box_listed] -> UPDATE Result: ~p~n", [Result])
       end
   end.
-
 
 %% To get database configuration and start the connection with mysql
 start_db() ->

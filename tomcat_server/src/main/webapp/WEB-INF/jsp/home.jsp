@@ -41,26 +41,35 @@
     </div>
     <div class="center-board">
         <div class="listings-wrapper">
+            <%-- Check past listings --%>
             <% for(ListingDTO listing : (List<ListingDTO>)request.getAttribute("listingList")){ %>
             <% String listingStatus = "listing-card"; %>
             <% if (listing.getWinner() != 0) {
                 listingStatus += "-past";
             } %>
+
+            <%-- Check past listings --%>
             <div class="card <%=listingStatus%>" id="<%=listing.getID()%>"
                     <% if (listing.getWinner() != 0) { %>
                  style="display: none;"
                     <% } %>
             >
-                <a onclick="closeWebsocket()" href="${pageContext.request.contextPath}/listing?listingID=<%=listing.getID()%>">
+                <%-- Past listing are not interactable --%>
+                <a
+                    <% if (listing.getWinner() == 0) { %>
+                        onclick="closeWebsocket()"
+                        href="${pageContext.request.contextPath}/listing?listingID=<%=listing.getID()%>"
+                    <% } %>
+                >
                     <img src="<%=listing.getImageURL()%>" class="img-box" alt="icons/placeholder_pokemon.png">
                     <h1>
                         <%=listing.getPokemonName()%>
                     </h1>
-                    <h3>
+                    <h2>
                         <%=listing.getUsername()%>
-                    </h3>
+                    </h2>
                     <h3>
-                        Winner: None
+                        Winner: <%=listing.getWinner()%>
                     </h3>
                     <h4>
                         <%=listing.getTimestamp()%>
