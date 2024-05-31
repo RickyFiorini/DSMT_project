@@ -18,6 +18,7 @@
     {password, "root"},
     {database, "PokemonDB"}
    ]},
+   {offer_node, offer_server@localhost},
    {port, 8082}
   ]},
   {modules, []},

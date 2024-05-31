@@ -39,3 +39,11 @@ function closeListingPopup(Winner) {
             window.location.href = "http://localhost:8080/tomcat_server/home";
         }, 4000); // 5000 millisecondi = 5 secondi
 }
+
+function  closeDeleteListingPopup()  {
+    var message = "LISTING DELETED\n";
+    alert(message);
+    setTimeout(function() {
+        window.location.href = "http://localhost:8080/tomcat_server/home";
+    }, 4000); // 5000 millisecondi = 5 secondi
+}

@@ -21,9 +21,9 @@ handle_mysql(ListingID, Trader, BoxID,Instant, Caller,Mappings) ->
       maps:fold(
         fun(Username, Values, _) ->
           case Values of
-            #{pid := Pid}  ->
+            #{pid := Pid, listingID := RegListingID} when RegListingID == ListingID ->
               io:format("[Offer Registry] -> forwarded_offer insert to ~p with pid ~p~n", [Username, Pid]),
-              Pid ! {forwarded_offer, insert, OfferValues, OfferKeys,BoxID};
+              Pid ! {forwarded_offer, insert, OfferValues, OfferKeys, BoxID};
             _ ->
               error_logger:error_msg("Invalid value for username ~p", [Username])
           end
@@ -36,6 +36,8 @@ handle_mysql(ListingID, Trader, BoxID,Instant, Caller,Mappings) ->
   end.
 
 registry_loop(Mappings) ->
+  Cookie = erlang:get_cookie(),
+  io:format("[Message Handler] ->  COOKIE, ~p ~n",[Cookie]),
   receive 
     {register,Username,ListingID,Pid} ->
       io:format("[Offer Registry] -> add mapping by ~p with pid ~p~n",[Username, Pid]),
@@ -81,6 +83,14 @@ registry_loop(Mappings) ->
       Caller,
       Mappings
       ) end),
+      registry_loop(Mappings);
+
+   {listing_deleteUpdate,ListingID} ->
+      io:format("[Offer Registry] -> Listing delete update received for ~p",[ListingID]),
+      spawn(fun() -> handle_mysql_listingUpdate(
+      ListingID,
+      Mappings
+      ) end),
       registry_loop(Mappings)
 end.
 
@@ -117,7 +127,7 @@ handle_mysql_trade(Owner, ListingID, BoxID,OfferID, Caller, Mappings) ->
       maps:fold(
         fun(User, Values, _) ->
           case Values of
-            #{pid := Pid}  ->
+            #{pid := Pid, listingID := RegListingID} when RegListingID == ListingID ->
               io:format("[Offer Registry] -> forwarded_offer trade to ~p with pid ~p~n", [User, Pid]),
               Pid ! {forwarded_offer,trade,OfferID,Trader,Owner};
             _ ->
@@ -126,7 +136,40 @@ handle_mysql_trade(Owner, ListingID, BoxID,OfferID, Caller, Mappings) ->
         end,
         ok,
         Mappings
-      );
+      ),
+     io:format("[Message Handler] -> Notification handle for listing node~n"),
+     {ok, ListingNode} = application:get_env(listing_node),
+      ConnectedNodes = nodes(),
+     if
+     ConnectedNodes == [] -> net_kernel:connect_node(ListingNode);
+     true -> ok
+     end,
+     {listing_registry, ListingNode} ! {updateListing, ListingID,Trader};
     {sql_error, Reason} ->
       Caller ! {sql_error, Reason}
   end.
+
+
+handle_mysql_listingUpdate(ListingID, Mappings) ->
+  DBPid = whereis(database_connection),
+  DBPid ! {update_listing,ListingID,self()},
+  receive
+    {ok, _Message} ->
+      % To forward the message to each user of the registry
+      maps:fold(
+        fun(Username, Values, _) ->
+          case Values of
+            #{pid := Pid, listingID := RegListingID} when RegListingID == ListingID ->
+              io:format("[Offer Registry] -> Delete Listing message delete to ~p with pid ~p~n", [Username, Pid]),
+              Pid ! {delete_listing,delete};
+            _ ->
+              error_logger:error_msg("Invalid value for username ~p", [Username])
+          end
+        end,
+        ok,
+        Mappings
+      );
+    {sql_error} ->
+      error_logger:error_msg("sql error")
+  end.
+

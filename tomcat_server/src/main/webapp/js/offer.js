@@ -125,6 +125,10 @@ websocketUrl.onmessage = (event) => {
             changeButtonBoxDelete(BoxID);
         }
     }
+    if (message.type && message.type === "listing") {
+        closeDeleteListingPopup();
+
+    }
     if (message.type && message.type === "trade") {
         const {OfferID, Trader, UserListing} = message;
             ModifyListingWinner(Trader);

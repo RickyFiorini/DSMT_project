@@ -103,6 +103,12 @@ websocket_info(Info, State) ->
       }),
       {reply, {text, Json}, State};
 
+    {delete_listing,delete} ->
+      io:format("[Offer WS:~p] -> Received Delete ListingMessage:  ~n ",[self()]),
+      Json = jsone:encode(#{<<"type">> => <<"listing">>
+      }),
+      {reply, {text, Json}, State};
+
     {forwarded_offer,trade,OfferID,Trader,Username} ->
       io:format("[Offer WS:~p] -> Received Trade Request: ~p ~p  ~p  ~n ",[self(), OfferID,Trader,Username]),
       Json = jsone:encode(#{<<"type">> => <<"trade">>,

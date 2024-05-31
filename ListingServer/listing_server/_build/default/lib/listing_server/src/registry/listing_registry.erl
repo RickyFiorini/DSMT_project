@@ -13,7 +13,6 @@ start_listing_registry()->
   DBPid = spawn(fun() -> start_db() end),
   io:format("[Listing Registry] -> Starting Database Connection at pid ~p~n",[DBPid]),
   register(database_connection, DBPid),
-
   register(listing_registry, Pid).
 
 
@@ -107,8 +106,26 @@ handle_mysql(ID, Timestamp, Operation, SocketListenerPID, Mappings) ->
         end,
         ok,
         Mappings
-      );
+      ),
+    io:format("[Message Handler] -> Notification handle for offer node 1~n"),
+    {ok, OfferNode} = application:get_env(offer_node),
+      io:format("[Message Handler] -> Notification handle for offer node 2, ~p ~n",[OfferNode]),
+      Cookie = erlang:get_cookie(),
+       io:format("[Message Handler] ->  COOKIE, ~p ~n",[Cookie]),
+%%      PingResult = net_adm:ping(OfferNode),
+%%      io:format("Manual ping result: ~p~n", [PingResult]),
+      ConnectedNodes = nodes(),
+      io:format("[Message Handler] -> Notification handle for offer node 3, ~p ~n",[ConnectedNodes]),
+      if ConnectedNodes == [] ->
+         Result = net_kernel:connect_node(OfferNode),
+         io:format("Connection result: ~p~n", [Result]),
+%%          net_kernel:connect_node(OfferNode),
+          ConnectedOfferNode = nodes(),
+          io:format("[Message Handler] -> Notification handle for offer node 4, ~p~n",[ConnectedOfferNode]);
+          true -> ok
+      end,
+     {offer_registry,OfferNode} ! {listing_deleteUpdate, ListingID};
 
-    {sql_error, Reason} ->
+{sql_error, Reason} ->
       SocketListenerPID ! {sql_error, Reason}
   end.
