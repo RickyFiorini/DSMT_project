@@ -51,7 +51,7 @@
 
                 <div class="info">
                     <h1>Username:</h1>
-                    <label>
+                    <label id="ListingOwner">
                         <%=listing.getUsername()%>
                     </label>
                 </div>

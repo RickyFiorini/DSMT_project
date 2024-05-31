@@ -37,7 +37,7 @@ function closeListingPopup(Winner) {
         alert(message);
         setTimeout(function() {
             window.location.href = "http://localhost:8080/tomcat_server/home";
-        }, 4000); // 5000 millisecondi = 5 secondi
+        }, 2500); // 5000 millisecondi = 5 secondi
 }
 
 function  closeDeleteListingPopup()  {
@@ -45,5 +45,6 @@ function  closeDeleteListingPopup()  {
     alert(message);
     setTimeout(function() {
         window.location.href = "http://localhost:8080/tomcat_server/home";
-    }, 4000); // 5000 millisecondi = 5 secondi
+    }, 2500); // 5000 millisecondi = 5 secondi
 }
+

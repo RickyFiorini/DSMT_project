@@ -42,6 +42,19 @@ function appendOfferComponent(id,imageUrl,PokemonName,Trader,PrimaryType,Attack,
         };
         newOfferComponent.appendChild(deleteButton);
     }
+
+    const listingOwnerUsername = document.getElementById("ListingOwner").textContent.trim();
+   console.log(listingOwnerUsername)
+    if (currentUsername === listingOwnerUsername ) {
+        const tradeButton = document.createElement('button');
+        tradeButton.classList.add('listing-button');
+        tradeButton.id = 'tradeButton_'+id;
+        tradeButton.textContent = 'Trade';
+        tradeButton.onclick = function () {
+            Trade(id,BoxID,Trader);
+        };
+        newOfferComponent.appendChild(tradeButton);
+    }
 }
 
 function handleSend(BoxID) {
