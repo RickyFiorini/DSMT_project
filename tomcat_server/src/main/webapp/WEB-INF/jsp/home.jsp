@@ -44,19 +44,19 @@
             <%-- Check past listings --%>
             <% for(ListingDTO listing : (List<ListingDTO>)request.getAttribute("listingList")){ %>
             <% String listingStatus = "listing-card"; %>
-            <% if (listing.getWinner() != 0) {
+            <% if (listing.getWinner() != null) {
                 listingStatus += "-past";
             } %>
 
             <%-- Check past listings --%>
             <div class="card <%=listingStatus%>" id="<%=listing.getID()%>"
-                    <% if (listing.getWinner() != 0) { %>
+                    <% if (listing.getWinner() != null) { %>
                  style="display: none;"
                     <% } %>
             >
                 <%-- Past listing are not interactable --%>
                 <a
-                    <% if (listing.getWinner() == 0) { %>
+                    <% if (listing.getWinner() == null) { %>
                         onclick="closeWebsocket()"
                         href="${pageContext.request.contextPath}/listing?listingID=<%=listing.getID()%>"
                     <% } %>
@@ -69,7 +69,9 @@
                         <%=listing.getUsername()%>
                     </h2>
                     <h3>
-                        Winner: <%=listing.getWinner()%>
+                        Winner:  <% if (listing.getWinner() != null) { %>
+                        <%=listing.getWinner()%>
+                        <% } %>
                     </h3>
                     <h4>
                         <%=listing.getTimestamp()%>

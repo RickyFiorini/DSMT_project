@@ -7,14 +7,14 @@ import java.sql.Timestamp;
 public class Listing {
     private int boxID;
     private String username;
-    private int winnerID;
+    private String winner;
     private Timestamp timestamp;
 
 
-    public Listing(int boxID, String username, int winnerID, Timestamp timestamp) {
+    public Listing(int boxID, String username, String winner, Timestamp timestamp) {
         this.boxID = boxID;
         this.username = username;
-        this.winnerID = winnerID;
+        this.winner = winner;
         this.timestamp = timestamp;
 
     }
@@ -35,12 +35,12 @@ public class Listing {
         this.username = username;
     }
 
-    public int getWinner() {
-        return winnerID;
+    public String getWinner() {
+        return winner;
     }
 
-    public void setWinner(int winner) {
-        this.winnerID = winner;
+    public void setWinner(String winner) {
+        this.winner = winner;
     }
 
     public Timestamp getTimestamp() {
@@ -56,7 +56,7 @@ public class Listing {
         return "Listing{" +
                 "boxID=" + boxID +
                 "username=" + username +
-                ", winner='" + winnerID + '\'' +
+                ", winner='" + winner + '\'' +
                 ", timestamp=" + timestamp + '\'' +
                 '}';
     }

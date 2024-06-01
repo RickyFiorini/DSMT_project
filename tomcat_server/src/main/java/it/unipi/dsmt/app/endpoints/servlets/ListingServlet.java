@@ -118,7 +118,7 @@ public class ListingServlet extends HttpServlet {
                 OfferDAO offerDAO = new OfferDAO((Connection) getServletContext().getAttribute("databaseConnection"));
 
                 // Get the winner username and update the listing
-                Integer winner = offerDAO.getUserByOfferID(winningOfferID);
+                String winner = offerDAO.getUserByOfferID(winningOfferID);
                 listingDAO.setWinner(listingID, winner);
 
                 // TODO POI VORREI NOTIFICARE GLI ALTRI? COMUNQUE VADO AL MIO BOX

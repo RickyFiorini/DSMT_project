@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS box (
 CREATE TABLE IF NOT EXISTS listing (
                                        ID INT PRIMARY KEY AUTO_INCREMENT,
                                        boxID int NOT NULL,
-                                       boxIDwinner INT NULL,
+                                       winner varchar(32) NULL,
                                        timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                                        FOREIGN KEY (boxID) REFERENCES box(ID) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

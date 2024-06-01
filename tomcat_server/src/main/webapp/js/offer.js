@@ -37,6 +37,7 @@ function appendOfferComponent(id,imageUrl,PokemonName,Trader,PrimaryType,Attack,
         const deleteButton = document.createElement('button');
         deleteButton.classList.add('listing-button');
         deleteButton.textContent = 'Delete';
+        deleteButton.id = 'deleteButton_'+id;
         deleteButton.onclick = function () {
             Delete(id,BoxID); //
         };

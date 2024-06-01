@@ -27,7 +27,7 @@ run_loop(Conn) ->
 %% To insert a new listing
 insert_listing(Conn, Username, BoxID, Timestamp, RegistryPID) ->
   io:format("[MYSQL HANDLER] -> inserting listing with BoxID ~p~n", [BoxID]),
-  InsertStatement = "INSERT INTO listing(username, boxID, boxIDwinner, timestamp) VALUES (?, ?, ?, FROM_UNIXTIME(? * 0.001))",
+  InsertStatement = "INSERT INTO listing(username, boxID, winner, timestamp) VALUES (?, ?, ?, FROM_UNIXTIME(? * 0.001))",
 
   %% Check query preparation (INSERT)
   case mysql:prepare(Conn, InsertStatement) of
@@ -58,7 +58,7 @@ insert_listing(Conn, Username, BoxID, Timestamp, RegistryPID) ->
 %% To retrieve the inserted listing from the database and send it back to the registry
 select_listing(Conn, BoxID, Timestamp, RegistryPID) ->
   io:format("[MYSQL HANDLER] -> get listing with BoxID ~p~n", [BoxID]),
-  SelectStatement = "SELECT l.ID, l.boxIDwinner, b.username, p.pokemonName, p.imageURL " ++
+  SelectStatement = "SELECT l.ID, l.winner, b.username, p.pokemonName, p.imageURL " ++
     "FROM listing l " ++
     "JOIN box b ON l.boxID = b.ID " ++
     "JOIN pokemon p ON b.pokemonID = p.ID " ++

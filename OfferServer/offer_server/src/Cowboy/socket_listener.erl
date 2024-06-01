@@ -30,6 +30,7 @@ websocket_handle(_Frame={text, Message}, State) ->
       BoxID = maps:get(<<"BoxID">>, OfferMap, undefined),
       Instant = maps:get(<<"timestamp">>, OfferMap, undefined),
       OfferID=  maps:get(<<"OfferID">>, OfferMap, undefined),
+      Winner =  maps:get(<<"Winner">>, OfferMap, undefined),
       Operation= maps:get(<<"operation">>, OfferMap, undefined),
 
       % limit case handling
@@ -55,12 +56,13 @@ websocket_handle(_Frame={text, Message}, State) ->
           {ok, State}
           end;
         <<"trade">>  ->
-          if BoxID == undefined orelse OfferID == undefined ->
+          if BoxID == undefined orelse OfferID == undefined orelse Winner == undefined ->
             JsonResponse = jsone:encode(#{<<"type">> => <<"error">>, <<"message">> => "NOT VALID PARAMETER"}),
             {reply, {text, JsonResponse}, State};
           true ->
               #{username:=Username,listingID:= ListingID,register_pid := RegisterPid} = State,
-              RegisterPid ! {trade,Username,ListingID,BoxID,OfferID, self()},
+            io:format("[OFFER WS:~p] -> WINNER ~p~n",[self(),Winner]),
+            RegisterPid ! {trade,Username,ListingID,BoxID,OfferID,Winner, self()},
               io:format("[OFFER WS:~p] -> Trade Request: ~p~n",[self(),State]),
               {ok, State}
           end;

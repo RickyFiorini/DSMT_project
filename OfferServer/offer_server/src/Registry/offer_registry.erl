@@ -73,13 +73,14 @@ registry_loop(Mappings) ->
       ) end),
       registry_loop(Mappings);
 
-    {trade,Owner,ListingID,BoxID,OfferID,Caller} ->
+    {trade,Owner,ListingID,BoxID,OfferID,Winner,Caller} ->
       io:format("[Offer Registry] -> Trade offer by ~p with pid ~p~n",[Owner, Caller]),
       spawn(fun() -> handle_mysql_trade(
       Owner,
       ListingID,
       BoxID,
       OfferID,
+      Winner,
       Caller,
       Mappings
       ) end),
@@ -118,18 +119,18 @@ handle_mysql_delete(Trader,OfferID,BoxID,Caller, Mappings) ->
   end.
 
 
-handle_mysql_trade(Owner, ListingID, BoxID,OfferID, Caller, Mappings) ->
+handle_mysql_trade(Owner, ListingID, BoxID,OfferID,Winner,Caller, Mappings) ->
   DBPid = whereis(database_connection),
-  DBPid ! {trade,Owner,ListingID,BoxID,self()},
+  DBPid ! {trade,Owner,ListingID,BoxID,Winner,self()},
   receive
-    {ok, Trader} ->
+    {ok,Winner} ->
       % To forward the message to each user of the registry
       maps:fold(
         fun(User, Values, _) ->
           case Values of
             #{pid := Pid, listingID := RegListingID} when RegListingID == ListingID ->
               io:format("[Offer Registry] -> forwarded_offer trade to ~p with pid ~p~n", [User, Pid]),
-              Pid ! {forwarded_offer,trade,OfferID,Trader,Owner};
+              Pid ! {forwarded_offer,trade,OfferID,Winner,Owner};
             _ ->
               error_logger:error_msg("Invalid value for username ~p", [User])
           end
@@ -144,7 +145,7 @@ handle_mysql_trade(Owner, ListingID, BoxID,OfferID, Caller, Mappings) ->
      ConnectedNodes == [] -> net_kernel:connect_node(ListingNode);
      true -> ok
      end,
-     {listing_registry, ListingNode} ! {updateListing, ListingID,Trader};
+     {listing_registry, ListingNode} ! {updateListing, ListingID,Winner};
     {sql_error, Reason} ->
       Caller ! {sql_error, Reason}
   end.

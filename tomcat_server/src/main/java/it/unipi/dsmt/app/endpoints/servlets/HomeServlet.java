@@ -47,7 +47,7 @@ public class HomeServlet extends HttpServlet {
             // Filter out the open listings
             List<ListingDTO> closedListingList = listingList.stream().filter(new Predicate<ListingDTO>() {
                 @Override
-                public boolean test(ListingDTO listing) { return listing.getWinner() != 0;
+                public boolean test(ListingDTO listing) { return listing.getWinner() != null;
                 }
             }).collect(Collectors.toList());
             request.setAttribute("closedListingList", closedListingList);
@@ -56,7 +56,7 @@ public class HomeServlet extends HttpServlet {
             List<ListingDTO> openListingList = listingList.stream().filter(new Predicate<ListingDTO>() {
                 @Override
                 public boolean test(ListingDTO listing) {
-                    return listing.getWinner() == 0;
+                    return listing.getWinner() == null;
                 }
             }).collect(Collectors.toList());
             request.setAttribute("openListingList", openListingList);

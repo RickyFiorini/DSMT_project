@@ -8,9 +8,9 @@ run_loop(Conn) ->
     {save_offer,Trader, ListingID,BoxId,CreationTime, Caller} ->
       io:format("[Offer MySQL] -> Saving tuple (~p, ~p, ~p, ~p)~n",[ListingID,Trader,BoxId,CreationTime]),
       save_offer(Conn,Trader, ListingID,BoxId,CreationTime, Caller);
-    {trade,Username,ListingID,BoxId,Caller} ->
+    {trade,Username,ListingID,BoxId,Winner,Caller} ->
       io:format("[Offer MySQL] -> TRADE tuple (~p, ~p, ~p, ~p)~n",[ListingID,Username,BoxId,Username]),
-      trade(Conn,Username,ListingID,BoxId, Caller);
+      trade(Conn,Username,ListingID,BoxId,Winner, Caller);
     {delete_offer,OfferID,BoxId, Caller} ->
       io:format("[Offer MySQL] -> Deleting Offer  ~p~n",[OfferID]),
       delete_offer(Conn,OfferID,BoxId, Caller),
@@ -105,21 +105,23 @@ delete_offer(Conn,OfferID,BoxID,Caller) ->
  end
 end.
 
-trade(Conn, Username, ListingID, BoxId,Caller) ->
-  TradeStatement = "UPDATE listing SET boxIDwinner = ? WHERE ID = ?",
+trade(Conn, Username, ListingID, BoxId,Winner,Caller) ->
+  io:format("[offer MySQL] -> Winner: ~p~n", [Winner]),
+  TradeStatement = "UPDATE listing SET winner = ? WHERE ID = ?",
   case mysql:prepare(Conn,  TradeStatement) of
     {error, Reason} ->
       io:format("[Offer MySQL] -> Failed to TRADE: ~p~n",[Reason]),
       Caller ! {sql_error, BoxId};
     {ok, StatementID} ->
-      case mysql:execute(Conn, StatementID,[BoxId,ListingID]) of
+      case mysql:execute(Conn, StatementID,[Winner,ListingID]) of
         {error, Reason} ->
           io:format("[offer MySQL] -> Failed to trade: ~p~n", [Reason]),
           Caller ! {sql_error, BoxId};
         Result ->
           io:format("[offer MySQL] -> ~p~n",[Result]),
           selectListedValueTrade(Conn,ListingID,Caller),%change listing value of the corresponding Pokémon offer to 0
-          updateBoxTradeWinner(Conn,ListingID,BoxId,Username,Caller) %% the listing's creator
+          updateBoxTradeWinner(Conn,ListingID,BoxId,Winner,Username,Caller) %% the listing's creator
+
 
 
 end
@@ -168,10 +170,9 @@ updateBoxTradeListing(Conn,Username,BoxId, Caller) ->
       end
   end.
 
-updateBoxTradeWinner(Conn, ListingID,BoxId,Username,Caller) ->
-  SelectStatement = "SELECT l.boxID, b.username " ++
+updateBoxTradeWinner(Conn, ListingID,BoxId,Winner,Username,Caller) ->
+  SelectStatement = "SELECT l.boxID, l.username " ++
      "FROM listing l " ++
-     "JOIN box b ON l.boxIDwinner = b.ID " ++
      "WHERE l.ID= ? ",
   case mysql:prepare(Conn, SelectStatement) of
     {error, Reason} ->
@@ -182,11 +183,11 @@ updateBoxTradeWinner(Conn, ListingID,BoxId,Username,Caller) ->
         {error, Reason} ->
           io:format("[MySQL] -> Failed to execute SELECT statement: ~p~n", [Reason]),
           Caller ! {sql_error, Reason};
-        {ok, _, [[BoxIdListing, Trader]]} ->
+        {ok, _, [[BoxIdListing,Trader]]} ->
           updateBoxTradeListing(Conn,Trader,BoxIdListing,Caller),
           updateBoxTradeListing(Conn,Username,BoxId,Caller),
           boxUpdateStatement(Conn,BoxIdListing,Caller,0),
-          Caller ! {ok, Trader}
+          Caller ! {ok, Winner}
 end
   end.
 

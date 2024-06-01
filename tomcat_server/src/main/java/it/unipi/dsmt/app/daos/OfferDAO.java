@@ -75,8 +75,8 @@ public class OfferDAO {
     }
 
     // Retrieve the user of the selected offer
-    public Integer getUserByOfferID(int offerID) throws SQLException {
-        String sqlString = "SELECT b.ID " +
+    public String getUserByOfferID(int offerID) throws SQLException {
+        String sqlString = "SELECT b.username " +
                 "FROM offer o " +
                 "JOIN box b ON o.boxID = b.ID " +
                 "WHERE o.ID= ? ";
@@ -84,7 +84,7 @@ public class OfferDAO {
         statement.setInt(1, offerID);
         ResultSet set = statement.executeQuery();
         if(set.next()) {
-            return set.getInt(("ID"));
+            return set.getString(("username"));
         }
         return null;
     }

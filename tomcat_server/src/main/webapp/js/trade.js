@@ -1,10 +1,11 @@
-function Trade(OfferID,BoxID,TraderID) {
+function Trade(OfferID,BoxID,Winner) {
     console.log("Ok sto inviando Trade");
-    console.log(BoxID);
+    console.log(Winner);
     websocketUrl.send(
         JSON.stringify({
             OfferID,
             BoxID,
+            Winner,
             operation:'trade',
         })
     );
@@ -22,8 +23,12 @@ function changeTradeButton(OfferID) {
     const offerDivs = document.querySelectorAll('div[id^="Offer_"]');
     offerDivs.forEach(div => {
         const button = div.querySelector('button[id^="tradeButton_"]');
+        const button1 = div.querySelector('button[id^="deleteButton_"]');
         if (button) {
             button.remove();
+        }
+        if (button1) {
+            button1.remove();
         }
     });
     const winner = document.createElement("div");

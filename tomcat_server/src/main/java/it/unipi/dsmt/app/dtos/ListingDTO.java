@@ -16,12 +16,12 @@ public class ListingDTO {
     private int defense;
     private String imageURL;
     private String username;
-    private Integer winnerID;
+    private String winner;
     private Timestamp timestamp;
 
-    public ListingDTO(int listingID,String username,Integer winnerID, Timestamp timestamp,String pokemonName,String primaryType,String secondaryType,int attack,int defense, String imageURL) {
+    public ListingDTO(int listingID,String username,String winner, Timestamp timestamp,String pokemonName,String primaryType,String secondaryType,int attack,int defense, String imageURL) {
         this.username = username;
-        this.winnerID = winnerID;
+        this.winner = winner;
         this.timestamp = timestamp;
         this.pokemonName=pokemonName;
         this.primaryType=primaryType;
@@ -94,12 +94,12 @@ public class ListingDTO {
         this.username = username;
     }
 
-    public Integer getWinner() {
-        return winnerID;
+    public String getWinner() {
+        return winner;
     }
 
-    public void setWinner(Integer winner) {
-        this.winnerID = winner;
+    public void setWinner(String winner) {
+        this.winner = winner;
     }
 
     public Timestamp getTimestamp() {
@@ -121,7 +121,7 @@ public class ListingDTO {
                 ", attack='" + attack + '\'' +
                 ", defense='" + defense + '\'' +
                 ", imageURL='" + imageURL + '\'' +
-                ", winner='" + winnerID + '\'' +
+                ", winner='" + winner + '\'' +
                 ", timestamp=" + timestamp +
                 '}';
     }

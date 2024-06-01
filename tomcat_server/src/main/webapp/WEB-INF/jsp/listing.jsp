@@ -76,14 +76,14 @@
                 <div class="info">
                     <h2>Winner:</h2>
                     <label id="winner">
-                        <% if (listing.getWinner() == 0) { %>
+                        <% if (listing.getWinner() == null) { %>
                         None
                         <% } %>
                     </label>
                 </div>
             </div>
             <%-- If the current user is not the owner of the listing, he can make an offer --%>
-            <% if (!currentUser.equals(listing.getUsername()) && (listing.getWinner() == 0)) { %>
+            <% if (!currentUser.equals(listing.getUsername()) && (listing.getWinner() == null)) { %>
             <%-- Show the user box, so he can select the pokemon to offer --%>
             <button class="listing-button" type="button" onclick="showBox('box-popup')"> MAKE AN OFFER </button>
             <% } %>
@@ -110,11 +110,11 @@
                 </h4>
 
                 <% if (currentUser.equals(offer.getTrader())) { %>
-                   <button class="listing-button" onclick="Delete('<%= offer.getOfferID() %>','<%= offer.getBoxID() %>')">Delete</button>
+                   <button class="listing-button" id="deleteButton_<%=offer.getOfferID()%>" onclick="Delete('<%= offer.getOfferID() %>','<%= offer.getBoxID() %>')">Delete</button>
 
                 <% } %>
                 <%-- If the current user is the owner of the listing, he can accept an offer --%>
-                <% if (currentUser.equals(listing.getUsername()) && (listing.getWinner() == 0)) { %>
+                <% if (currentUser.equals(listing.getUsername()) && (listing.getWinner() == null)) { %>
                 <%-- TODO ACCETTARE UNA OFFER, EFFETTUARE IL TRADE
                       E NOTIFICARE TUTTI COLORO CHE HANNO PARTECIPATO
                       E VENGO PORTATO AL MIO BOX --%>

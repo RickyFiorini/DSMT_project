@@ -55,7 +55,7 @@ public class ProfileServlet extends HttpServlet {
                 List<ListingDTO> listingList = listingDAO.getListingsByUsername(currentUsername);
                 List<ListingDTO> ListingListOpen = listingList.stream().filter(new Predicate<ListingDTO>() {
                     @Override
-                    public boolean test(ListingDTO listing) { return listing.getWinner() == 0;
+                    public boolean test(ListingDTO listing) { return listing.getWinner() == null;
                     }
                 }).collect(Collectors.toList());
                 request.setAttribute("listingList", ListingListOpen);
