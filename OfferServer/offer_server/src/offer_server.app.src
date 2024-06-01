@@ -18,7 +18,7 @@
     {password, "root"},
     {database, "PokemonDB"}
    ]},
-   {listing_node, listing@listing_server},
+   {listing_node, listing_server@localhost},
    {port, 8081}
   ]},
   {modules, []},

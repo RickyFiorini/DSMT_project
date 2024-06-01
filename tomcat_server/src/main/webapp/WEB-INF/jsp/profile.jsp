@@ -29,9 +29,6 @@
 <div class="site-wrap">
     <jsp:include page="/WEB-INF/jsp/components/nav_bar.jsp"/>
 
-    <%-- Get current username --%>
-    <% String currentUser = AccessController.getUsername(request); %>
-
     <%-- Get user info from request and show them aside --%>
     <% UserProfileDTO user = (UserProfileDTO) request.getAttribute("userInfo"); %>
 
@@ -107,7 +104,7 @@
                       action="${pageContext.request.contextPath}/profile?profileSection=listings&boxID=<%=box.getBoxID()%>">
                 </form>
                 <button type="submit" class="profile-button"
-                        onclick='handleNewListing("${pageContext.request.contextPath}/profile","<%=box.getBoxID()%>", "<%=box.getPokemonName()%>")'> New Listing </button>
+                        onclick='handleNewListing("${pageContext.request.contextPath}/profile","<%=box.getBoxID()%>", "<%=box.getUsername()%>")'> New Listing </button>
 
                 <% } %>
             </div>

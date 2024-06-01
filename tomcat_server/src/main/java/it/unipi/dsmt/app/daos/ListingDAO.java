@@ -20,7 +20,7 @@ public class ListingDAO {
 
     public List<ListingDTO> getListings() throws SQLException {
         ArrayList<ListingDTO> result = new ArrayList<>();
-        String sqlString = "SELECT l.ID, l.boxIDwinner, l.timestamp, b.username,p.pokemonName, p.primaryType, p.secondaryType, p.attack, p.defense, p.imageURL " +
+        String sqlString = "SELECT l.ID, l.boxIDwinner, l.timestamp, l.username,p.pokemonName, p.primaryType, p.secondaryType, p.attack, p.defense, p.imageURL " +
                 "FROM listing l " +
                 "JOIN box b ON l.boxID = b.ID " +
                 "JOIN pokemon p ON b.pokemonID = p.ID";
@@ -39,11 +39,11 @@ public class ListingDAO {
     // Retrieve the listings of the current user
     public List<ListingDTO> getListingsByUsername(String username) throws SQLException {
         ArrayList<ListingDTO> result = new ArrayList<>();
-        String sqlString = "SELECT l.ID, l.boxIDwinner, l.timestamp, b.username, p.pokemonName, p.primaryType, p.secondaryType, p.attack, p.defense, p.imageURL " +
+        String sqlString = "SELECT l.ID, l.boxIDwinner, l.timestamp, l.username, p.pokemonName, p.primaryType, p.secondaryType, p.attack, p.defense, p.imageURL " +
                 "FROM listing l " +
                 "JOIN box b ON l.boxID = b.ID " +
                 "JOIN pokemon p  ON b.pokemonID = p.ID "+
-                "WHERE b.username= ? AND l.boxIDwinner IS NULL ";
+                "WHERE l.username= ? AND l.boxIDwinner IS NULL ";
         PreparedStatement statement = listingConnection.prepareStatement(sqlString);
         statement.setString(1, username);
         ResultSet set = statement.executeQuery();
@@ -65,7 +65,7 @@ public class ListingDAO {
 
     // Retrieve the selected listing info
     public ListingDTO getListingInfo(int listingID) throws SQLException {
-        String sqlString = "SELECT l.ID, l.boxIDwinner, l.timestamp, b.username, p.pokemonName, p.primaryType, p.secondaryType, p.attack, p.defense, p.imageURL " +
+        String sqlString = "SELECT l.ID, l.boxIDwinner, l.timestamp, l.username, p.pokemonName, p.primaryType, p.secondaryType, p.attack, p.defense, p.imageURL " +
                 "FROM listing l " +
                 "JOIN box b ON l.boxID = b.ID " +
                 "JOIN pokemon p  ON b.pokemonID = p.ID "+
@@ -84,10 +84,10 @@ public class ListingDAO {
     // Check if the current user is the owner of the selected listing
     public boolean validateListing(String currentUsername, int listingID)  throws SQLException {
         boolean ret = false;
-        String sqlString = "SELECT l.ID, l.boxIDwinner, l.timestamp, b.username, b.pokemonID " +
+        String sqlString = "SELECT l.ID, l.boxIDwinner, l.timestamp, l.username, b.pokemonID " +
                 "FROM listing l " +
                 "JOIN box b ON l.boxID = b.ID " +
-                "WHERE l.ID=? AND b.username=?";
+                "WHERE l.ID=? AND l.username=?";
         PreparedStatement statement = listingConnection.prepareStatement(sqlString);
         statement.setInt(1, listingID);
         statement.setString(2, currentUsername);

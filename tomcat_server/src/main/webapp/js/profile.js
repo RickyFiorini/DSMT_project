@@ -21,13 +21,14 @@ async function deleteListing(listingID, path, user) {
 }
 
 // Send post request to the servlet and handle new listing
-function handleNewListing(path, boxID, pokemon){
+function handleNewListing(path, boxID, username){
     const timestamp = Date.now();
     const operation = "insert";
      console.log(currentUsername)
     // Send listing with websocket
     cws.send(
         JSON.stringify({
+            username: username,
             boxID: boxID,
             timestamp: timestamp,
             operation: operation,
@@ -56,6 +57,7 @@ function handleDeleteListing (listingID) {
     // Send listing with websocket
     cws.send(
         JSON.stringify({
+            username: currentUsername,
             listingID: listingID,
             timestamp: timestamp,
             operation: operation,

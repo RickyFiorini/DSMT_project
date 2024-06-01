@@ -6,7 +6,7 @@ const listingsWrapper = document.querySelector(".listings-wrapper");
 cws.onmessage = (event) => {
     const message = JSON.parse(event.data);
 
-    // TODO Control operation type (insert, delete)
+    // "Insert" Operation
     if (message.type && message.operation === "insert") {
 
         const timestamp = formatTimestamp(Date.now());
@@ -23,19 +23,23 @@ cws.onmessage = (event) => {
         // Append the new listing
         appendListingComponent(message.listingID, timestamp, message.username, message.pokemonName, message.imageURL);
 
-    } else if (message.type && message.operation === "delete"){
+    }
+    // "Delete" Operation
+    else if (message.type && message.operation === "delete"){
         console.log("Listing ID: " + message.listingID +
             " Operation: " + message.operation
         );
         hideListingComponent(message.listingID);
     }
+    // "Update" Operation
+    else if (message.type && message.operation === "update") {
+        console.log("Listing ID: " + message.listingID +
+            " Trader: " + message.trader +
+            " Operation: " + message.operation
+        );
+        hideListingComponent(message.listingID);
+    }
 };
-
-// To dinamically hide the deleted listing
-function hideListingComponent(listingID){
-    const listingComponent = document.getElementById(listingID);
-    listingComponent.style.display = 'none';
-}
 
 // To dinamically append a new listing in the home
 function appendListingComponent(listingID, timestamp, username, pokemonName, imageURL) {
@@ -57,7 +61,7 @@ function appendListingComponent(listingID, timestamp, username, pokemonName, ima
                         ${username}
                     </h3>
                     <h3>
-                        Winner: null
+                        Winner:
                     </h3>
                     <h4>
                         ${timestamp}
@@ -65,6 +69,20 @@ function appendListingComponent(listingID, timestamp, username, pokemonName, ima
                 </a>
   `;
     listingsWrapper.appendChild(newListingComponent);
+}
+
+// To dinamically hide the deleted listing
+function hideListingComponent(listingID){
+    const listingComponent = document.getElementById(listingID);
+    listingComponent.style.display = 'none';
+}
+
+// To dinamically update the winner of the selected listing
+function updateListingComponent(listingID, trader){
+    const winnerComponent = document.getElementById(listingID)
+        .querySelector('a')
+        .querySelector('h3');
+    winnerComponent.textContent = "Winner: " + trader;
 }
 
 // To format the timestamp correctly

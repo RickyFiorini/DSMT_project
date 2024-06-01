@@ -37,6 +37,7 @@ websocket_handle(_Frame={text, Listing}, State) ->
               case Operation of
                 <<"insert">> ->
                   % request unpack
+                  Username = maps:get(<<"username">>, ListingMap, undefined),
                   BoxID = maps:get(<<"boxID">>, ListingMap, undefined),
                   Timestamp = maps:get(<<"timestamp">>, ListingMap, undefined),
                   % Limit case handling
@@ -49,11 +50,12 @@ websocket_handle(_Frame={text, Listing}, State) ->
                       #{username := Sender, register_pid := RegisterPid} = State,
 
                       % Forward listing to the registry, that will broadcast to the other users and send a request to mysql
-                      RegisterPid ! {insert, BoxID, Timestamp, Operation, Sender, self()},
+                      RegisterPid ! {insert, Username, BoxID, Timestamp, Operation, Sender, self()},
                       {ok, State}
                   end;
 
                 <<"delete">> ->
+                  Username = maps:get(<<"username">>, ListingMap, undefined),
                   ListingID = maps:get(<<"listingID">>, ListingMap, undefined),
                   Timestamp = maps:get(<<"timestamp">>, ListingMap, undefined),
                   % Limit case handling
@@ -66,7 +68,7 @@ websocket_handle(_Frame={text, Listing}, State) ->
                       #{username := Sender, register_pid := RegisterPid} = State,
 
                       % Forward listing to the registry, that will broadcast to the other users and send a request to mysql
-                      RegisterPid ! {delete, ListingID, Timestamp, Operation, Sender, self()},
+                      RegisterPid ! {delete, Username, ListingID, Timestamp, Operation, Sender, self()},
                       {ok, State}
                   end
               end;
@@ -107,6 +109,16 @@ websocket_info(Info, State) ->
         <<"boxID">> => BoxID,
         <<"listingID">> => ListingID,
         <<"operation">> => Operation
+      }),
+      {reply, {text, Json}, State};
+
+    %% "Update" Operation
+    {forward_update, ListingID, Trader} ->
+      io:format("UPDATE OPERATION ~n"),
+      Json = jsone:encode(#{<<"type">> => <<"listing">>,
+        <<"listingID">> => ListingID,
+        <<"trader">> => Trader,
+        <<"operation">> => <<"update">>
       }),
       {reply, {text, Json}, State};
 
