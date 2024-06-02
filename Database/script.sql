@@ -34,6 +34,7 @@ CREATE TABLE IF NOT EXISTS box (
 
 CREATE TABLE IF NOT EXISTS listing (
                                        ID INT PRIMARY KEY AUTO_INCREMENT,
+                                       username varchar(32) NOT NULL,
                                        boxID int NOT NULL,
                                        winner varchar(32) NULL,
                                        timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
