@@ -33,7 +33,6 @@ public class BoxDAO {
             BoxDTO box = new BoxDTO(set.getInt("ID"),set.getString("username"),set.getString("pokemonName"),set.getString("primaryType"),
                     set.getString("secondaryType"),set.getInt("attack"),set.getInt("defense"),set.getString("imageURL"),set.getBoolean("listed"));
             result.add(box);
-            System.out.print(box.getImageURL());
         }
 
         return result;

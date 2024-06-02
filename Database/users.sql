@@ -1,26 +1,26 @@
 USE PokemonDB;
-INSERT INTO user (username, password, name, surname, online_flag, timestamp)
+INSERT INTO user (username, password, name, surname, timestamp)
 VALUES
-    ('mario.rossi', SHA2('mario.rossi',256), 'Mario', 'Rossi', false, '2023-02-12 12:00:00'),
-    ('luca.bianchi', SHA2('luca.bianchi',256), 'Luca', 'Bianchi', true, '2023-02-12 12:15:00'),
-    ('giovanni.verdi', SHA2('giovanni.verdi',256), 'Giovanni', 'Verdi', false, '2023-02-12 12:30:00'),
-    ('paola.neri', SHA2('paola.neri',256), 'Paola', 'Neri', true, '2023-02-12 12:45:00'),
-    ('andrea.rossi', SHA2('andrea.rossi',256), 'Andrea', 'Rossi', false, '2023-02-12 13:00:00'),
-    ('elena.bianchi', SHA2('elena.bianchi',256), 'Elena', 'Bianchi', true, '2023-02-12 13:15:00'),
-    ('marco.verdi', SHA2('marco.verdi',256), 'Marco', 'Verdi', false, '2023-02-12 13:30:00'),
-    ('silvia.neri', SHA2('silvia.neri',256), 'Silvia', 'Neri', true, '2023-02-12 13:45:00'),
-    ('simone.rossi', SHA2('simone.rossi',256), 'Simone', 'Rossi', false, '2023-02-12 14:00:00'),
-    ('francesca.bianchi', SHA2('francesca.bianchi',256), 'Francesca', 'Bianchi', true, '2023-02-12 14:15:00'),
-    ('gianluca.verdi', SHA2('gianluca.verdi',256), 'Gianluca', 'Verdi', false, '2023-02-12 14:30:00'),
-    ('ilaria.neri', SHA2('ilaria.neri',256), 'Ilaria', 'Neri', true, '2023-02-12 14:45:00'),
-    ('fabio.rossi', SHA2('fabio.rossi',256), 'Fabio', 'Rossi', false, '2023-02-12 15:00:00'),
-    ('serena.bianchi', SHA2('serena.bianchi',256), 'Serena', 'Bianchi', true, '2023-02-12 15:15:00'),
-    ('alessandro.verdi', SHA2('alessandro.verdi',256), 'Alessandro', 'Verdi', false, '2023-02-12 15:30:00'),
-    ('valentina.neri', SHA2('valentina.neri',256), 'Valentina', 'Neri', true, '2023-02-12 15:45:00'),
-    ('davide.rossi', SHA2('davide.rossi',256), 'Davide', 'Rossi', false, '2023-02-12 16:00:00'),
-    ('elisa.bianchi', SHA2('elisa.bianchi',256), 'Elisa', 'Bianchi', true, '2023-02-12 16:15:00'),
-    ('maria.verdi', SHA2('maria.verdi',256), 'Maria', 'Verdi', false, '2023-02-12 16:30:00'),
-    ('giuseppe.neri', SHA2('giuseppe.neri',256), 'Giuseppe', 'Neri', true, '2023-02-12 16:45:00');
+    ('mario.rossi', SHA2('mario.rossi',256), 'Mario', 'Rossi', '2023-02-12 12:00:00'),
+    ('luca.bianchi', SHA2('luca.bianchi',256), 'Luca', 'Bianchi', '2023-02-12 12:15:00'),
+    ('giovanni.verdi', SHA2('giovanni.verdi',256), 'Giovanni', 'Verdi', '2023-02-12 12:30:00'),
+    ('paola.neri', SHA2('paola.neri',256), 'Paola', 'Neri', '2023-02-12 12:45:00'),
+    ('andrea.rossi', SHA2('andrea.rossi',256), 'Andrea', 'Rossi', '2023-02-12 13:00:00'),
+    ('elena.bianchi', SHA2('elena.bianchi',256), 'Elena', 'Bianchi', '2023-02-12 13:15:00'),
+    ('marco.verdi', SHA2('marco.verdi',256), 'Marco', 'Verdi', '2023-02-12 13:30:00'),
+    ('silvia.neri', SHA2('silvia.neri',256), 'Silvia', 'Neri', '2023-02-12 13:45:00'),
+    ('simone.rossi', SHA2('simone.rossi',256), 'Simone', 'Rossi', '2023-02-12 14:00:00'),
+    ('francesca.bianchi', SHA2('francesca.bianchi',256), 'Francesca', 'Bianchi', '2023-02-12 14:15:00'),
+    ('gianluca.verdi', SHA2('gianluca.verdi',256), 'Gianluca', 'Verdi', '2023-02-12 14:30:00'),
+    ('ilaria.neri', SHA2('ilaria.neri',256), 'Ilaria', 'Neri', '2023-02-12 14:45:00'),
+    ('fabio.rossi', SHA2('fabio.rossi',256), 'Fabio', 'Rossi', '2023-02-12 15:00:00'),
+    ('serena.bianchi', SHA2('serena.bianchi',256), 'Serena', 'Bianchi', '2023-02-12 15:15:00'),
+    ('alessandro.verdi', SHA2('alessandro.verdi',256), 'Alessandro', 'Verdi', '2023-02-12 15:30:00'),
+    ('valentina.neri', SHA2('valentina.neri',256), 'Valentina', 'Neri', '2023-02-12 15:45:00'),
+    ('davide.rossi', SHA2('davide.rossi',256), 'Davide', 'Rossi', '2023-02-12 16:00:00'),
+    ('elisa.bianchi', SHA2('elisa.bianchi',256), 'Elisa', 'Bianchi', '2023-02-12 16:15:00'),
+    ('maria.verdi', SHA2('maria.verdi',256), 'Maria', 'Verdi', '2023-02-12 16:30:00'),
+    ('giuseppe.neri', SHA2('giuseppe.neri',256), 'Giuseppe', 'Neri', '2023-02-12 16:45:00');
 
 INSERT INTO pokemon (pokemonName,imageUrl , primaryType, secondaryType , attack , defense)
 VALUES

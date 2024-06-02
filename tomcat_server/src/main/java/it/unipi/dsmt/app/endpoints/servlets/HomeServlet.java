@@ -33,7 +33,6 @@ public class HomeServlet extends HttpServlet {
             // Retrieve the list of listings
             ListingDAO listingDAO = new ListingDAO((Connection) getServletContext().getAttribute("databaseConnection"));
             List<ListingDTO> listingList = listingDAO.getListings();
-            System.out.println(listingList);
 
             // Filter out the current user listings
             listingList = listingList.stream().filter(new Predicate<ListingDTO>() {

@@ -30,7 +30,6 @@ public class ListingDAO {
             ListingDTO listing = new ListingDTO(set.getInt("ID"),set.getString("username"),set.getString("winner"), set.getTimestamp("timestamp"),set.getString("pokemonName"),set.getString("primaryType"),
                     set.getString("secondaryType"),set.getInt("attack"),set.getInt("defense"),set.getString("imageURL"));
             result.add(listing);
-            System.out.print(listing.getWinner()+"->WINNERID");
 
         }
         return result;
@@ -51,13 +50,10 @@ public class ListingDAO {
             for (int i = 1; i <= set.getMetaData().getColumnCount(); i++) {
                 String columnName = set.getMetaData().getColumnName(i);
                 Object value = set.getObject(i);
-                System.out.println(columnName + ": " + value);
             }
-            System.out.println();
             ListingDTO listing = new ListingDTO(set.getInt("ID"),username,set.getString("winner"), set.getTimestamp("timestamp"),set.getString("pokemonName"),set.getString("primaryType"),
                     set.getString("secondaryType"),set.getInt("attack"),set.getInt("defense"),set.getString("imageURL"));
             result.add(listing);
-            System.out.print(set.getInt("ID")+"ID");
         }
         return result;
 

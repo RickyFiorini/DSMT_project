@@ -115,11 +115,7 @@
                 <% } %>
                 <%-- If the current user is the owner of the listing, he can accept an offer --%>
                 <% if (currentUser.equals(listing.getUsername()) && (listing.getWinner() == null)) { %>
-                <%-- TODO ACCETTARE UNA OFFER, EFFETTUARE IL TRADE
-                      E NOTIFICARE TUTTI COLORO CHE HANNO PARTECIPATO
-                      E VENGO PORTATO AL MIO BOX --%>
 
-                <%-- <button type="button" onclick="acceptOffer()"> TRADE </button> --%>
                 <button class="listing-button" id="tradeButton_<%=offer.getOfferID()%>" onclick="Trade('<%= offer.getOfferID() %>','<%= offer.getBoxID() %>','<%= offer.getTrader() %>')">Trade</button>
                 <% } %>
                 <% if (Objects.equals(listing.getWinner(), offer.getTrader())) { %>

@@ -32,9 +32,8 @@ public class OfferDAO {
             OfferDTO offer = new OfferDTO(set.getInt("ID"),set.getInt("boxID"),set.getString("trader"),set.getString("username"),
                     set.getTimestamp("timestamp"),set.getString("pokemonName"),set.getString("primaryType"),
                     set.getString("secondaryType"), set.getInt("attack"),set.getInt("defense"),set.getString("imageURL"));
-            System.out.print("-----" + offer + "-----");
+
             result.add(offer);
-            System.out.print("va bene");
         }
         return result;
 

@@ -40,7 +40,6 @@ public class UserDAO {
         ResultSet set = statement.executeQuery();
         set.next();
         String storedPassword = set.getString(1);
-        System.out.println(storedPassword + "database");
         return storedPassword.equals(password);
     }
 
