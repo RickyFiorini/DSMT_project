@@ -40,7 +40,7 @@ function handleNewListing(path, boxID, username){
 
     // Send post request to the servlet (for user redirection)
     // TODO DA TOGLIERE QUANDO SI FANNO LE PROVE CON ERLANG
-    document.getElementById("redirectFormListing_" + boxID).submit();
+    // document.getElementById("redirectFormListing_" + boxID).submit();
 }
 
 // To close the websocket connection
@@ -69,11 +69,21 @@ function handleDeleteListing (listingID) {
 cws.onmessage = (event) => {
     const message = JSON.parse(event.data);
 
+    // "Delete" Listing Operation
     if (message.type && message.operation === "delete"){
         console.log("Listing ID: " + message.listingID +
             " Operation: " + message.operation
         );
         hideListingComponent(message.listingID);
+    }
+    // "Insert" Listing Operation
+    else if (message.type && message.operation === "insert"){
+        console.log("Listing ID: " + message.listingID +
+            " Operation: " + message.operation +
+            " Redirecting..."
+        );
+        closeWebsocket();
+        document.getElementById("redirectFormListing_" + message.boxID).submit();
     }
 };
 

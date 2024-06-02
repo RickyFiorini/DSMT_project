@@ -103,7 +103,7 @@ handle_mysql(ListingUsername, ID, Timestamp, Operation, SocketListenerPID, Mappi
         fun(Username, Values, _) ->
           case Values of
             #{pid := Pid} ->
-              Pid ! {forward_insert, Operation, MessageKeys, MessageValues};
+              Pid ! {forward_insert, Operation, ID, MessageKeys, MessageValues};
             _ ->
               % Handle invalid or unexpected data
               error_logger:error_msg("Invalid value for username ~p", [Username])
