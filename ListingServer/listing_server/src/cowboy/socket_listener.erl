@@ -86,7 +86,7 @@ websocket_handle(_Frame={text, Listing}, State) ->
 websocket_info(Info, State) ->
   io:format("[Socket Listener websocket_info WS:~p] -> websocket_info ~n",[self()]),
   case Info of
-    {forward_insert, Operation, ReceivedMessageKeys, ReceivedMessageValues} ->
+    {forward_insert, Operation, BoxID, ReceivedMessageKeys, ReceivedMessageValues} ->
       %% "Insert" operation
 
       %% Take the listing attributes and send them in a json
@@ -98,7 +98,8 @@ websocket_info(Info, State) ->
         <<"username">> => Username,
         <<"pokemonName">> => PokemonName,
         <<"imageURL">> => ImageURL,
-        <<"operation">> => Operation
+        <<"operation">> => Operation,
+        <<"boxID">> => BoxID
       }),
       {reply, {text, Json}, State};
 
