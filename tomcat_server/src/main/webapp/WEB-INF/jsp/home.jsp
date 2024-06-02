@@ -30,13 +30,10 @@
         <button type="submit" class="searchButton">
             <img src="icons/search.png" alt="search icon" onclick="searchListing()">
         </button>
-        <!--form action="search" method="get" class="site-block-top-search">
-            <input name="keyword" type="text" class="form-listing" placeholder="Search">
-        </form-->
+
         <%-- Toggle past listings --%>
         <input type="checkbox" id="toggle-past-listings">
         <label for="toggle-past-listings">Past Listings</label>
-
 
     </div>
     <div class="center-board">
@@ -69,10 +66,11 @@
                         <%=listing.getUsername()%>
                     </h2>
                     <h3>
-                        Winner:  <% if (listing.getWinner() != null) { %>
-                        <%=listing.getWinner()%>
-                        <% } %>
-                    </h3>
+                        Winner: <% if (listing.getWinner() != null) { %>
+                                    <%=listing.getWinner()%>
+                                <% } else { %>
+                                    None
+                                <% } %>
                     <h4>
                         <%=listing.getTimestamp()%>
                     </h4>

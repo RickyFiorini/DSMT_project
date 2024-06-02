@@ -29,20 +29,16 @@
     <jsp:include page="/WEB-INF/jsp/components/nav_bar.jsp">
         <jsp:param name="currentUsername" value="<%=AccessController.getUsername(request)%>" />
     </jsp:include>
-<%-- Get current username and his box --%>
-    <%
-        String currentUser = AccessController.getUsername(request);
-        List<BoxDTO> boxList = (List<BoxDTO>)request.getAttribute("boxList");
-        Gson gson = new Gson();
-        String jsonBoxList = gson.toJson(boxList);
-    %>
 
-<%-- Get listing info from request and show them aside --%>
+    <%-- Get current username and his box --%>
+    <% String currentUser = AccessController.getUsername(request); %>
+
+    <%-- Get listing info from request and show them aside --%>
     <% ListingDTO listing = (ListingDTO) request.getAttribute("listing"); %>
     <script type="text/javascript">
         var listingID = <%= listing.getID() %>;
-        console.log(listingID);
     </script>
+
     <div id="backgroundBlock"></div>
     <div class="content-wrapper">
         <div class="left listing-info">
@@ -111,15 +107,11 @@
 
                 <% if (currentUser.equals(offer.getTrader())) { %>
                    <button class="listing-button" id="deleteButton_<%=offer.getOfferID()%>" onclick="Delete('<%= offer.getOfferID() %>','<%= offer.getBoxID() %>')">Delete</button>
-
                 <% } %>
+
                 <%-- If the current user is the owner of the listing, he can accept an offer --%>
                 <% if (currentUser.equals(listing.getUsername()) && (listing.getWinner() == null)) { %>
-                <%-- TODO ACCETTARE UNA OFFER, EFFETTUARE IL TRADE
-                      E NOTIFICARE TUTTI COLORO CHE HANNO PARTECIPATO
-                      E VENGO PORTATO AL MIO BOX --%>
 
-                <%-- <button type="button" onclick="acceptOffer()"> TRADE </button> --%>
                 <button class="listing-button" id="tradeButton_<%=offer.getOfferID()%>" onclick="Trade('<%= offer.getOfferID() %>','<%= offer.getBoxID() %>','<%= offer.getTrader() %>')">Trade</button>
                 <% } %>
                 <% if (Objects.equals(listing.getWinner(), offer.getTrader())) { %>
@@ -150,9 +142,6 @@
                     <h4>
                         Atk: <%=box.getAttack()%> Def: <%=box.getDefense()%>
                     </h4>
-                    <h3 id="listedStatus<%=box.getBoxID()%>">
-                        Listed: <%=box.isListed()%>
-                    </h3>
 
                     <% if (!box.isListed()) { %>
                     <button class="listing-button" id="selectButton_<%=box.getBoxID()%>" type="submit" onclick="handleSend('<%=box.getBoxID()%>')"> Select </button>

@@ -1,4 +1,3 @@
-
 -module(listing_registry).
 
 -export([start_listing_registry/0]).
@@ -8,8 +7,6 @@
 start_listing_registry()->
   Pid = spawn(fun() -> registry_loop(#{}) end),
   io:format("[Listing Registry] -> Starting registry at pid ~p~n",[Pid]),
-
-  %% TODO IMPLEMENTARE DATABASE HANDLER
   DBPid = spawn(fun() -> start_db() end),
   io:format("[Listing Registry] -> Starting Database Connection at pid ~p~n",[DBPid]),
   register(database_connection, DBPid),
@@ -52,7 +49,6 @@ registry_loop(Mappings) ->
 
     % Spawn a process that forward the request to mysql to update a listing
     {updateListing, ListingID, Trader} ->
-      io:format("[Message Handler] -> forwarding message PRE fold ~p~n",[ListingID]),
       % To forward the update of the listing to each user of the registry
       maps:fold(
         fun(Username, Values, _) ->
@@ -97,7 +93,6 @@ handle_mysql(ListingUsername, ID, Timestamp, Operation, SocketListenerPID, Mappi
   receive
     %% Mysql reply to "insert" request
     {insert_ok, MessageKeys, MessageValues} ->
-      io:format("[Message Handler] -> forwarding message PRE fold ~p~n",[ID]),
       % To forward the listing to each user of the registry
       maps:fold(
         fun(Username, Values, _) ->
@@ -115,7 +110,6 @@ handle_mysql(ListingUsername, ID, Timestamp, Operation, SocketListenerPID, Mappi
 
     %% Mysql reply to "delete" request
     {delete_ok, ListingID}->
-      io:format("[Message Handler] -> forwarding message PRE fold ~p~n",[ID]),
       % To forward the listing to each user of the registry
       maps:fold(
         fun(Username, Values, _) ->
@@ -130,24 +124,15 @@ handle_mysql(ListingUsername, ID, Timestamp, Operation, SocketListenerPID, Mappi
         ok,
         Mappings
       ),
-    io:format("[Message Handler] -> Notification handle for offer node 1~n"),
+
+    %% Message from the Erlang node that handle the offers
     {ok, OfferNode} = application:get_env(offer_node),
-      io:format("[Message Handler] -> Notification handle for offer node 2, ~p ~n",[OfferNode]),
-      Cookie = erlang:get_cookie(),
-       io:format("[Message Handler] ->  COOKIE, ~p ~n",[Cookie]),
-%%      PingResult = net_adm:ping(OfferNode),
-%%      io:format("Manual ping result: ~p~n", [PingResult]),
       ConnectedNodes = nodes(),
-      io:format("[Message Handler] -> Notification handle for offer node 3, ~p ~n",[ConnectedNodes]),
       if ConnectedNodes == [] ->
-         Result = net_kernel:connect_node(OfferNode),
-         io:format("Connection result: ~p~n", [Result]),
-%%          net_kernel:connect_node(OfferNode),
-          ConnectedOfferNode = nodes(),
-          io:format("[Message Handler] -> Notification handle for offer node 4, ~p~n",[ConnectedOfferNode]);
-          true -> ok
+        net_kernel:connect_node(OfferNode);
+        true -> ok
       end,
-     {offer_registry,OfferNode} ! {listing_deleteUpdate, ListingID};
+      {offer_registry,OfferNode} ! {listing_deleteUpdate, ListingID};
 
 {sql_error, Reason} ->
       SocketListenerPID ! {sql_error, Reason}

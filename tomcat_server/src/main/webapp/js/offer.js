@@ -89,13 +89,10 @@ function DeleteOfferComponent(OfferID) {
     const offerComponent = document.getElementById('Offer_'+OfferID);
     if (offerComponent) {
         offerComponent.parentNode.removeChild(offerComponent);
-
      }
 }
 
 function changeButtonBoxInsert(BoxId) {
-    var listedStatus = document.getElementById('listedStatus' + BoxId);
-    listedStatus.textContent = "Listed: true";
     var selectButton = document.getElementById('selectButton_' + BoxId);
     selectButton.remove();
 
@@ -103,8 +100,6 @@ function changeButtonBoxInsert(BoxId) {
 
 function changeButtonBoxDelete(BoxId) {
     var box=document.getElementById(BoxId);
-    var listedStatus = document.getElementById('listedStatus' + BoxId);
-    listedStatus.textContent = "Listed: false";
     const SelectButton = document.createElement('button');
     SelectButton.classList.add('listing-button');
     SelectButton.textContent = 'Select';

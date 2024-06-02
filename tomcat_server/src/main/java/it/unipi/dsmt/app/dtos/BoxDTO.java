@@ -1,7 +1,6 @@
 package it.unipi.dsmt.app.dtos;
 
 // To represent box slot info that are transferred in the web app
-
 public class BoxDTO {
     private int boxID;
     private String pokemonName;

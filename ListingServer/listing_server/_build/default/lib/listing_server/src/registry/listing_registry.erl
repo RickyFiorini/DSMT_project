@@ -8,8 +8,6 @@
 start_listing_registry()->
   Pid = spawn(fun() -> registry_loop(#{}) end),
   io:format("[Listing Registry] -> Starting registry at pid ~p~n",[Pid]),
-
-  %% TODO IMPLEMENTARE DATABASE HANDLER
   DBPid = spawn(fun() -> start_db() end),
   io:format("[Listing Registry] -> Starting Database Connection at pid ~p~n",[DBPid]),
   register(database_connection, DBPid),

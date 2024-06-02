@@ -1,7 +1,6 @@
 const cws = new WebSocket(`ws://localhost:8082/home?username=${currentUsername}`);
 const listingsWrapper = document.querySelector(".listings-wrapper");
 
-// TODO QUANDO RICEVO UN MESSAGGIO DA WEBSOCKET, A SECONDA DEL MESSAGGIO DEVO AGGIUNGERE O ELIMINARE UNA LISTING
 // To handle receiving of messages on websocket
 cws.onmessage = (event) => {
     const message = JSON.parse(event.data);
@@ -11,37 +10,20 @@ cws.onmessage = (event) => {
 
         const timestamp = formatTimestamp(Date.now());
 
-        // DEBUG
-        console.log("Listing ID: " + message.listingID +
-            "Winner: " + message.winner + " " +
-            "Timestamp: " + timestamp + " " +
-            "Username: " + message.username + " " +
-            "PokemonName: " + message.pokemonName + " " +
-            "ImageURL: " + message.imageURL
-        );
-
         // Append the new listing
         appendListingComponent(message.listingID, timestamp, message.username, message.pokemonName, message.imageURL);
-
     }
     // "Delete" Operation
     else if (message.type && message.operation === "delete"){
-        console.log("Listing ID: " + message.listingID +
-            " Operation: " + message.operation
-        );
         hideListingComponent(message.listingID);
     }
     // "Update" Operation
     else if (message.type && message.operation === "update") {
-        console.log("Listing ID: " + message.listingID +
-            " Trader: " + message.trader +
-            " Operation: " + message.operation
-        );
         hideListingComponent(message.listingID);
     }
 };
 
-// To dinamically append a new listing in the home
+// To dynamically append a new listing in the home
 function appendListingComponent(listingID, timestamp, username, pokemonName, imageURL) {
 
     const listingHref = contextPath + "/listing?listingID=" + listingID;
@@ -61,7 +43,7 @@ function appendListingComponent(listingID, timestamp, username, pokemonName, ima
                         ${username}
                     </h3>
                     <h3>
-                        Winner:
+                        Winner: None
                     </h3>
                     <h4>
                         ${timestamp}

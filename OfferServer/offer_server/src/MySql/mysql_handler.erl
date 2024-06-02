@@ -184,11 +184,11 @@ updateBoxTradeWinner(Conn, ListingID,BoxId,Winner,Username,Caller) ->
           io:format("[MySQL] -> Failed to execute SELECT statement: ~p~n", [Reason]),
           Caller ! {sql_error, Reason};
         {ok, _, [[BoxIdListing,Trader]]} ->
-          updateBoxTradeListing(Conn,Trader,BoxIdListing,Caller),
+          updateBoxTradeListing(Conn,Winner,BoxIdListing,Caller),
           updateBoxTradeListing(Conn,Username,BoxId,Caller),
           boxUpdateStatement(Conn,BoxIdListing,Caller,0),
           Caller ! {ok, Winner}
-end
+      end
   end.
 
 start_db() ->

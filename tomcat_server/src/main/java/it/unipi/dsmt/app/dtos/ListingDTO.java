@@ -1,12 +1,8 @@
 package it.unipi.dsmt.app.dtos;
 
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.validation.constraints.Null;
-
 import java.sql.Timestamp;
 
 // To represent listing info that are transferred in the web app
-
 public class ListingDTO {
     private int listingID;
     private String pokemonName;
