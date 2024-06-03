@@ -121,7 +121,7 @@ handle_mysql_delete(Trader,OfferID,BoxID,Caller, Mappings) ->
 
 handle_mysql_trade(Owner, ListingID, BoxID,OfferID,Winner,Caller, Mappings) ->
   DBPid = whereis(database_connection),
-  DBPid ! {trade,Owner,ListingID,BoxID,Winner,self()},
+  DBPid ! {trade,ListingID,BoxID,Winner,self()},
   receive
     {ok,Winner} ->
       % To forward the message to each user of the registry
