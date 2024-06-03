@@ -1,6 +1,4 @@
 function Trade(OfferID,BoxID,Winner) {
-    console.log("Ok sto inviando Trade");
-    console.log(Winner);
     websocketUrl.send(
         JSON.stringify({
             OfferID,
@@ -9,7 +7,6 @@ function Trade(OfferID,BoxID,Winner) {
             operation:'trade',
         })
     );
-    console.log("ok ho inviato trade");
 }
 
 
@@ -38,18 +35,16 @@ function changeTradeButton(OfferID) {
 
 }
 function closeListingPopup(Winner) {
-        var message = "LISTING CLOSED\nWINNER: " + Winner;
-        alert(message);
-        setTimeout(function() {
-            window.location.href = "http://localhost:8080/tomcat_server/home";
-        }, 2500); // 5000 millisecondi = 5 secondi
+    var message = "LISTING CLOSED\nWINNER: " + Winner;
+    if (confirm(message)) {
+        window.location.href = "http://localhost:8080/tomcat_server/home";
+    }
 }
 
 function  closeDeleteListingPopup()  {
     var message = "LISTING DELETED\n";
-    alert(message);
-    setTimeout(function() {
+    if (confirm(message)) {
         window.location.href = "http://localhost:8080/tomcat_server/home";
-    }, 2500); // 5000 millisecondi = 5 secondi
+    }
 }
 

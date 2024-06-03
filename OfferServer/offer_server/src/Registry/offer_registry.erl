@@ -36,8 +36,6 @@ handle_mysql(ListingID, Trader, BoxID,Instant, Caller,Mappings) ->
   end.
 
 registry_loop(Mappings) ->
-  Cookie = erlang:get_cookie(),
-  io:format("[Message Handler] ->  COOKIE, ~p ~n",[Cookie]),
   receive 
     {register,Username,ListingID,Pid} ->
       io:format("[Offer Registry] -> add mapping by ~p with pid ~p~n",[Username, Pid]),
@@ -121,7 +119,7 @@ handle_mysql_delete(Trader,OfferID,BoxID,Caller, Mappings) ->
 
 handle_mysql_trade(Owner, ListingID, BoxID,OfferID,Winner,Caller, Mappings) ->
   DBPid = whereis(database_connection),
-  DBPid ! {trade,Owner,ListingID,BoxID,Winner,self()},
+  DBPid ! {trade,ListingID,BoxID,Winner,self()},
   receive
     {ok,Winner} ->
       % To forward the message to each user of the registry

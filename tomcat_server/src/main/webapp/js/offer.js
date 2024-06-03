@@ -14,7 +14,6 @@ function format(/** @type {Date}*/ date) {
 
 function appendOfferComponent(id,imageUrl,PokemonName,Trader,PrimaryType,Attack,Defense,BoxID) {
     const newOfferComponent = document.createElement("div");
-    console.log("sto aggiungendo")
     newOfferComponent.classList.add("card", "offer-card");
     newOfferComponent.id = 'Offer_' + id;
     newOfferComponent.innerHTML = `
@@ -45,7 +44,6 @@ function appendOfferComponent(id,imageUrl,PokemonName,Trader,PrimaryType,Attack,
     }
 
     const listingOwnerUsername = document.getElementById("ListingOwner").textContent.trim();
-   console.log(listingOwnerUsername)
     if (currentUsername === listingOwnerUsername ) {
         const tradeButton = document.createElement('button');
         tradeButton.classList.add('listing-button');
@@ -59,7 +57,6 @@ function appendOfferComponent(id,imageUrl,PokemonName,Trader,PrimaryType,Attack,
 }
 
 function handleSend(BoxID) {
-    console.log("Ok sto inviando inviare");
     const instant = Date.now();
         websocketUrl.send(
             JSON.stringify({
@@ -68,12 +65,8 @@ function handleSend(BoxID) {
                 operation:'insert',
             })
         );
-        console.log("ok ho inviato");
-        console.log(boxID);
 }
 function Delete(OfferID,BoxID) {
-    console.log("Ok sto inviando delete");
-    console.log(BoxID);
     websocketUrl.send(
         JSON.stringify({
             OfferID,
@@ -81,7 +74,6 @@ function Delete(OfferID,BoxID) {
             operation:'delete',
         })
     );
-    console.log("ok ho inviato delete");
 }
 
 
@@ -115,13 +107,10 @@ function changeButtonBoxDelete(BoxId) {
 
 websocketUrl.onmessage = (event) => {
     const message = JSON.parse(event.data);
-    console.log("ok ho ricevuto");
     if (message.type && message.type === "offer") {
         const { OfferID, ImageUrl, PokemonName, Trader, PrimaryType, Attack, Defense,BoxID} = message;
         appendOfferComponent(OfferID,ImageUrl,PokemonName,Trader,PrimaryType,Attack,Defense,BoxID);
-        console.log(OfferID);
         if(currentUsername === Trader) {
-            console.log(BoxID);
             changeButtonBoxInsert(BoxID);
         }
         return;
@@ -130,7 +119,6 @@ websocketUrl.onmessage = (event) => {
         const { OfferID,Trader, BoxID} = message;
         DeleteOfferComponent(OfferID);
         if(currentUsername === Trader) {
-            console.log(BoxID);
             changeButtonBoxDelete(BoxID);
         }
     }
@@ -142,9 +130,9 @@ websocketUrl.onmessage = (event) => {
         const {OfferID, Trader, UserListing} = message;
             ModifyListingWinner(Trader);
             changeTradeButton(OfferID);
-        if (UserListing !== currentUsername) {
+        // if (UserListing !== currentUsername) {
             closeListingPopup(Trader);
-        }
+        // }
     }
 }
 

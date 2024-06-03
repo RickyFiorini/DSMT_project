@@ -8,9 +8,9 @@ run_loop(Conn) ->
     {save_offer,Trader, ListingID,BoxId,CreationTime, Caller} ->
       io:format("[Offer MySQL] -> Saving tuple (~p, ~p, ~p, ~p)~n",[ListingID,Trader,BoxId,CreationTime]),
       save_offer(Conn,Trader, ListingID,BoxId,CreationTime, Caller);
-    {trade,Username,ListingID,BoxId,Winner,Caller} ->
-      io:format("[Offer MySQL] -> TRADE tuple (~p, ~p, ~p, ~p)~n",[ListingID,Username,BoxId,Username]),
-      trade(Conn,Username,ListingID,BoxId,Winner, Caller);
+    {trade,ListingID,BoxId,Winner,Caller} ->
+      io:format("[Offer MySQL] -> TRADE tuple (~p, ~p)~n",[ListingID,BoxId]),
+      trade(Conn,ListingID,BoxId,Winner, Caller);
     {delete_offer,OfferID,BoxId, Caller} ->
       io:format("[Offer MySQL] -> Deleting Offer  ~p~n",[OfferID]),
       delete_offer(Conn,OfferID,BoxId, Caller),
@@ -105,7 +105,7 @@ delete_offer(Conn,OfferID,BoxID,Caller) ->
  end
 end.
 
-trade(Conn, Username, ListingID, BoxId,Winner,Caller) ->
+trade(Conn, ListingID, BoxId,Winner,Caller) ->
   io:format("[offer MySQL] -> Winner: ~p~n", [Winner]),
   TradeStatement = "UPDATE listing SET winner = ? WHERE ID = ?",
   case mysql:prepare(Conn,  TradeStatement) of
@@ -120,7 +120,7 @@ trade(Conn, Username, ListingID, BoxId,Winner,Caller) ->
         Result ->
           io:format("[offer MySQL] -> ~p~n",[Result]),
           selectListedValueTrade(Conn,ListingID,Caller),%change listing value of the corresponding Pokémon offer to 0
-          updateBoxTradeWinner(Conn,ListingID,BoxId,Winner,Username,Caller) %% the listing's creator
+          updateBoxTradeWinner(Conn,ListingID,BoxId,Winner,Caller) %% the listing's creator
 
 
 
@@ -170,7 +170,7 @@ updateBoxTradeListing(Conn,Username,BoxId, Caller) ->
       end
   end.
 
-updateBoxTradeWinner(Conn, ListingID,BoxId,Winner,Username,Caller) ->
+updateBoxTradeWinner(Conn, ListingID,BoxId,Winner,Caller) ->
   SelectStatement = "SELECT l.boxID, l.username " ++
      "FROM listing l " ++
      "WHERE l.ID= ? ",
@@ -185,7 +185,7 @@ updateBoxTradeWinner(Conn, ListingID,BoxId,Winner,Username,Caller) ->
           Caller ! {sql_error, Reason};
         {ok, _, [[BoxIdListing,Trader]]} ->
           updateBoxTradeListing(Conn,Winner,BoxIdListing,Caller),
-          updateBoxTradeListing(Conn,Username,BoxId,Caller),
+          updateBoxTradeListing(Conn,Trader,BoxId,Caller),
           boxUpdateStatement(Conn,BoxIdListing,Caller,0),
           Caller ! {ok, Winner}
       end
