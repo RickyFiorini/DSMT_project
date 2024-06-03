@@ -27,9 +27,7 @@ public class AuthenticationHandler {
     public static UserLoginDTO unpackPostLogin(HttpServletRequest request) throws NoSuchAlgorithmException {
         String username = Optional.ofNullable(request.getParameter("username")).orElse("");
         String password = Optional.ofNullable(request.getParameter("password")).orElse("");
-        System.out.println(password+" password normale");
         password = AccessController.encryptPassword(password);
-        System.out.println(password + "cifrata");
         UserLoginDTO result = new UserLoginDTO(username, password);
         System.out.println(String.format("[Server] -> Received LogIn Request: %s", result.toString()));
         return result;

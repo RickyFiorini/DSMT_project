@@ -3,10 +3,11 @@ package it.unipi.dsmt.app.entities;
 
 import java.sql.Timestamp;
 
+// Class to represent the offer info
 public class Offer {
     private int listingID;
     private int boxID;
-    private String trader;  //TODO CHECK se serve
+    private String trader;
     private Timestamp timestamp;
 
     public Offer(int listingID, int boxID, String trader, Timestamp timestamp) {

@@ -3,16 +3,17 @@ package it.unipi.dsmt.app.entities;
 import java.sql.Timestamp;
 
 // Class for listing info
-// TODO NELLA NUOVA VERSIONE, HO SOLO IL BOX ID, CHE USO PER PRENDERE LE ALTRE INFO DEL POKEMON
 public class Listing {
     private int boxID;
-    private int winnerID;
+    private String username;
+    private String winner;
     private Timestamp timestamp;
 
 
-    public Listing(int boxID, int winnerID, Timestamp timestamp) {
+    public Listing(int boxID, String username, String winner, Timestamp timestamp) {
         this.boxID = boxID;
-        this.winnerID = winnerID;
+        this.username = username;
+        this.winner = winner;
         this.timestamp = timestamp;
 
     }
@@ -25,12 +26,20 @@ public class Listing {
         this.boxID = boxID;
     }
 
-    public int getWinner() {
-        return winnerID;
+    public String getUsername() {
+        return username;
     }
 
-    public void setWinner(int winner) {
-        this.winnerID = winner;
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getWinner() {
+        return winner;
+    }
+
+    public void setWinner(String winner) {
+        this.winner = winner;
     }
 
     public Timestamp getTimestamp() {
@@ -45,7 +54,8 @@ public class Listing {
     public String toString() {
         return "Listing{" +
                 "boxID=" + boxID +
-                ", winner='" + winnerID + '\'' +
+                "username=" + username +
+                ", winner='" + winner + '\'' +
                 ", timestamp=" + timestamp + '\'' +
                 '}';
     }

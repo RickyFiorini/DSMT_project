@@ -9,6 +9,7 @@
                                 {user,"root"},
                                 {password,"root"},
                                 {database,"PokemonDB"}]},
+                    {offer_node,offer_server@localhost},
                     {port,8082}]},
               {modules,[cowboy_listener,listing_registry,listing_server_app,
                         listing_server_sup,mysql_handler,socket_listener]},

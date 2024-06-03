@@ -2,6 +2,7 @@ package it.unipi.dsmt.app.dtos;
 
 import java.sql.Timestamp;
 
+// To represent the offer info that are transferred in the web app
 public class OfferDTO {
     private int offerID;
     private int boxID;

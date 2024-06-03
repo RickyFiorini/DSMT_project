@@ -1,15 +1,12 @@
 package it.unipi.dsmt.app.endpoints.servlets;
 
 import java.sql.Connection;
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import it.unipi.dsmt.app.daos.ListingDAO;
-import it.unipi.dsmt.app.daos.OfferDAO;
 import it.unipi.dsmt.app.dtos.ListingDTO;
-import it.unipi.dsmt.app.entities.Offer;
 import it.unipi.dsmt.app.utils.AccessController;
 import it.unipi.dsmt.app.utils.ErrorHandler;
 
@@ -33,7 +30,6 @@ public class HomeServlet extends HttpServlet {
             // Retrieve the list of listings
             ListingDAO listingDAO = new ListingDAO((Connection) getServletContext().getAttribute("databaseConnection"));
             List<ListingDTO> listingList = listingDAO.getListings();
-            System.out.println(listingList);
 
             // Filter out the current user listings
             listingList = listingList.stream().filter(new Predicate<ListingDTO>() {
@@ -42,12 +38,12 @@ public class HomeServlet extends HttpServlet {
                     return !listing.getUsername().equals(currentUsername);
                 }
             }).collect(Collectors.toList());
-
             request.setAttribute("listingList", listingList);
+
             // Filter out the open listings
             List<ListingDTO> closedListingList = listingList.stream().filter(new Predicate<ListingDTO>() {
                 @Override
-                public boolean test(ListingDTO listing) { return listing.getWinner() != 0;
+                public boolean test(ListingDTO listing) { return listing.getWinner() != null;
                 }
             }).collect(Collectors.toList());
             request.setAttribute("closedListingList", closedListingList);
@@ -56,15 +52,15 @@ public class HomeServlet extends HttpServlet {
             List<ListingDTO> openListingList = listingList.stream().filter(new Predicate<ListingDTO>() {
                 @Override
                 public boolean test(ListingDTO listing) {
-                    return listing.getWinner() == 0;
+                    return listing.getWinner() == null;
                 }
             }).collect(Collectors.toList());
             request.setAttribute("openListingList", openListingList);
+
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/jsp/home.jsp");
             requestDispatcher.forward(request, response);
         } catch (Exception e) {
             ErrorHandler.safeDispatchToErrorPage(request, response, e);
         }
     }
-
 }

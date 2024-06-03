@@ -37,10 +37,24 @@ function appendOfferComponent(id,imageUrl,PokemonName,Trader,PrimaryType,Attack,
         const deleteButton = document.createElement('button');
         deleteButton.classList.add('listing-button');
         deleteButton.textContent = 'Delete';
+        deleteButton.id = 'deleteButton_'+id;
         deleteButton.onclick = function () {
             Delete(id,BoxID); //
         };
         newOfferComponent.appendChild(deleteButton);
+    }
+
+    const listingOwnerUsername = document.getElementById("ListingOwner").textContent.trim();
+   console.log(listingOwnerUsername)
+    if (currentUsername === listingOwnerUsername ) {
+        const tradeButton = document.createElement('button');
+        tradeButton.classList.add('listing-button');
+        tradeButton.id = 'tradeButton_'+id;
+        tradeButton.textContent = 'Trade';
+        tradeButton.onclick = function () {
+            Trade(id,BoxID,Trader);
+        };
+        newOfferComponent.appendChild(tradeButton);
     }
 }
 
@@ -75,13 +89,10 @@ function DeleteOfferComponent(OfferID) {
     const offerComponent = document.getElementById('Offer_'+OfferID);
     if (offerComponent) {
         offerComponent.parentNode.removeChild(offerComponent);
-
      }
 }
 
 function changeButtonBoxInsert(BoxId) {
-    var listedStatus = document.getElementById('listedStatus' + BoxId);
-    listedStatus.textContent = "Listed: true";
     var selectButton = document.getElementById('selectButton_' + BoxId);
     selectButton.remove();
 
@@ -89,8 +100,6 @@ function changeButtonBoxInsert(BoxId) {
 
 function changeButtonBoxDelete(BoxId) {
     var box=document.getElementById(BoxId);
-    var listedStatus = document.getElementById('listedStatus' + BoxId);
-    listedStatus.textContent = "Listed: false";
     const SelectButton = document.createElement('button');
     SelectButton.classList.add('listing-button');
     SelectButton.textContent = 'Select';
@@ -124,6 +133,10 @@ websocketUrl.onmessage = (event) => {
             console.log(BoxID);
             changeButtonBoxDelete(BoxID);
         }
+    }
+    if (message.type && message.type === "listing") {
+        closeDeleteListingPopup();
+
     }
     if (message.type && message.type === "trade") {
         const {OfferID, Trader, UserListing} = message;

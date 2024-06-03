@@ -3,7 +3,6 @@
 <%@ page import="it.unipi.dsmt.app.dtos.ListingDTO" %>
 <%@ page import="java.util.List" %>
 <%@ page import="it.unipi.dsmt.app.utils.AccessController" %>
-<%@ page import="it.unipi.dsmt.app.dtos.OfferDTO" %>
 <%@ page import="it.unipi.dsmt.app.dtos.UserProfileDTO" %>
 <%@ page import="it.unipi.dsmt.app.dtos.BoxDTO" %>
 
@@ -19,18 +18,12 @@
         var contextPath = "${pageContext.request.contextPath}";
         var currentUsername = "<%=AccessController.getUsername(request)%>";
     </script>
-    <%-- TODO DA METTERE defer QUANDO SI PROVA ERLANG --%>
     <script src="js/profile.js" defer></script>
-
-    <!--script src="js/searchbar.js?v=1.9" defer> </script-->
 </head>
 
 <body>
 <div class="site-wrap">
     <jsp:include page="/WEB-INF/jsp/components/nav_bar.jsp"/>
-
-    <%-- Get current username --%>
-    <% String currentUser = AccessController.getUsername(request); %>
 
     <%-- Get user info from request and show them aside --%>
     <% UserProfileDTO user = (UserProfileDTO) request.getAttribute("userInfo"); %>
@@ -98,8 +91,6 @@
                     Atk: <%=box.getAttack()%> Def: <%=box.getDefense()%>
                 </h4>
 
-                <!-- TODO IMPLEMENTARE FUNZIONE PER LA CREAZIONE DI UNA NUOVA LISTING -->
-
                 <%-- If the pokemon is not listed already --%>
                 <% if (!box.isListed()) { %>
                 <%-- Show the button that allows the creation of a new listing --%>
@@ -107,7 +98,7 @@
                       action="${pageContext.request.contextPath}/profile?profileSection=listings&boxID=<%=box.getBoxID()%>">
                 </form>
                 <button type="submit" class="profile-button"
-                        onclick='handleNewListing("${pageContext.request.contextPath}/profile","<%=box.getBoxID()%>", "<%=box.getPokemonName()%>")'> New Listing </button>
+                        onclick='handleNewListing("${pageContext.request.contextPath}/profile","<%=box.getBoxID()%>", "<%=box.getUsername()%>")'> New Listing </button>
 
                 <% } %>
             </div>
@@ -124,18 +115,11 @@
                     <h1>
                         <%=listing.getPokemonName()%>
                     </h1>
-                    <h2>
-                        Listing ID: <%=listing.getID()%>
-                    </h2>
                     <h4>
-                        Timestamp: <%=listing.getTimestamp()%>
+                        <%=listing.getTimestamp()%>
                     </h4>
-
-
-                    </a>
-                 <!-- TODO Remove delete from servlet -->
-                    <button class="profile-button" onclick='handleDeleteListing("<%=listing.getID()%>","${pageContext.request.contextPath}/profile", "<%=listing.getUsername()%>")'>DELETE</button>
-
+                </a>
+                <button class="profile-button" onclick='handleDeleteListing("<%=listing.getID()%>","${pageContext.request.contextPath}/profile", "<%=listing.getUsername()%>")'>DELETE</button>
             </div>
             <% } %>
             <% } %>

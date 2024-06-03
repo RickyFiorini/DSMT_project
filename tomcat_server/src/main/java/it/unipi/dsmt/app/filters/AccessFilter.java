@@ -15,6 +15,7 @@ import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+// Session Filter
 public class AccessFilter implements Filter {
 
     // Check if the user session is still valid
@@ -31,11 +32,11 @@ public class AccessFilter implements Filter {
             // if the session is expired, redirect user to login
             if (token == null) {
                 if (claimingUsername != null)
-                ErrorHandler.setPopupErrorMessage(req, "Invalid/Expired token. Login again.");
+                    ErrorHandler.setPopupErrorMessage(req, "Invalid/Expired token. Login again.");
                 resp.sendRedirect(req.getContextPath() + "/login");
                 return;
             }
-            // if the session is still valid, forward the request
+            // If the session is still valid, forward the request
             chain.doFilter(request, response);
         } catch (Exception e) {
             ErrorHandler.safeDispatchToErrorPage((HttpServletRequest) request, (HttpServletResponse) response, e);

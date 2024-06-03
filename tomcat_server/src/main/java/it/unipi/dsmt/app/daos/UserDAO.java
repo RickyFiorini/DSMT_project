@@ -1,17 +1,14 @@
 package it.unipi.dsmt.app.daos;
 
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
-import java.util.ArrayList;
 
 import it.unipi.dsmt.app.dtos.UserProfileDTO;
 import it.unipi.dsmt.app.entities.User;
-import it.unipi.dsmt.app.utils.AccessController;
 
 // To access the user info in the database
 public class UserDAO {
@@ -20,8 +17,6 @@ public class UserDAO {
     public UserDAO(Connection db) {
         userConnection = db;
     }
-
-    // TODO CHECK METHODS AND DELETE THE UNUSED ONES
 
     // Check if the user exists in the db
     public boolean exists(String username) throws SQLException {
@@ -40,7 +35,6 @@ public class UserDAO {
         ResultSet set = statement.executeQuery();
         set.next();
         String storedPassword = set.getString(1);
-        System.out.println(storedPassword + "database");
         return storedPassword.equals(password);
     }
 
@@ -71,38 +65,5 @@ public class UserDAO {
         UserProfileDTO user = new UserProfileDTO(username, set.getString("name"), set.getString("surname"));
         return user;
     }
-
-    /**
-     * @deprecated
-     */
-    // Return user profile
-    public ArrayList<UserProfileDTO> getUsersFromNameAndSurname(String name, String surname) throws SQLException {
-        ArrayList<UserProfileDTO> result = new ArrayList<>();
-        String sqlString = "SELECT username, FROM user WHERE name=? and surname=?";
-        PreparedStatement statement = userConnection.prepareStatement(sqlString);
-        statement.setString(1, name);
-        statement.setString(2, surname);
-        ResultSet set = statement.executeQuery();
-        while (set.next()) {
-            UserProfileDTO user = new UserProfileDTO(set.getString("username"), name, surname);
-            result.add(user);
-        }
-        return result;
-    }
-
-    // Return list of users profile
-    public ArrayList<UserProfileDTO> getUsers() throws SQLException {
-        ArrayList<UserProfileDTO> result = new ArrayList<>();
-        String sqlString = "SELECT username, name, surname, online_flag FROM user ORDER BY online_flag DESC ";
-        PreparedStatement statement = userConnection.prepareStatement(sqlString);
-        ResultSet set = statement.executeQuery();
-        while (set.next()) {
-            UserProfileDTO user = new UserProfileDTO(set.getString("username"), set.getString("name"),
-                    set.getString("surname"));
-            result.add(user);
-        }
-        return result;
-    }
-
 
 }

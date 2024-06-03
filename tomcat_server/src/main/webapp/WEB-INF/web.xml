@@ -18,10 +18,7 @@
         <filter-name>AccessFilter</filter-name>
         <url-pattern>/home</url-pattern>
         <url-pattern>/profile</url-pattern>
-        <url-pattern>/department</url-pattern>
+        <url-pattern>/listing</url-pattern>
         <url-pattern>/logout</url-pattern>
-        <url-pattern>/meetings</url-pattern>
-        <url-pattern>/chat</url-pattern>
-        <url-pattern>/notification</url-pattern>
     </filter-mapping>
 </web-app>
