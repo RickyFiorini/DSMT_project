@@ -13,12 +13,12 @@
   {env,[
    {listing_endpoint, "/home"},
    {db_config, [
-    {host, "localhost"},
-    {user, "root"},
-    {password, "root"},
+    {host, "10.2.1.68"},
+    {user, "studenti"},
+    {password, "studenti"},
     {database, "PokemonDB"}
    ]},
-   {offer_node, offer_server@localhost},
+   {offer_node, 'offer_server@10.2.1.84'},
    {port, 8082}
   ]},
   {modules, []},

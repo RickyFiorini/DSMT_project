@@ -58,7 +58,7 @@ select_listing(Conn, BoxID, Timestamp, RegistryPID) ->
     "FROM listing l " ++
     "JOIN box b ON l.boxID = b.ID " ++
     "JOIN pokemon p ON b.pokemonID = p.ID " ++
-    "WHERE b.ID= ? ",
+    "WHERE b.ID= ? AND l.winner IS NULL",
 
   %% Check query preparation (SELECT)
   case mysql:prepare(Conn, SelectStatement) of

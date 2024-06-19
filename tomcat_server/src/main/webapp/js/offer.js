@@ -1,6 +1,6 @@
 
 const OfferWrapper = document.querySelector(".section-wrapper");
-const websocketUrl = new WebSocket(`ws://localhost:8081/listing?listingID=${listingID}&username=${currentUsername}`);
+const websocketUrl = new WebSocket(`ws://10.2.1.84:8081/listing?listingID=${listingID}&username=${currentUsername}`);
 
 function format(/** @type {Date}*/ date) {
     const year = date.getFullYear();

@@ -1,4 +1,4 @@
-const cws = new WebSocket(`ws://localhost:8082/home?username=${currentUsername}`);
+const cws = new WebSocket(`ws://10.2.1.97:8082/home?username=${currentUsername}`);
 const listingsWrapper = document.querySelector(".listings-wrapper");
 
 // To handle receiving of messages on websocket

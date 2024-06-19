@@ -13,12 +13,12 @@
   {env,[
    {offer_endpoint, "/listing"},
    {db_config, [
-    {host, "localhost"},
-    {user, "root"},
-    {password, "root"},
+    {host, "10.2.1.68"},
+    {user, "studenti"},
+    {password, "studenti"},
     {database, "PokemonDB"}
    ]},
-   {listing_node, listing_server@localhost},
+   {listing_node, 'listing_server@10.2.1.97'},
    {port, 8081}
   ]},
   {modules, []},

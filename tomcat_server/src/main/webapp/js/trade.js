@@ -37,14 +37,14 @@ function changeTradeButton(OfferID) {
 function closeListingPopup(Winner) {
     var message = "LISTING CLOSED\nWINNER: " + Winner;
     if (confirm(message)) {
-        window.location.href = "http://localhost:8080/tomcat_server/home";
+        window.location.href = "http://10.2.1.69:8084/tomcat_server/home";
     }
 }
 
 function  closeDeleteListingPopup()  {
     var message = "LISTING DELETED\n";
     if (confirm(message)) {
-        window.location.href = "http://localhost:8080/tomcat_server/home";
+        window.location.href = "http://10.2.1.69:8084/tomcat_server/home";
     }
 }
 
